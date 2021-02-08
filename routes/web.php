@@ -18,4 +18,4 @@ Route::get('/', function () {
 });
 
 Auth::routes(['verify' => true]);
-Route::get('/home', 'Web\HomeController@index')->name('home')->middleware('verified');
+Route::get('/home', 'Web\HomeController@index')->name('home')->middleware('verified')->middleware('role');
