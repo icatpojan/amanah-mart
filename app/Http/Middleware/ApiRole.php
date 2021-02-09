@@ -23,7 +23,7 @@ class ApiRole
         } elseif ($user->role_id == 1) {
             return redirect('kasir/dashboard');
         } else{
-            return redirect('kasir/dashboard');
+            return redirect('staff/dashboard');
         }
 
         return $next($request);

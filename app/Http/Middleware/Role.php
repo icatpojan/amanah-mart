@@ -18,12 +18,12 @@ class Role
     public function handle($request, Closure $next)
     {
         $user = Auth::user();
-        if ($user->role_id == 5) {
-            return redirect('admin/dashboard');
-        } elseif ($user->role_id == 1) {
-            return redirect('kasir/dashboard');
+        if ($user->role_id == 1) {
+            return $next($request);
+        } elseif ($user->role_id == 4) {
+            return $next($request);
         } else{
-            return redirect('kasir/dashboard');
+            return redirect('home');
         }
 
         return $next($request);

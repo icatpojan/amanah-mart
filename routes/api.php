@@ -15,10 +15,34 @@ Route::post('password/email', 'Api\ForgotPasswordController@forgot'); //mengirim
 Route::post('password/reset', 'Api\ForgotPasswordController@reset');
 
 
-Route::group(['namespace' => 'Api'], function () {
-    Route::post('register', 'UserController@register');
-    Route::post('login', 'UserController@login');
+// Route auth
+Route::post('register', 'UserController@register');
+Route::post('login', 'UserController@login');
+
+Route::group(['namespace' => 'Api', 'middleware' => ['jwt.verify']], function () {
+    // Route staff
+    Route::get('product', 'ProductController@index'); //melihat semua product
+    Route::post('product', 'ProductController@store'); //input barang baru
+    Route::get('pembelian', 'PembelianController@index'); //melihat semua pembelian
+    Route::post('pembelian', 'PembelianController@store'); //input laporan pembelian
+
+    //  Route kasir
+    Route::get('Penjualan', 'PenjualanController@index'); //melihat semua penjualan
+    Route::post('Penjualan', 'PenjualanController@store'); // input hasil jualan
+
+    // Route pimpinan
+    Route::get('Keuangan', 'KeuanganController@index'); //melihat semua transaksi keluar masuk uang
+    Route::get('member', 'MemberController@index'); //melihat semua member
+    Route::post('member', 'MemberController@store'); //membuat member baru
+
+    // Route member
+    Route::get('user', 'UserController@index'); //melihat data diri
+
+    // Route admin
+    
 });
+
+
 
 Route::group(['namespace' => 'Api', 'middleware' => ['jwt.verify']], function () {
     Route::get('bookall', 'BookController@bookAuth')->middleware('jwt.verify');

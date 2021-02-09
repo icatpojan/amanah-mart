@@ -37,4 +37,8 @@ class User extends Authenticatable implements JWTSubject , MustVerifyEmail
     {
         return [];
     }
+    public function member()
+    {
+        $this->hasOne('App\Model\Member', 'user_id', 'id');
+    }
 }

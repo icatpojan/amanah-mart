@@ -17,5 +17,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/home', 'Web\HomeController@index') ->name('home')->middleware('verified')->middleware('role');
 Auth::routes(['verify' => true]);
-Route::get('/home', 'Web\HomeController@index')->name('home')->middleware('verified')->middleware('role');
+
+// route dashboard
+Route::get('admin/dashboard', 'Web\HomeController@admin')->middleware('verified')->middleware('role');
+Route::get('kasir/dashboard', 'Web\HomeController@kasir')->middleware('verified')->middleware('role');
+Route::get('staff/dashboard', 'Web\HomeController@staff')->middleware('verified')->middleware('role');
