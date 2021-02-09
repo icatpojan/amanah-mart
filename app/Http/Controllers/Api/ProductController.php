@@ -27,7 +27,7 @@ class ProductController extends Controller
         ]);
         $Product = Product::create([
             'name' => $request->name,
-            'merek' => $request->merekt,
+            'merek' => $request->merek,
             'harga_beli' => $request->harga_beli,
             'harga_jual' => $request->harga_jual,
         ]);
@@ -36,6 +36,24 @@ class ProductController extends Controller
             return $this->sendResponse('Success', 'berhasil menambahkan barang', $Product, 200);
         } catch (\Throwable $th) {
             return $this->sendResponse('Error', 'Gagal menambahkan barang', null, 500);
+        }
+    }
+    public function update(Request $request, $id)
+    {
+        $Product = Product::where('id', $id)->first();
+        $Product->update([
+            'name' => $request->name,
+            'merek' => $request->merek,
+            'harga' => $request->harga,
+            'stock' => $request->stock,
+            'harga_beli' => $request->harga_beli,
+            'harga_jual' => $request->harga_jual,
+        ]);
+        try {
+            $Product->save();
+            return $this->sendResponse('Success', 'berhasil mengupdate barang', $Product, 200);
+        } catch (\Throwable $th) {
+            return $this->sendResponse('Error', 'Gagal mengupdate barang', null, 500);
         }
     }
 }

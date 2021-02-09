@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->unsignedBigInteger('category_id');
             $table->string('name');
             $table->string('merek');
+            $table->integer('stock')->default(0);
             $table->integer('harga_beli')->default(0);
             $table->integer('harga_jual')->default(0);
             $table->timestamps();
