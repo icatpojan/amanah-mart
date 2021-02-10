@@ -24,7 +24,9 @@ class UserController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
-        $user = Auth::user();
+        $user = User::where('email', request('email'))->first();
+        $user == null ? $user = "anda pengurus" : $user;
+
         try {
             if (!$token = JWTAuth::attempt($credentials)) {
                 return response()->json(['error' => 'invalid_credentials'], 400);
@@ -33,7 +35,7 @@ class UserController extends Controller
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
 
-        return response()->json(compact('token','user'));
+        return response()->json(compact('token', 'user'));
     }
 
     public function register(Request $request)

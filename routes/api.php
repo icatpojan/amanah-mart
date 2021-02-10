@@ -16,8 +16,8 @@ Route::post('password/reset', 'Api\ForgotPasswordController@reset');
 
 
 // Route auth
-Route::post('register', 'UserController@register');
-Route::post('login', 'UserController@login');
+Route::post('register', 'Api\UserController@register');
+Route::post('login', 'Api\UserController@login');
 
 Route::group(['namespace' => 'Api', 'middleware' => ['jwt.verify']], function () {
     // Route staff
@@ -26,17 +26,17 @@ Route::group(['namespace' => 'Api', 'middleware' => ['jwt.verify']], function ()
 
     Route::get('product', 'ProductController@index'); // melihat semua product
     Route::post('product', 'ProductController@store'); // input barang baru
-
     Route::post('product/{id}', 'ProductController@update'); // update barang
+
     Route::get('pembelian', 'PembelianController@index'); // melihat semua pembelian
     Route::post('pembelian', 'PembelianController@store'); // input laporan pembelian
 
     //  Route kasir
-    Route::get('Penjualan', 'PenjualanController@index'); // melihat semua penjualan
-    Route::post('Penjualan', 'PenjualanController@store'); // input hasil jualan
+    Route::get('penjualan', 'PenjualanController@index'); // melihat semua penjualan
+    Route::post('penjualan', 'PenjualanController@store'); // input hasil jualan
 
     // Route pimpinan
-    Route::get('Keuangan', 'KeuanganController@index'); // melihat semua transaksi keluar masuk uang
+    Route::get('keuangan', 'KeuanganController@index'); // melihat semua transaksi keluar masuk uang
 
     Route::get('member', 'MemberController@index'); // melihat semua member
     Route::post('member', 'MemberController@store'); // membuat member baru

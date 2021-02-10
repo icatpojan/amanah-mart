@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->unsignedBigInteger('role_id')->default(5);
             $table->integer('umur')->nullable();
             $table->string('address')->nullable();
+            $table->dateTime('deleted_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

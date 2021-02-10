@@ -123,7 +123,7 @@
 
                     <div class="col-md-8 p-3">
                         {{-- start form --}}
-                        <form action="{{route('karyawan.store')}}" method="post">
+                        <form action="" method="post">
                             <div class="row mb-2">
                                 <div class="col">
                                     <label>Nama : </label>

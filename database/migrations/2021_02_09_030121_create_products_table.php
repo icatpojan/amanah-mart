@@ -20,6 +20,7 @@ class CreateProductsTable extends Migration
             $table->string('merek');
             $table->integer('stock')->default(0);
             $table->integer('harga_beli')->default(0);
+            $table->integer('diskon')->default(0);
             $table->integer('harga_jual')->default(0);
             $table->timestamps();
         });

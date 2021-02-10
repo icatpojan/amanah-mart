@@ -16,5 +16,4 @@ class PenjualanController extends Controller
         }
         return $this->sendResponse('Success', 'ini dia daftar Penjualan bos', $Penjualan, 200);
     }
-
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Model\Product;
@@ -12,10 +12,7 @@ class ProductController extends Controller
     public function index()
     {
         $Product = Product::all();
-        if ($Product == '[]') {
-            return $this->sendResponse('Failed', 'data kosong', null, 404);
-        }
-        return $this->sendResponse('Success', 'ini dia daftar Product bos', $Product, 200);
+        return view('pages.product', compact('Product'));
     }
     public function store(Request $request)
     {

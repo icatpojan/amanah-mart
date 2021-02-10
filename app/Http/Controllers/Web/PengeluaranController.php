@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Model\Keuangan;
@@ -12,10 +12,7 @@ class PengeluaranController extends Controller
     public function index()
     {
         $Pengeluaran = Pengeluaran::all();
-        if ($Pengeluaran == '[]') {
-            return $this->sendResponse('Failed', 'data kosong', null, 404);
-        }
-        return $this->sendResponse('Success', 'ini dia daftar Pengeluaran  bos', $Pengeluaran, 200);
+        return view('pages.pengeluaran', compact('Pengeluaran'));
     }
     public function store(Request $request)
     {
@@ -42,4 +39,3 @@ class PengeluaranController extends Controller
         }
     }
 }
-    

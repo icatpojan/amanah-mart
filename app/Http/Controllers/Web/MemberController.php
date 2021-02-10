@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Model\Member;
@@ -12,10 +12,7 @@ class MemberController extends Controller
     public function index()
     {
         $User = User::where('role_id', 5)->get();
-        if ($User == '[]') {
-            return $this->sendResponse('Failed', 'data kosong', null, 404);
-        }
-        return $this->sendResponse('Success', 'ini dia daftar member bos', $User, 200);
+        return view('pages.member', compact('User'));
     }
     public function store(Request $request)
     {
@@ -53,7 +50,7 @@ class MemberController extends Controller
     {
         $User = User::where('id', $id)->first();
         $User->update([
-            'name' => $request->name == null ? $User->name: $request->name,
+            'name' => $request->name == null ? $User->name : $request->name,
             'email' => $request->email,
             'umur' => $request->umur,
             'address' => $request->address,

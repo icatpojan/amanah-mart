@@ -1,4 +1,4 @@
-<footer class="sticky-footer bg-white">
+<footer class="sticky-footer bg-warning">
     <div class="container my-auto">
         <div class="copyright text-center my-auto">
             <span>Copyright &copy; Amanah-mart <?= date('Y') ?></span>
