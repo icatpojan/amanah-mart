@@ -55,9 +55,12 @@
         <div id="toggleSampah" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Kelola Produk</h6>
-                <a class="collapse-item{{ request()->is('sampah') ? ' active' : '' }}" href="{{ route('product.index') }}">Produk</a>
-                <a class="collapse-item{{ request()->is('gudang') ? ' active' : '' }}" href="{{ route('supplier.index') }}">Supplier</a>
-                <a class="collapse-item{{ request()->is('gudang') ? ' active' : '' }}" href="{{ route('category.index') }}">Kategori</a>
+                <a class="collapse-item{{ request()->is('sampah') ? ' active' : '' }}"
+                    href="{{ route('product.index') }}">Produk</a>
+                <a class="collapse-item{{ request()->is('gudang') ? ' active' : '' }}"
+                    href="{{ route('supplier.index') }}">Supplier</a>
+                <a class="collapse-item{{ request()->is('gudang') ? ' active' : '' }}"
+                    href="{{ route('category.index') }}">Kategori</a>
             </div>
         </div>
     </li>
@@ -91,26 +94,26 @@
 
     <!-- Nav Item - Keuangan -->
     <li class="nav-item{{ request()->is('keuangan') ? ' active' : '' }}"">
-        <a class=" nav-link" href="{{route('keuangan.index')}}">
+        <a class=" nav-link" href="{{ route('keuangan.index') }}">
         <i class="fas fa-fw fa-chart-line"></i>
         <span>Keuangan</span></a>
     </li>
 
     <!-- Nav Item - Penyetoran -->
-    <li class="nav-item{{ request()->is('penyetoran') ? ' active' : '' }}">
-        <a class="nav-link" href="{{route('penjualan.index')}}">
+    <li class="nav-item{{ request()->is('penjualan') ? ' active' : '' }}">
+        <a class="nav-link" href="{{ route('penjualan.index') }}">
             <i class="fas fa-fw fa-hand-holding-water"></i>
             <span>Penjualan</span></a>
     </li>
 
     <!-- Nav Item - Penjualan -->
-    <li class="nav-item{{ request()->is('penjualan') ? ' active' : '' }}">
-        <a class="nav-link" href="{{route('pembelian.index')}}">
-            <i class="fas fa-fw fa-file-invoice-dollar"></i>
+    <li class="nav-item{{ request()->is('pembelian') ? ' active' : '' }}">
+        <a class="nav-link" href="{{ route('pembelian.index') }}">
+            <i class="fas fa-fw fa-water"></i>
             <span>Pembelian</span></a>
     </li>
-    <li class="nav-item{{ request()->is('penjualan') ? ' active' : '' }}">
-        <a class="nav-link" href="{{route('pengeluaran.index')}}">
+    <li class="nav-item{{ request()->is('pengeluaran') ? ' active' : '' }}">
+        <a class="nav-link" href="{{ route('pengeluaran.index') }}">
             <i class="fas fa-fw fa-file-invoice-dollar"></i>
             <span>Pengeluaran</span></a>
     </li>

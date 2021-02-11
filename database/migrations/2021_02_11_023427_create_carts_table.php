@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePengeluaransTable extends Migration
+class CreateCartsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreatePengeluaransTable extends Migration
      */
     public function up()
     {
-        Schema::create('pengeluarans', function (Blueprint $table) {
+        Schema::create('carts', function (Blueprint $table) {
             $table->id();
-            $table->string('keterangan');
-            
-            $table->integer('kredit')->nullable();
+            $table->string('name');
+            $table->integer('jumlah')->nullable();
+            $table->integer('harga')->nullable();
+            $table->integer('jumlah_harga')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreatePengeluaransTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pengeluarans');
+        Schema::dropIfExists('cart');
     }
 }

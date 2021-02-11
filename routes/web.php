@@ -36,3 +36,4 @@ Route::get('keuangan', 'Web\KeuanganController@index')->middleware('verified')->
 Route::get('pengeluaran', 'Web\PengeluaranController@index')->middleware('verified')->middleware('role')->name('pengeluaran.index');
 Route::get('pembelian', 'Web\PembelianController@index')->middleware('verified')->middleware('role')->name('pembelian.index');
 Route::get('penjualan', 'Web\PenjualanController@index')->middleware('verified')->middleware('role')->name('penjualan.index');
+Route::get('kasir', 'Web\KasirController@index')->middleware('verified')->middleware('role')->name('kasir.index');

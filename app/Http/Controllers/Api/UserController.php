@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Model\Member;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -61,7 +62,34 @@ class UserController extends Controller
             'message' => 'silakan verivikasi',
         ]);
     }
+    public function register_member(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
 
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->toJson(), 400);
+        }
+
+        $User = User::create([
+            'name' => $request->get('name'),
+            'email' => $request->get('email'),
+            'password' => Hash::make($request->get('password')),
+        ]);
+
+        $User->save();
+        $member = Member::create([
+            'user_id' => $User->id,
+        ]);
+        $User->sendEmailVerificationNotification();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'silakan verivikasi',
+        ]);
+    }
     public function getAuthenticatedUser()
     {
         try {

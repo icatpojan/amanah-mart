@@ -36,31 +36,36 @@
                     <thead>
                         <tr>
                             <th>Nama</th>
-                            <th>Email</th>
-                            <th>No. Telepon</th>
-                            <th>Alamat</th>
-                            <th>Dibuat</th>
+                            <th>merek</th>
+                            <th>stok</th>
+                            <th>harga beli</th>
+                            <th>harga_jual</th>
+                            <th>diskon</th>
+                            <th>kategori</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th>Nama</th>
-                            <th>Email</th>
-                            <th>No. Telepon</th>
-                            <th>Alamat</th>
-                            <th>Dibuat</th>
-                            <th>Aksi</th>
-                        </tr>
+                            <th>merek</th>
+                            <th>stok</th>
+                            <th>harga beli</th>
+                            <th>harga_jual</th>
+                            <th>diskon</th>
+                            <th>kategori</th>
+                            <th>Aksi</th>                        </tr>
                     </tfoot>
                     <tbody>
-                        @foreach ($Product as $user)
+                        @foreach ($Product as $produk)
                         <tr>
-                            <td>{{$user->name}}</td>
-                            <td>{{$user->email}}</td>
-                            <td>{{$user->phone_number}}</td>
-                            <td>{{$user->address}}</td>
-                            <td>{{$user->created_at}}</td>
+                            <td>{{$produk->name}}</td>
+                            <td>{{$produk->merek}}</td>
+                            <td>{{$produk->stock}}</td>
+                            <td>{{$produk->harga_beli}}</td>
+                            <td>{{$produk->harga_jual}}</td>
+                            <td>{{$produk->diskon}}</td>
+                            <td>{{$produk->category_id}}</td>
                             <td class="text-center">
                                 <a class="see text-decoration-none" href="#" data-id="{{$user->id}}" data-toggle="modal"
                                     data-target=".modal-update" data-url="{{env('APP_URL') . '/karyawan/'}}">

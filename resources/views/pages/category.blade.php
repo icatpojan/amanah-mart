@@ -36,31 +36,19 @@
                     <thead>
                         <tr>
                             <th>Nama</th>
-                            <th>Email</th>
-                            <th>No. Telepon</th>
-                            <th>Alamat</th>
-                            <th>Dibuat</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th>Nama</th>
-                            <th>Email</th>
-                            <th>No. Telepon</th>
-                            <th>Alamat</th>
-                            <th>Dibuat</th>
                             <th>Aksi</th>
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach ($Category as $user)
+                        @foreach ($Category as $katagori)
                         <tr>
-                            <td>{{$user->name}}</td>
-                            <td>{{$user->email}}</td>
-                            <td>{{$user->phone_number}}</td>
-                            <td>{{$user->address}}</td>
-                            <td>{{$user->created_at}}</td>
+                            <td>{{$katagori->name}}</td>
                             <td class="text-center">
                                 <a class="see text-decoration-none" href="#" data-id="{{$user->id}}" data-toggle="modal"
                                     data-target=".modal-update" data-url="{{env('APP_URL') . '/karyawan/'}}">

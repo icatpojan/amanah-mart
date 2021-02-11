@@ -34,33 +34,34 @@
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
-                        <tr>
-                            <th>Nama</th>
-                            <th>Email</th>
-                            <th>No. Telepon</th>
-                            <th>Alamat</th>
-                            <th>Dibuat</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th>Nama</th>
-                            <th>Email</th>
-                            <th>No. Telepon</th>
-                            <th>Alamat</th>
-                            <th>Dibuat</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        @foreach ($User as $user)
-                        <tr>
-                            <td>{{$user->name}}</td>
-                            <td>{{$user->email}}</td>
-                            <td>{{$user->phone_number}}</td>
-                            <td>{{$user->address}}</td>
-                            <td>{{$user->created_at}}</td>
+                        <thead>
+                            <tr>
+                                <th>Nama</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Umur</th>
+                                <th>alamat</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Nama</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>umur</th>
+                                <th>alamat</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach ($User as $user)
+                            <tr>
+                                <td>{{$user->name}}</td>
+                                <td>{{$user->email}}</td>
+                                <td>{{$user->role_id}}</td>
+                                <td>{{$user->umur}}</td>
+                                <td>{{$user->address}}</td>
                             <td class="text-center">
                                 <a class="see text-decoration-none" href="#" data-id="{{$user->id}}" data-toggle="modal"
                                     data-target=".modal-update" data-url="{{env('APP_URL') . '/karyawan/'}}">

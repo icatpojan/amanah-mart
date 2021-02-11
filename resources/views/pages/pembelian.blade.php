@@ -94,20 +94,22 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Keterangan</th>
-                            <th>debit</th>
-                            <th>Kredit</th>
-                            <th>Saldo</th>
+                            <th>nama</th>
+                            <th>supplier</th>
+                            <th>jumlah produk</th>
+                            <th>harga</th>
+                            <th>jumlah harga</th>
                             <th>Dibuat</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th>ID</th>
-                            <th>Keterangan</th>
-                            <th>debit</th>
-                            <th>Kredit</th>
-                            <th>Saldo</th>
+                            <th>nama</th>
+                            <th>supplier</th>
+                            <th>jumlah produk</th>
+                            <th>harga</th>
+                            <th>jumlah harga</th>
                             <th>Dibuat</th>
                         </tr>
                     </tfoot>
@@ -115,10 +117,10 @@
                         @foreach ($Pembelian as $value)
                         <tr>
                             <td>{{$value->id}}</td>
-                            <td>{{$value->keterangan}}</td>
-                            <td>{{number_format ($value->debit, 0, ',', '.')}}</td>
-                            <td>{{number_format ($value->kredit, 0, ',', '.')}}</td>
-                            <td>{{number_format ($value->saldo, 0, ',', '.')}}</td>
+                            <td>{{$value->name}}</td>
+                            <td>{{$value->supplier_id}}</td>
+                            <td>{{$value->jumlah_product}}</td>
+                            <td>{{$value->jumlah_harga}}</td>
                             <td>{{$value->created_at}}</td>
                         </tr>
                         @endforeach

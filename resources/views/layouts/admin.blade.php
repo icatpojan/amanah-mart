@@ -32,7 +32,7 @@
     @yield('style')
     <script src="jquery-2.1.4.js"></script>
     <link href="{{ asset('css/loading.css') }}" rel="stylesheet">
-
+    @livewireStyles
 </head>
 
 <body id="page-top">
@@ -102,7 +102,7 @@
         });
 
     </script>
-
+@livewireScripts
 </body>
 
 </html>

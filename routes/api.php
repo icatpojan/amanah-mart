@@ -18,6 +18,7 @@ Route::post('password/reset', 'Api\ForgotPasswordController@reset');
 // Route auth
 Route::post('register', 'Api\UserController@register');
 Route::post('login', 'Api\UserController@login');
+Route::post('registermember', 'Api\UserController@register_member');
 
 Route::group(['namespace' => 'Api', 'middleware' => ['jwt.verify']], function () {
     // Route staff

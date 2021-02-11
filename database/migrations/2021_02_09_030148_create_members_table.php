@@ -15,7 +15,7 @@ class CreateMembersTable extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('member_id');
+            // $table->unsignedBigInteger('member_id');
             $table->unsignedBigInteger('user_id');
             $table->integer('phone_number')->nullable();
             $table->integer('saldo')->default(0);
