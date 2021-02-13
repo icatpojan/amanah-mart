@@ -48,6 +48,7 @@ Route::group(['namespace' => 'Api', 'middleware' => ['jwt.verify']], function ()
 
     // Route member
     Route::get('user', 'UserController@index'); // melihat data diri
+    Route::post('member/update', 'MemberController@updateme'); // mengupdate member berdasarkan id
 
     // Route admin
 

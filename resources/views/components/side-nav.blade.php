@@ -117,6 +117,11 @@
             <i class="fas fa-fw fa-file-invoice-dollar"></i>
             <span>Pengeluaran</span></a>
     </li>
+    <li class="nav-item{{ request()->is('kasir') ? ' active' : '' }}">
+        <a class="nav-link" href="{{ route('kasir.index') }}">
+            <i class="fas fa-fw fa-fire"></i>
+            <span>Kasir</span></a>
+    </li>
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">

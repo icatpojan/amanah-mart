@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Model\Cart;
 use App\Http\Controllers\Controller;
 use App\Model\Penjualan;
+use App\Model\Product;
 use Illuminate\Http\Request;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -15,7 +17,13 @@ class KasirController extends Controller
 
     public function index()
     {
-        return view('pages.kasir');
+        $Cart = Cart::all();
+        foreach ($Cart as $value) {
+            $Product[] = $value->Cart;
+            $Jumlah[] = 1;
+        }
+
+        return view('pages.kasir', compact('Cart'));
     }
     public function store(Request $request)
     {

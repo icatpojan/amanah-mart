@@ -33,7 +33,13 @@ Route::get('supplier', 'Web\SupplierController@index')->middleware('verified')->
 
 Route::get('member', 'Web\MemberController@index')->middleware('verified')->middleware('role')->name('member.index');
 Route::get('keuangan', 'Web\KeuanganController@index')->middleware('verified')->middleware('role')->name('keuangan.index');
+
+// Route Pengeluaran
 Route::get('pengeluaran', 'Web\PengeluaranController@index')->middleware('verified')->middleware('role')->name('pengeluaran.index');
+Route::post('pengeluaran', 'Web\PengeluaranController@store')->middleware('verified')->middleware('role')->name('pengeluaran.store');
+
 Route::get('pembelian', 'Web\PembelianController@index')->middleware('verified')->middleware('role')->name('pembelian.index');
 Route::get('penjualan', 'Web\PenjualanController@index')->middleware('verified')->middleware('role')->name('penjualan.index');
 Route::get('kasir', 'Web\KasirController@index')->middleware('verified')->middleware('role')->name('kasir.index');
+
+// Route::livewire('admin/product', App\Http\Livewire\Kasir\Create::class)->name('admin.product')->middleware('auth');

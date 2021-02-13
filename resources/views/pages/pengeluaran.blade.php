@@ -93,11 +93,11 @@
             <div class="collapse show" id="form-penarikan-tunai">
                 <div class="card-body">
 
-                    <form action="" method="POST">
+                    <form action="{{route('pengeluaran.store')}}" method="POST">
                         <div class="row">
                             <div class="col">
-                                <label for="nominal">Nominal</label>
-                                <input type="number" id="nominal" name="nominal" class="form-control">
+                                <label for="kredit">Nominal</label>
+                                <input type="number" id="kredit" name="kredit" class="form-control" required>
                             </div>
                         </div>
 

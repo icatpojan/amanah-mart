@@ -33,7 +33,8 @@ class PengeluaranController extends Controller
 
         try {
             $Pengeluaran->save();
-            return $this->sendResponse('Success', 'berhasil menambahkan Pengeluaran bos', $Pengeluaran, 200);
+            alert()->success('SuccessAlert','Lorem ipsum dolor sit amet.');
+            return back();
         } catch (\Throwable $th) {
             return $this->sendResponse('Error', 'Gagal menambahkan Pengeluaran bos', null, 500);
         }

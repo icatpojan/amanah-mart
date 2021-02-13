@@ -14,75 +14,72 @@
         <div class="card shadow mb-4">
             <a href="#form-penarikan-tunai" class="d-block card-header py-3" data-toggle="collapse" role="button"
                 aria-expanded="true" aria-controls="form-penarikan-tunai">
-                <h6 class="m-0 font-weight-bold text-primary">FORM PENGELUARAN</h6>
+                <h6 class="m-0 font-weight-bold text-primary">KASIR</h6>
+                <form action="" method="POST">
+                    <div class="row mb-2">
+                        <div class="col-md-11">
+                            <label for="nominal">id barang</label>
+                            <input type="text" id="nominal" name="nominal" class="form-control">
+                        </div>
+                        <div class="col-md-1">
+                            <label for=""></label>
+                            <button type="submit" class="btn btn-primary mt-2">CARI</button>
+                        </div>
+                    </div>
+                    @csrf
+                </form>
             </a>
-
-            <div class="collapse show" id="form-penarikan-tunai">
-                <div class="card-body">
-
-                    <form action="" method="POST">
-                        <div class="row">
-                            <div class="col">
-                                <label for="nominal">Nominal</label>
-                                <input type="number" id="nominal" name="nominal" class="form-control">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="keterangan">Keterangan</label>
-                            <textarea class="form-control" name="keterangan" id="keterangab" cols="30" rows="4"></textarea>
-                            <small class="text-danger">*Form keterangan boleh tidak diisi</small>
-                        </div>
-
-                        <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                        @csrf
-                    </form>
-
-                </div>
-            </div>
-        </div>
-
-        {{-- card form --}}
-        <!-- DataTales Example -->
-        <div class="card shadow mb-4">
-            <div class="card-header d-flex justify-content-between py-3">
-                <h6 class="m-0 font-weight-bold text-primary">PENGELUARAN PERUSAHAAN </h6>
-            </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Keterangan</th>
-                                <th>Kredit</th>
-                                <th>Dibuat</th>
+                                <th>nama produk</th>
+                                <th>harga</th>
+                                <th>jumlah</th>
+                                <th>subtotal</th>
+                                <th>diskon</th>
+                                <th>subtotal</th>
+                                <th>aksi</th>
                             </tr>
                         </thead>
-                        <tfoot>
-                            <tr>
-                                <th>ID</th>
-                                <th>Keterangan</th>
-                                <th>Kredit</th>
-                                <th>Dibuat</th>
-                            </tr>
-                        </tfoot>
                         <tbody>
-                            {{-- @foreach ($Pengeluaran as $value)
+                            @foreach ($Cart as $value)
                                 <tr>
+                                    <td>{{ $value->id }}</td>
+                                    <td>{{ $value->id }}</td>
+                                    <td><input type="number" value="{{ $value->id }}"></td>
                                     <td>{{ $value->id }}</td>
                                     <td>{{ $value->keterangan }}</td>
                                     <td>{{ number_format($value->kredit, 0, ',', '.') }}</td>
                                     <td>{{ $value->created_at }}</td>
                                 </tr>
-                            @endforeach --}}
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <label for="email">Email</label>
+                        <select class="form-control" name="email" id="selectEmail">
+                            {{-- @foreach ($users as $user)
+                            <option value="{{$user->email}}"> {{$user->email}} </option>
+                            @endforeach --}}
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="nominal">Nominal</label>
+                        <input type="number" id="nominal" name="nominal" class="form-control">
+                    </div>
+                </div>
             </div>
         </div>
+        <table style="border: 1px;">
+
+        </table>
+        <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="{{ asset('fungsi.js') }}"></script>
 
     </div>
     <!-- /.container-fluid -->
@@ -97,5 +94,26 @@
 
     {{-- jquery --}}
     <script src="{{ asset('js/script.js') }}"></script>
+<script>
+    $(document).ready(function() {
+    selesai();
+});
 
-@endsection
+function selesai() {
+    setTimeout(function() {
+        update();
+        selesai();
+    }, 200);
+}
+var ctx = document.getElementById("myPieChart").getContext('2d');
+function update() {
+    $.getJSON(function(Cart) {
+        $("table").empty();
+        var no = 1;
+        $.each(Cart.result, function() {
+            $("table").append("<tr><td>" + (no++) + "</td><td>" + this['product'] + "</td><td>" + this['jurusan'] + "</td></tr>");
+        });
+    });
+}
+</script>
+    @endsection

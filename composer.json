@@ -16,6 +16,7 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^2.4",
         "livewire/livewire": "^2.3",
+        "realrashid/sweet-alert": "^3.2",
         "tymon/jwt-auth": "dev-develop"
     },
     "require-dev": {
