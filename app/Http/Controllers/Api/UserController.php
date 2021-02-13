@@ -83,6 +83,7 @@ class UserController extends Controller
         $User->save();
         $member = Member::create([
             'user_id' => $User->id,
+            'member_id' => rand(10,10000)
         ]);
         $User->sendEmailVerificationNotification();
         return response()->json([

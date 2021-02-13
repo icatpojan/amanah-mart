@@ -25,6 +25,8 @@ Route::get('admin/dashboard', 'Web\HomeController@admin')->middleware('verified'
 Route::get('kasir/dashboard', 'Web\HomeController@kasir')->middleware('verified')->middleware('role');
 Route::get('staff/dashboard', 'Web\HomeController@staff')->middleware('verified')->middleware('role');
 
+Route::post('user/create', 'Web\UserController@store')->middleware('verified')->middleware('role')->name('karyawan.store'); //menambah karyawan
+
 // Route User
 Route::get('user', 'Web\UserController@index')->middleware('verified')->middleware('role')->name('user.index');
 Route::get('product', 'Web\ProductController@index')->middleware('verified')->middleware('role')->name('product.index');
