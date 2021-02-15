@@ -14,6 +14,7 @@ class ProductSeeder extends Seeder
     {
         Product::create([
             'category_id' => 1,
+            'supplier_id' => 1,
             'name' => 'tombak moskov',
             'merek' => 'senjata ml',
             'stock' => 1,
