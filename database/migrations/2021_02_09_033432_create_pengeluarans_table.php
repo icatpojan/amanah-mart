@@ -16,7 +16,6 @@ class CreatePengeluaransTable extends Migration
         Schema::create('pengeluarans', function (Blueprint $table) {
             $table->id();
             $table->string('keterangan');
-
             $table->integer('kredit')->nullable();
             $table->timestamps();
         });

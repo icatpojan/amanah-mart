@@ -3,27 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Model\Cart;
+use App\User;
 use Illuminate\Http\Request;
+use Redirect,Response;
 
-class AjaxController extends Controller
-{
-    public function create()
-    {
+class AjaxController extends Controller{
 
-        return view('ajax-request');
+  public function index(){
+    return view('get-ajax-data');
+  }
+
+  public function getData($id = 0){
+    // get records from database
+
+    if($id==0){
+      $arr['data'] = Cart::orderBy('id', 'asc')->get();
+    }else{
+      $arr['data'] = Cart::where('id', $id)->first();
     }
-
-    public function store(Request $request)
-    {
-        $data = $request->all();
-        $Cart = Cart::create([
-            'name' => $request->name,
-            'jumlah' => $request->jumlah,
-            'harga' => $request->harga,
-            'jumlah_harga' => $request->jumlah_harga,
-        ]);
-        $Cart->save();
-        return $this->sendResponse('Success', 'berhasil menambahkan barang', $data, 200);
-        // return response()->json(['success'=>'Ajax request submitted successfully']);
-    }
+    echo json_encode($arr);
+    exit;
+  }
 }

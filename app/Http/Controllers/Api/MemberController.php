@@ -91,4 +91,13 @@ class MemberController extends Controller
             return $this->sendResponse('Error', 'Gagal mengupdate member bos', null, 500);
         }
     }
+    public function destroy($id)
+    {
+        $User = User::findOrfail($id);
+        $User->delete();
+        $Member = Member::where('user_id', $id)->first();
+        $Member->delete();
+        return $this->sendResponse('Success', 'member berhasil anda hapus bos', null, 200);
+    }
+
 }

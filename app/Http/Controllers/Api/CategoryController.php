@@ -45,4 +45,9 @@ class CategoryController extends Controller
             return $this->sendResponse('Error', 'Gagal mengupdate categori', null, 500);
         }
     }
+    public function destroy($id)
+    {
+        Category::find($id)->delete();
+        return $this->sendResponse('Success', 'category berhasil anda hapus bos bos', null, 200);
+    }
 }

@@ -16,6 +16,7 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('supplier_id');
             $table->string('name');
             $table->string('merek');
             $table->integer('stock')->default(0);

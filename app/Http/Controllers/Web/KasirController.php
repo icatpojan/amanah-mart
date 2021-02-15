@@ -18,11 +18,6 @@ class KasirController extends Controller
     public function index()
     {
         $Cart = Cart::all();
-        foreach ($Cart as $value) {
-            $Product[] = $value->Cart;
-            $Jumlah[] = 1;
-        }
-
         return view('pages.kasir', compact('Cart'));
     }
     public function store(Request $request)

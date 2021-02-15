@@ -24,10 +24,13 @@ Route::group(['namespace' => 'Api', 'middleware' => ['jwt.verify']], function ()
     // Route staff
     Route::get('category', 'CategoryController@index'); // melihat semua category
     Route::post('category', 'CategoryController@store'); // input category baru
+    Route::post('category/{id}', 'CategoryController@update'); // update category
+    Route::post('category/delete/{id}', 'CategoryController@destroy'); // hapus category
 
     Route::get('product', 'ProductController@index'); // melihat semua product
     Route::post('product', 'ProductController@store'); // input barang baru
     Route::post('product/{id}', 'ProductController@update'); // update barang
+    Route::post('product/delete/{id}', 'ProductController@destroy'); // hapus barang
 
     Route::get('pembelian', 'PembelianController@index'); // melihat semua pembelian
     Route::post('pembelian', 'PembelianController@store'); // input laporan pembelian
@@ -42,13 +45,14 @@ Route::group(['namespace' => 'Api', 'middleware' => ['jwt.verify']], function ()
     Route::get('member', 'MemberController@index'); // melihat semua member
     Route::post('member', 'MemberController@store'); // membuat member baru
     Route::post('member/{id}', 'MemberController@update'); // mengupdate member berdasarkan id
+    Route::post('member/delete/{id}', 'MemberController@destroy'); // menghapus member berdasarkan id
+    Route::post('member/update', 'MemberController@updateme'); // mengupdate data diri sendiri
 
     Route::get('pengeluaran', 'PengeluaranController@index'); // melihat semua pengeluaran
     Route::post('pengeluaran', 'PengeluaranController@store'); // menginput pengluaran
 
     // Route member
     Route::get('user', 'UserController@index'); // melihat data diri
-    Route::post('member/update', 'MemberController@updateme'); // mengupdate member berdasarkan id
 
     // Route admin
 

@@ -141,5 +141,34 @@
 
 {{-- jquery --}}
 <script src="{{asset('js/script.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
 
+<script type="text/javascript">
+
+ $('#contactForm').on('submit',function(event){
+     event.preventDefault();
+
+     let name = $('#name').val();
+     let jumlah = $('#jumlah').val();
+     let harga = $('#harga').val();
+     let jumlah_harga = $('#jumlah_harga').val();
+     // let message = $('#message').val();
+
+     $.ajax({
+       url: "/cart-form",
+       type:"POST",
+       data:{
+         "_token": "{{ csrf_token() }}",
+         name:name,
+         jumlah:jumlah,
+         harga:harga,
+         jumlah_harga:jumlah_harga,
+         // message:message,
+       },
+       success:function(response){
+         console.log(response);
+       },
+      });
+     });
+   </script>
 @endsection

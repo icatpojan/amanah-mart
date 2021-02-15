@@ -22,6 +22,7 @@ class ProductController extends Controller
         request()->validate([
             'name' => 'string|required',
             'category_id' => 'integer|required',
+            'supplier_id' => 'integer|required',
             'merek' => 'string|required',
             'harga_beli' => 'integer|required',
             'harga_jual' => 'integer|required',
@@ -29,6 +30,7 @@ class ProductController extends Controller
         $Product = Product::create([
             'name' => $request->name,
             'category_id' => $request->category_id,
+            'supplier_id' => $request->supplier_id,
             'merek' => $request->merek,
             'harga_beli' => $request->harga_beli,
             'harga_jual' => $request->harga_jual,
@@ -56,5 +58,10 @@ class ProductController extends Controller
         } catch (\Throwable $th) {
             return $this->sendResponse('Error', 'Gagal mengupdate barang', null, 500);
         }
+    }
+    public function destroy($id)
+    {
+        Product::find($id)->delete();
+        return $this->sendResponse('Success', 'product berhasil anda hapus bos', null, 200);
     }
 }
