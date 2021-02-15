@@ -1,7 +1,8 @@
 <footer class="sticky-footer bg-warning">
     <div class="container my-auto">
         <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Amanah-mart <?= date('Y') ?></span>
+            Template SB-Admin 2 modified By: Hanif Az-zuhdi | Upgraded Laravel 7.0 By: <a
+                href="http://github.com/icatpojan">Fauzan</a>
         </div>
     </div>
 </footer>

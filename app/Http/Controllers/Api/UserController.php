@@ -55,6 +55,7 @@ class UserController extends Controller
             'name' => $request->get('name'),
             'email' => $request->get('email'),
             'password' => Hash::make($request->get('password')),
+            'role_id' => $request->get('role_id'),
         ])->sendEmailVerificationNotification();
 
         return response()->json([
@@ -78,12 +79,13 @@ class UserController extends Controller
             'name' => $request->get('name'),
             'email' => $request->get('email'),
             'password' => Hash::make($request->get('password')),
+            'role_id' => 5
         ]);
 
         $User->save();
         $member = Member::create([
             'user_id' => $User->id,
-            'member_id' => rand(10,10000)
+            'member_id' => rand(10, 10000)
         ]);
         $User->sendEmailVerificationNotification();
         return response()->json([

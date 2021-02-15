@@ -24,9 +24,11 @@ class CategoryController extends Controller
         ]);
         try {
             $Category->save();
-            return $this->sendResponse('Success', 'berhasil menambahkan categori', $Category, 200);
+            alert()->success('SuccessAlert', 'Lorem ipsum dolor sit amet.');
+            return back();
         } catch (\Throwable $th) {
-            return $this->sendResponse('Error', 'Gagal menambahkan categori', null, 500);
+            alert()->error('ErrorAlert', 'Lorem ipsum dolor sit amet.');
+            return back();
         }
     }
     public function update(Request $request, $id)
@@ -37,9 +39,17 @@ class CategoryController extends Controller
         ]);
         try {
             $Category->save();
-            return $this->sendResponse('Success', 'berhasil mengupdate categori', $Category, 200);
+            alert()->success('SuccessAlert', 'Lorem ipsum dolor sit amet.');
+            return back();
         } catch (\Throwable $th) {
-            return $this->sendResponse('Error', 'Gagal mengupdate categori', null, 500);
+            alert()->error('ErrorAlert', 'Lorem ipsum dolor sit amet.');
+            return back();
         }
+    }
+    public function destroy($id)
+    {
+        Category::find($id)->delete();
+        alert()->success('Success', 'Data Success dihapus');
+        return back();
     }
 }

@@ -89,7 +89,7 @@
         </div>
     </div>
 
-    @include('components.modal')
+    {{-- @include('components.modal') --}}
 
 </div>
 <!-- /.container-fluid -->

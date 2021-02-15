@@ -1,4 +1,4 @@
-@extends('layouts.admin', ['title' => "Keuangan - Sammpah.com"])
+@extends('layouts.admin', ['title' => "Keuangan - Amanah.com"])
 
 @section('style')
 <link href="{{asset('template/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
@@ -133,8 +133,8 @@
 
 @endsection
 
-@section('script')
 
+@section('script')
 <script src="{{asset('template/vendor/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('template/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
 <script src="{{asset('template/js/demo/datatables-demo.js')}}"></script>

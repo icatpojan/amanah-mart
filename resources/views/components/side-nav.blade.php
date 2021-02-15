@@ -39,8 +39,6 @@
                     href="{{ route('user.index') }}">Daftar karyawan</a>
                 <a class="collapse-item{{ request()->is('member') ? ' active' : '' }}"
                     href="{{ route('member.index') }}">Daftar member</a>
-                <a class="collapse-item{{ request()->is('blacklist') ? ' active' : '' }}"
-                    href="{{ route('user.index') }}">Daftar Blacklist</a>
             </div>
         </div>
     </li>
@@ -73,24 +71,6 @@
         Kasir
     </div>
 
-    <!-- Nav Item - Permintaan -->
-    {{-- <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#permintaan" aria-expanded="true"
-            aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-money-check"></i>
-            <span>Penarikan</span>
-        </a>
-        <div id="permintaan" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Penarikan Saldo</h6>
-                <a class="collapse-item{{ request()->is('penarikan/tunai') ? ' active' : '' }}" href="">Tarik Via
-                    Teller</a>
-                <a class="collapse-item{{ request()->is('penarikan/permintaan') ? ' active' : '' }}"
-                    href="">Permintaan Tarik
-                    Saldo</a>
-            </div>
-        </div>
-    </li> --}}
 
     <!-- Nav Item - Keuangan -->
     <li class="nav-item{{ request()->is('keuangan') ? ' active' : '' }}"">
@@ -99,24 +79,26 @@
         <span>Keuangan</span></a>
     </li>
 
-    <!-- Nav Item - Penyetoran -->
+    <!-- Nav Item - penjualan -->
     <li class="nav-item{{ request()->is('penjualan') ? ' active' : '' }}">
         <a class="nav-link" href="{{ route('penjualan.index') }}">
             <i class="fas fa-fw fa-hand-holding-water"></i>
             <span>Penjualan</span></a>
     </li>
 
-    <!-- Nav Item - Penjualan -->
+    <!-- Nav Item - pembelian -->
     <li class="nav-item{{ request()->is('pembelian') ? ' active' : '' }}">
         <a class="nav-link" href="{{ route('pembelian.index') }}">
             <i class="fas fa-fw fa-water"></i>
             <span>Pembelian</span></a>
     </li>
+     {{-- Nav item pemgeluaran --}}
     <li class="nav-item{{ request()->is('pengeluaran') ? ' active' : '' }}">
         <a class="nav-link" href="{{ route('pengeluaran.index') }}">
             <i class="fas fa-fw fa-file-invoice-dollar"></i>
             <span>Pengeluaran</span></a>
     </li>
+    {{-- Nav item  kasir --}}
     <li class="nav-item{{ request()->is('kasir') ? ' active' : '' }}">
         <a class="nav-link" href="{{ route('kasir.index') }}">
             <i class="fas fa-fw fa-fire"></i>

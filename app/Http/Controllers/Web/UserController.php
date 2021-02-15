@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Web;
 
 use App\User;
 use App\Http\Controllers\Controller;
-use App\Http\Middleware\Role;
-use App\karyawan;
+use App\Karyawan as AppKaryawan;
+use App\Model\karyawan;
 use App\Model\Tabungan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -19,7 +19,7 @@ class UserController extends Controller
     // }
     public function index()
     {
-        $User = User::all()->with(['Role']);
+        $User = karyawan::with(['user'])->get();
         return view('pages.karyawan', compact('User'));
     }
 
@@ -28,7 +28,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'name'  => 'required',
             'email' => 'required|email|unique:users',
-            'phone_number'  => 'required|min:6',
+            'phone_number'  => 'required',
             'role_id'   => 'required',
             'password'  => 'required',
             'address'   => 'required'
@@ -41,16 +41,50 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'role_id' => 5,
+            'role_id' => $request->role_id,
         ]);
 
+        $User->save();
         $Karyawan = karyawan::create([
             'umur' => $request->umur,
+            'phone_number' => $request->phone_number,
+            'address' => $request->address,
+            'user_id' => $User->id
+        ]);
+        try {
+            $Karyawan->save();
+            alert()->success('SuccessAlert', 'Lorem ipsum dolor sit amet.');
+            return back();
+        } catch (\Throwable $th) {
+            alert()->error('ErrorAlert', 'Lorem ipsum dolor sit amet.');
+            return back();
+        }
+    }
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'name'  => 'required',
+            'phone_number'  => 'required',
+            'umur'  => 'required',
+            'address'   => 'required'
+        ]);
+        if ($validator->fails()) {
+            alert()->error('ada yang salah dengan data anda');
+            return back();
+        }
+        $User = User::where('id', $id)->first();
+        $User->update([
+            'name' => $request->name,
+        ]);
+
+        $Karyawan = Karyawan::where('user_id', $id)->first();
+        $Karyawan->update([
+            'umur' => $request->umur,
+            'phone_number' => $request->phone_number,
             'address' => $request->address,
         ]);
         try {
             $Karyawan->save();
-            $User->save();
             alert()->success('SuccessAlert', 'Lorem ipsum dolor sit amet.');
             return back();
         } catch (\Throwable $th) {
@@ -59,31 +93,24 @@ class UserController extends Controller
         }
     }
 
+    public function show($id)
+    {
+        $data = Karyawan::find($id);
+        echo json_encode($data);
+    }
     public function blacklist()
     {
-        $users = User::onlyTrashed()->get();
-        return view('pages.blacklist', compact('users'));
+        $User = User::onlyTrashed()->get();
+        return view('pages.blacklist', compact('User'));
     }
 
-    public function softDelete($id)
+    public function destroy($id)
     {
-        $user = User::findOrfail($id);
-
-        $user->delete();
-        return back();
-    }
-
-    public function restore($id)
-    {
-        $user = User::onlyTrashed()->where('id', $id)->first();
-        $user->restore();
-        return back();
-    }
-
-    public function delete($id)
-    {
-        $user = User::withTrashed()->where('id', $id)->first();
-        $user->forceDelete();
+        $User = User::findOrfail($id);
+        $User->delete();
+        $Karyawan = Karyawan::where('user_id', $id)->first();
+        $Karyawan->delete();
+        alert()->success('SuccessAlert', 'Lorem ipsum dolor sit amet.');
         return back();
     }
 }

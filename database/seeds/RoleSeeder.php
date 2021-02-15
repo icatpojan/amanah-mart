@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Middleware\Role;
+use App\Model\Role;
 use Illuminate\Database\Seeder;
 
 class RoleSeeder extends Seeder
@@ -13,12 +13,19 @@ class RoleSeeder extends Seeder
     public function run()
     {
         Role::create([
-            'category_id' => 1,
-            'name' => 'tombak moskov',
-            'merek' => 'senjata ml',
-            'stock' => 1,
-            'harga_beli' => 2000000,
-            'harga_jual' => 5000000,
+            'name' => 'admin',
+        ]);
+        Role::create([
+            'name' => 'pimpinan',
+        ]);
+        Role::create([
+            'name' => 'staff',
+        ]);
+        Role::create([
+            'name' => 'kasir',
+        ]);
+        Role::create([
+            'name' => 'member',
         ]);
     }
 }

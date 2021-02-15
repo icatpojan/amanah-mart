@@ -4,13 +4,11 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject , MustVerifyEmail
 {
-    use SoftDeletes;
     use Notifiable;
 
     /**
@@ -37,8 +35,21 @@ class User extends Authenticatable implements JWTSubject , MustVerifyEmail
     {
         return [];
     }
+    // public function member()
+    // {
+    //     $this->hasOne('App\Model\Member', 'user_id', 'id');
+    // }
+    public function role()
+    {
+       return $this->belongsTo('App\Model\Role', 'role_id', 'id');
+    }
+    public function karyawan()
+    {
+        return $this->hasOne('App\Model\Karyawan', 'id' ,'user_id');
+    }
     public function member()
     {
-        $this->hasOne('App\Model\Member', 'user_id', 'id');
+        return $this->hasOne('App\Model\Member',  'user_id', 'id');
     }
+
 }

@@ -6,60 +6,74 @@ use App\Http\Controllers\Controller;
 use App\Model\Member;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class MemberController extends Controller
 {
     public function index()
     {
-        $User = User::where('role_id', 5)->get();
-        return view('pages.member', compact('User'));
+        $Member = Member::all();
+        return view('pages.member', compact('Member'));
     }
     public function store(Request $request)
     {
-        request()->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'string|required',
-            'email' => 'string|required',
-            'password' => 'integer|required',
+            'email' => 'required|email|unique:users',
             'umur' => 'integer|required',
-            'address' => 'string|required'
+            'address' => 'string|required',
+            'phone_number' => 'integer|required'
         ]);
+        if ($validator->fails()) {
+            alert()->error('ada yang salah dengan data anda');
+            return back();
+        }
         $User = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'umur' => $request->umur,
-            'address' => $request->address,
+            'password' => bcrypt('password'),
             'role_id' => 5,
         ]);
         $User->save();
         $User = User::latest()->first();
         $Member = Member::create([
+            'umur' => $request->umur,
+            'address' => $request->address,
             'user_id' => $User->id,
             'member_id' => rand(1000, 100000),
             'phone_number' => $request->phone_number,
         ]);
-
         try {
             $Member->save();
-            return $this->sendResponse('Success', 'berhasil menambahkan member bos', $User, 200);
+            alert()->success('SuccessAlert', 'Lorem ipsum dolor sit amet.');
+            return back();
         } catch (\Throwable $th) {
-            return $this->sendResponse('Error', 'Gagal menambahkan member bos', null, 500);
+            alert()->error('ErrorAlert', 'Lorem ipsum dolor sit amet.');
+            return back();
         }
     }
     public function update(Request $request, $id)
     {
+        $Member = Member::where('user_id', $id)->first();
         $User = User::where('id', $id)->first();
         $User->update([
-            'name' => $request->name == null ? $User->name : $request->name,
-            'email' => $request->email,
+            'name' => $request->name,
+        ]);
+        $Member->update([
+            'phone_number' => $request->phone_number,
             'umur' => $request->umur,
             'address' => $request->address,
         ]);
-        try {
-            $User->save();
-            return $this->sendResponse('Success', 'berhasil mengupdate member bos', $User, 200);
-        } catch (\Throwable $th) {
-            return $this->sendResponse('Error', 'Gagal mengupdate member bos', null, 500);
-        }
+        alert()->success('SuccessAlert', 'Lorem ipsum dolor sit amet.');
+        return back();
+    }
+    public function destroy($id)
+    {
+        $User = User::findOrfail($id);
+        $User->delete();
+        $Member = Member::where('user_id', $id)->first();
+        $Member->delete();
+        alert()->success('SuccessAlert', 'Lorem ipsum dolor sit amet.');
+        return back();
     }
 }

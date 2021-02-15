@@ -1,4 +1,4 @@
-@extends('layouts.admin', ['title' => "Daftar Karyawan - Sammpah.com"])
+@extends('layouts.admin', ['title' => "Daftar Karyawan - Amanah.com"])
 
 @section('style')
     <link href="{{ asset('template/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
@@ -29,7 +29,7 @@
                 <!-- Button trigger modal -->
                 <button type="button" class="btn-primary btn-sm" data-toggle="modal" data-target="#tambah-karyawan">
                     <i class="fas fa-user-plus"></i>
-                </button>   
+                </button>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -37,49 +37,44 @@
                         <thead>
                             <tr>
                                 <th>Nama</th>
-                                <th>Email</th>
-                                <th>Role</th>
+                                <th>phone number</th>
                                 <th>Umur</th>
                                 <th>alamat</th>
+                                <th>dibuat</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
                                 <th>Nama</th>
-                                <th>Email</th>
-                                <th>Role</th>
+                                <th>phone number</th>
                                 <th>umur</th>
                                 <th>alamat</th>
+                                <th>dibuat</th>
                                 <th>Aksi</th>
                             </tr>
                         </tfoot>
                         <tbody>
                             @foreach ($User as $user)
                                 <tr>
-                                    <td>{{ $user->name }}</td>
-                                    <td>{{ $user->email }}</td>
-                                    <td>{{ $user->role_id }}</td>
-                                    <td>{{ $user->umur }}</td>
+                                    <td>{{ $user->user->name }}</td>
+                                    <td>{{ $user->phone_number == null ? 'data belum ada' : $user->phone_number }}</td>
+                                    <td>{{ $user->umur == null ? 'data belum ada' : $user->umur }}</td>
                                     <td>{{ $user->address }}</td>
+                                    <td>{{ $user->created_at }}</td>
                                     <td class="text-center">
-                                        <a class="see text-decoration-none" href="#" data-id="{{ $user->id }}"
-                                            data-toggle="modal" data-target=".modal-update"
-                                            data-url="{{ env('APP_URL') . '/karyawan/' }}">
+                                        <a class="see text-decoration-none" href="#" data-toggle="modal"
+                                            data-target="#update-karyawan-{{ $user->id }}">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        @if (Auth::user()->role_id == 5)
-                                            |
-                                            <form class="d-inline" action="{{ 'karyawan/delete/' . $user->id }}"
-                                                method="post">
-                                                <button class="btn p-0 btn-hapus" type="submit"
-                                                    onclick="return confirm ('Yakin Hapus ?')">
-                                                    <i class=" fas fa-user-slash text-danger"></i>
-                                                </button>
-                                                @csrf
-                                                @method('delete')
-                                            </form>
-                                        @endif
+                                        <form action="{{ route('karyawan.destroy', $user->user_id) }}" method="POST">
+                                            <button class="btn border p-1 bg-warning text-black" type="submit"
+                                                title="Blacklist User" onclick="return confirm ('Yakin hapus User ?')">
+                                                <i class="fas fa-user-times"></i>
+                                                <small></small>
+                                            </button>
+                                            @csrf
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
