@@ -67,4 +67,4 @@ Route::get('cart-form', 'Web\CartController@create');
 Route::post('cart-form', 'Web\CartController@store');
 
 Route::get('/users', 'AjaxController@index');
-Route::get('/getData/{id}', 'AjaxController@getData');
+Route::get('/getData/', 'AjaxController@getData');

@@ -30,7 +30,7 @@
 
     <!-- Custom CSS untuk satu page -->
     @yield('style')
-    <script src="jquery-2.1.4.js"></script>
+    {{-- <script src="jquery-2.1.4.js"></script> --}}
     <link href="{{ asset('css/loading.css') }}" rel="stylesheet">
     @livewireStyles
 </head>

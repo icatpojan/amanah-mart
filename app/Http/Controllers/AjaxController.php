@@ -13,14 +13,10 @@ class AjaxController extends Controller{
     return view('get-ajax-data');
   }
 
-  public function getData($id = 0){
+  public function getData(){
     // get records from database
 
-    if($id==0){
       $arr['data'] = Cart::orderBy('id', 'asc')->get();
-    }else{
-      $arr['data'] = Cart::where('id', $id)->first();
-    }
     echo json_encode($arr);
     exit;
   }
