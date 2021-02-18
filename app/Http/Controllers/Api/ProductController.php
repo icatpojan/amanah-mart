@@ -32,6 +32,7 @@ class ProductController extends Controller
             'category_id' => $request->category_id,
             'supplier_id' => $request->supplier_id,
             'merek' => $request->merek,
+            'diskon' => $request->diskon,
             'harga_beli' => $request->harga_beli,
             'harga_jual' => $request->harga_jual,
         ]);
@@ -46,11 +47,12 @@ class ProductController extends Controller
     {
         $Product = Product::where('id', $id)->first();
         $Product->update([
-            'name' => $request->name,
-            'merek' => $request->merek,
-            'stock' => $request->stock,
-            'harga_beli' => $request->harga_beli,
-            'harga_jual' => $request->harga_jual,
+            'name' => $request->name == null ? $Product->name : $request->name,
+            'merek' => $request->merek == null ? $Product->merek : $request->merek,
+            'stock' => $request->stock == null ? $Product->stock : $request->stock,
+            'harga_beli' => $request->harga_beli == null ? $Product->harga_beli : $request->harga_beli,
+            'harga_jual' => $request->harga_jual == null ? $Product->harga_jual : $request->harga_jual,
+            'diskon' => $request->diskon == null ? $Product->diskon : $request->diskon,
         ]);
         try {
             $Product->save();

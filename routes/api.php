@@ -27,13 +27,21 @@ Route::group(['namespace' => 'Api', 'middleware' => ['jwt.verify']], function ()
     Route::post('category/{id}', 'CategoryController@update'); // update category
     Route::post('category/delete/{id}', 'CategoryController@destroy'); // hapus category
 
-    Route::get('product', 'ProductController@index'); // melihat semua product
-    Route::post('product', 'ProductController@store'); // input barang baru
-    Route::post('product/{id}', 'ProductController@update'); // update barang
-    Route::post('product/delete/{id}', 'ProductController@destroy'); // hapus barang
+    Route::get('product', 'ProductController@index'); // melihat semua supplier
+    Route::post('product', 'ProductController@store'); // input supplier baru
+    Route::post('product/{id}', 'ProductController@update'); // update supplier
+    Route::post('product/delete/{id}', 'ProductController@destroy'); // hapus supplier
+
+    Route::get('supplier', 'SupplierController@index'); // melihat semua product
+    Route::post('supplier', 'SupplierController@store'); // input barang baru
+    Route::post('supplier/{id}', 'SupplierController@update'); // update barang
+    Route::post('supplier/delete/{id}', 'SupplierController@destroy'); // hapus barang
 
     Route::get('pembelian', 'PembelianController@index'); // melihat semua pembelian
-    Route::post('pembelian', 'PembelianController@store'); // input laporan pembelian
+    Route::post('pembelian/confirm', 'PembelianController@confirm'); // input pembelian
+    Route::post('pembelian/{id}', 'PembelianController@store'); // input pembelian
+    Route::post('pembelian/destroy/{id}', 'PembelianController@destroy'); // input pembelian
+    Route::post('pembelian/update/{id}', 'PembelianController@update'); // input pembelian
 
     //  Route kasir
     Route::get('penjualan', 'PenjualanController@index'); // melihat semua penjualan
