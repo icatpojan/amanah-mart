@@ -15,7 +15,17 @@ class PembelianController extends Controller
 {
     public function index()
     {
-        $Pembelian = Pembelian::all();
+        $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->letest()->first();
+        $Pembelian = Pembelian::where('kulakan_id', $Kulakan->id)->where('status', 0)->get();
+        if ($Pembelian == '[]') {
+            return $this->sendResponse('Failed', 'data kosong', null, 404);
+        }
+        return $this->sendResponse('Success', 'ini dia daftar Pembelian bos', $Pembelian, 200);
+    }
+    public function see()
+    {
+        $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 1)->letest()->first();
+        $Pembelian = Pembelian::where('kulakan_id', $Kulakan->id)->where('status', 1)->get();
         if ($Pembelian == '[]') {
             return $this->sendResponse('Failed', 'data kosong', null, 404);
         }
@@ -97,6 +107,9 @@ class PembelianController extends Controller
             $Pembelians->update();
             $Product = Product::where('barcode', $Data->barcode)->first();
             $Product->stock = ($Product->stock) + ($Data->jumlah_product);
+            $Product->harga_jual = $Data->harga_jual;
+            $Product->harga_beli = $Data->harga;
+
             $Product->update();
         }
 
@@ -105,7 +118,7 @@ class PembelianController extends Controller
         $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 1)->first();
         $Pembelian = Pembelian::where('kulakan_id', $Kulakan->id)->where('status', 1)->get();
 
-        return $this->sendResponse('Success', 'oke', $Pembelian, 200);
+        return $this->sendResponse('Success', 'oke', null, 200);
     }
     public function destroy($id)
     {

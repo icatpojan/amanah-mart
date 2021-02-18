@@ -15,10 +15,13 @@ class CreateCartsTable extends Migration
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('penjualan_id');
+            $table->unsignedBigInteger('barcode');
             $table->string('name');
-            $table->integer('jumlah')->nullable();
-            $table->integer('harga')->nullable();
-            $table->integer('jumlah_harga')->nullable();
+            $table->integer('jumlah')->default(0);
+            $table->integer('harga')->default(0);
+            $table->integer('jumlah_harga')->default(0);
+            $table->integer('diskon')->default(0);
             $table->timestamps();
         });
     }
