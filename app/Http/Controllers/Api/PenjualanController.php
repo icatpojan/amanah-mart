@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Model\Cart;
 use App\Model\Penjualan;
+use App\Model\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PenjualanController extends Controller
 {
@@ -32,10 +35,10 @@ class PenjualanController extends Controller
         if (!$Product) {
             return $this->sendResponse('Success', 'barang kosong. pastikan anda mencari berdasarkan barcode', null, 200);
         }
-        $cek_kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->first();
-        if (empty($cek_kulakan)) {
-            $Kulakan = kulakan::create([
-                'user_id' => Auth::user()->id,
+        $cek_penjualan = Penjualan::where('user_id', Auth::user()->id)->where('status', 0)->first();
+        if (empty($cek_penjualan)) {
+            $Kulakan = Penjualan::create([
+                'id_kasir' => Auth::user()->id,
                 'tanggal' => Carbon::now(),
                 'status' => 0,
                 'jumlah_harga' => 0,

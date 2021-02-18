@@ -21,7 +21,7 @@ class ProductController extends Controller
     {
         request()->validate([
             'name' => 'string|required',
-            'barcode' => 'integer|required',
+            'barcode' => 'integer|required|unique:products',
             'category_id' => 'integer|required',
             'supplier_id' => 'integer|required',
             'merek' => 'string|required',

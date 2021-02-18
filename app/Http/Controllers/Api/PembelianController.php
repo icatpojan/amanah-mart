@@ -15,7 +15,7 @@ class PembelianController extends Controller
 {
     public function index()
     {
-        $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->letest()->first();
+        $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->latest()->first();
         $Pembelian = Pembelian::where('kulakan_id', $Kulakan->id)->where('status', 0)->get();
         if ($Pembelian == '[]') {
             return $this->sendResponse('Failed', 'data kosong', null, 404);
@@ -109,7 +109,6 @@ class PembelianController extends Controller
             $Product->stock = ($Product->stock) + ($Data->jumlah_product);
             $Product->harga_jual = $Data->harga_jual;
             $Product->harga_beli = $Data->harga;
-
             $Product->update();
         }
 
