@@ -16,13 +16,12 @@ class CreatePenjualansTable extends Migration
         Schema::create('penjualans', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('id_kasir');
-            $table->unsignedBigInteger('product_id');
-            $table->integer('jumlah_product');
-            $table->integer('jumlah_harga');
-            $table->integer('dibayar');
-            $table->integer('kembalian');
-            $table->integer('diskon');
-            $table->string('status')->nullable();
+            $table->unsignedBigInteger('member_id')->nullable();
+            $table->integer('jumlah_harga')->default(0);
+            $table->integer('dibayar')->default(0);
+            $table->integer('kembalian')->default(0);
+            $table->integer('diskon')->default(0);
+            $table->string('status')->default(0);
             $table->timestamps();
         });
     }

@@ -35,7 +35,7 @@ class PembelianController extends Controller
     {
         $Product = Product::where('barcode', $barcode)->first();
         if (!$Product) {
-            return $this->sendResponse('Success', 'barang kosong. pastikan anda mencari berdasarkan barcode', null, 200);
+            return $this->sendResponse('failed', 'barang kosong. pastikan anda mencari berdasarkan barcode', null, 200);
         }
         $cek_kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->first();
         if (empty($cek_kulakan)) {
