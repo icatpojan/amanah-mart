@@ -22,15 +22,6 @@ class PembelianController extends Controller
     }
     public function store($id)
     {
-        // request()->validate([
-        //     'name' => 'string|required',
-        //     'merek' => 'string|required',
-        //     'supplier_id' => 'integer|required',
-        //     'category_id' => 'integer|required',
-        //     'jumlah_product' => 'integer|required',
-        //     'harga' => 'integer|required',
-        //     'harga_jual' => 'integer|required',
-        // ]);
         $Product = Product::where('id', $id)->first();
         $cek_kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->first();
         if (empty($cek_kulakan)) {
@@ -49,79 +40,54 @@ class PembelianController extends Controller
             'merek' => $Product->merek,
             'jumlah_product' => 1,
             'supplier_id' => $Product->supplier_id,
+            'barcode' => $Product->barcode,
             'category_id' => $Product->category_id,
-            'harga' => $Product->harga_beli,
-            'harga_jual' => $Product->harga_jual,
-            'jumlah_harga' => $Product->harga_beli,
+            // 'harga' => $Product->harga_beli,
+            // 'harga_jual' => $Product->harga_jual,
+            // 'jumlah_harga' => $Product->harga_beli,
             'kulakan_id' => $Kulakan->id,
             'status' => 0
         ]);
         $Pembelian->save();
-        $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->first();
-        $Kulakan->jumlah_harga = ($Kulakan->jumlah_harga) + ($Product->harga_beli);
-        $Kulakan->update();
+        // $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->first();
+        // $Kulakan->jumlah_harga = ($Kulakan->jumlah_harga) + ($Product->harga_beli);
+        // $Kulakan->update();
         return $this->sendResponse('Success', 'penambahan barang sukses', $Pembelian, 200);
     }
-    public function create(Request $request)
+    public function update(Request $request, $id)
     {
         request()->validate([
-            'name' => 'string|required',
-            'merek' => 'string|required',
-            'supplier_id' => 'integer|required',
-            'category_id' => 'integer|required',
             'jumlah_product' => 'integer|required',
             'harga' => 'integer|required',
             'harga_jual' => 'integer|required',
-        ]);
-        $cek_kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->first();
-        if (empty($cek_kulakan)) {
-            $Kulakan = kulakan::create([
-                'user_id' => Auth::user()->id,
-                'tanggal' => Carbon::now(),
-                'status' => 0,
-                'jumlah_harga' => 0,
             ]);
-            $Kulakan->save();
-        }
-        // ambil data kulakan lagi
-        $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->first();
-        $Pembelian = Pembelian::create([
-            'name' => $request->name,
-            'merek' => $request->merek,
-            'jumlah_product' => 1,
-            'supplier_id' => $request->supplier_id,
-            'category_id' => $request->category_id,
-            'harga' => $request->harga_beli,
-            'harga_jual' => $request->harga_jual,
-            'jumlah_harga' => $request->harga_beli,
-            'kulakan_id' => $Kulakan->id,
-            'status' => 0
-        ]);
-        $Pembelian->save();
-        $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->first();
-        $Kulakan->jumlah_harga = ($Kulakan->jumlah_harga) + ($request->harga_beli);
+        $Pembelian = Pembelian::where('id', $id)->first();
+        $Kulakan = kulakan::where('id', $Pembelian->kulakan_id)->first();
+        $Kulakan->jumlah_harga = ($Kulakan->jumlah_harga) - ($Pembelian->jumlah_harga);
         $Kulakan->update();
-        return $this->sendResponse('Success', 'penambahan barang sukses', $Pembelian, 200);
+
+        $Pembelian->jumlah_product = $request->jumlah_product;
+        $Pembelian->harga = $request->harga;
+        $Pembelian->harga_jual = $request->harga_jual;
+        $Pembelian->jumlah_harga = ($request->jumlah_product) * ($request->harga);
+        $Pembelian->update();
+
+        $Kulakan->jumlah_harga = ($Kulakan->jumlah_harga) + ($Pembelian->jumlah_harga);
+        $Kulakan->update();
+        return $this->sendResponse('Success', 'berhasil mengupdate jumlah barang', compact('Pembelian', 'Kulakan'), 200);
     }
     public function confirm()
     {
 
         $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->first();
         $Pembelian = Pembelian::where('kulakan_id', $Kulakan->id)->where('status', 0)->get();
-    
         foreach ($Pembelian as $Data) {
             $Pembelians = Pembelian::find($Data->id);
             $Pembelians->status = 1;
             $Pembelians->update();
-            $Product = Product::create([
-                'category_id' => $Pembelians->category_id,
-                'supplier_id' => $Pembelians->supplier_id,
-                'name' => $Pembelians->name,
-                'merek' => $Pembelians->merek,
-                'stock' => $Pembelians->jumlah_product,
-                'harga_beli' => $Pembelians->harga,
-                'harga_jual' => $Pembelians->harga_jual,
-            ]);
+            $Product = Product::where('barcode', $Data->barcode)->first();
+            $Product->stock = ($Product->stock) + ($Data->jumlah_product);
+            $Product->update();
         }
 
         $Kulakan->status = 1;
@@ -138,27 +104,10 @@ class PembelianController extends Controller
             return $this->sendResponse('error', 'data tidak ada', null, 200);
         }
         $Kulakan = kulakan::where('id', $Pembelian->kulakan_id)->first();
-        $Kulakan->jumlah_harga = $Kulakan->jumlah_harga - $Pembelian->jumlah_harga;
+        $Kulakan->jumlah_harga = ($Kulakan->jumlah_harga) - ($Pembelian->jumlah_harga);
         $Kulakan->update();
         $Pembelian->delete();
         return $this->sendResponse('Success', 'berhasil menghapus barang', $Kulakan, 200);
     }
-    public function update(Request $request, $id)
-    {
-        request()->validate([
-            'jumlah_product' => 'integer|required',
-        ]);
-        $Pembelian = Pembelian::where('id', $id)->first();
-        $Kulakan = kulakan::where('id', $Pembelian->kulakan_id)->first();
-        $Kulakan->jumlah_harga = $Kulakan->jumlah_harga - $Pembelian->jumlah_harga;
-        $Kulakan->update();
 
-        $Pembelian->jumlah_product = $request->jumlah_product;
-        $Pembelian->jumlah_harga = $request->jumlah_product * $Pembelian->harga;
-        $Pembelian->update();
-
-        $Kulakan->jumlah_harga = $Kulakan->jumlah_harga + $Pembelian->jumlah_harga;
-        $Kulakan->update();
-        return $this->sendResponse('Success', 'berhasil mengupdate jumlah barang', compact('Pembelian', 'Kulakan'), 200);
-    }
 }

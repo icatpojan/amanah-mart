@@ -17,13 +17,14 @@ class CreatePembeliansTable extends Migration
             $table->id();
             $table->unsignedBigInteger('supplier_id');
             $table->unsignedBigInteger('kulakan_id');
+            $table->unsignedBigInteger('barcode');
             $table->unsignedBigInteger('category_id');
             $table->string('name');
             $table->string('merek');
-            $table->integer('jumlah_product');
-            $table->integer('harga');
-            $table->integer('harga_jual');
-            $table->integer('jumlah_harga');
+            $table->integer('jumlah_product')->default(0);
+            $table->integer('harga')->default(0);
+            $table->integer('harga_jual')->default(0);
+            $table->integer('jumlah_harga')->default(0);
             $table->integer('status')->nullable();
             $table->timestamps();
 });

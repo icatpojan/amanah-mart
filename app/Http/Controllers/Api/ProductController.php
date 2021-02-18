@@ -21,20 +21,18 @@ class ProductController extends Controller
     {
         request()->validate([
             'name' => 'string|required',
+            'barcode' => 'integer|required',
             'category_id' => 'integer|required',
             'supplier_id' => 'integer|required',
             'merek' => 'string|required',
-            'harga_beli' => 'integer|required',
-            'harga_jual' => 'integer|required',
         ]);
         $Product = Product::create([
             'name' => $request->name,
             'category_id' => $request->category_id,
+            'barcode' => $request->barcode,
             'supplier_id' => $request->supplier_id,
             'merek' => $request->merek,
             'diskon' => $request->diskon,
-            'harga_beli' => $request->harga_beli,
-            'harga_jual' => $request->harga_jual,
         ]);
         try {
             $Product->save();
