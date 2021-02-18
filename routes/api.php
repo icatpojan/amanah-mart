@@ -39,7 +39,7 @@ Route::group(['namespace' => 'Api', 'middleware' => ['jwt.verify']], function ()
 
     Route::get('pembelian', 'PembelianController@index'); // melihat semua pembelian
     Route::post('pembelian/confirm', 'PembelianController@confirm'); // input pembelian
-    Route::post('pembelian/{id}', 'PembelianController@store'); // input pembelian
+    Route::post('pembelian/{barcode}', 'PembelianController@store'); // input pembelian
     Route::post('pembelian/destroy/{id}', 'PembelianController@destroy'); // input pembelian
     Route::post('pembelian/update/{id}', 'PembelianController@update'); // input pembelian
 
