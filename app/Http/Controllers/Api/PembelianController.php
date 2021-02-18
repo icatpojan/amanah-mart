@@ -20,9 +20,9 @@ class PembelianController extends Controller
         }
         return $this->sendResponse('Success', 'ini dia daftar Pembelian bos', $Pembelian, 200);
     }
-    public function store($id)
+    public function store($barcode)
     {
-        $Product = Product::where('id', $id)->first();
+        $Product = Product::where('barcode', $barcode)->first();
         $cek_kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->first();
         if (empty($cek_kulakan)) {
             $Kulakan = kulakan::create([
