@@ -9,6 +9,7 @@ use App\Model\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class PembelianController extends Controller
 {
@@ -23,6 +24,9 @@ class PembelianController extends Controller
     public function store($barcode)
     {
         $Product = Product::where('barcode', $barcode)->first();
+        if (!$Product) {
+            return $this->sendResponse('Success', 'barang kosong. pastikan anda mencari berdasarkan barcode', null, 200);
+        }
         $cek_kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->first();
         if (empty($cek_kulakan)) {
             $Kulakan = kulakan::create([
@@ -56,11 +60,17 @@ class PembelianController extends Controller
     }
     public function update(Request $request, $id)
     {
-        request()->validate([
+        $validator = Validator::make($request->all(), [
+
             'jumlah_product' => 'integer|required',
             'harga' => 'integer|required',
             'harga_jual' => 'integer|required',
-            ]);
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->toJson(), 400);
+        }
+
         $Pembelian = Pembelian::where('id', $id)->first();
         $Kulakan = kulakan::where('id', $Pembelian->kulakan_id)->first();
         $Kulakan->jumlah_harga = ($Kulakan->jumlah_harga) - ($Pembelian->jumlah_harga);
@@ -109,5 +119,4 @@ class PembelianController extends Controller
         $Pembelian->delete();
         return $this->sendResponse('Success', 'berhasil menghapus barang', $Kulakan, 200);
     }
-
 }
