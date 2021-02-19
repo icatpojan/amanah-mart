@@ -96,7 +96,7 @@ class PenjualanController extends Controller
         $Cart->update();
 
         // masukin lagi ke penjualan
-        $Penjualan = Penjualan::where('id', $Cart->penjualan_id)->first();
+        // $Penjualan = Penjualan::where('id', $Cart->penjualan_id)->first();
         $Penjualan->jumlah_harga = ($Penjualan->jumlah_harga) + ($Cart->jumlah_harga);
         $Penjualan->update();
         return $this->sendResponse('Success', 'berhasil mengupdate jumlah barang', compact('Cart', 'Penjualan'), 200);
