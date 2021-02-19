@@ -144,6 +144,9 @@ class PenjualanController extends Controller
     {
 
         $Penjualan = Penjualan::where('id_kasir', Auth::user()->id)->where('status', 0)->first();
+        if ($Penjualan == null ||$Penjualan->jumlah_harga == 0 || $Penjualan == []) {
+            return $this->sendResponse('failed', 'anda belom memasukan apapun', null, 400);
+        }
         $Cart = Cart::where('penjualan_id', $Penjualan->id)->where('status', 0)->get();
         foreach ($Cart as $Data) {
             $Carts = Cart::find($Data->id);
