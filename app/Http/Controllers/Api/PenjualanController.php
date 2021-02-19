@@ -69,7 +69,7 @@ class PenjualanController extends Controller
             'penjualan_id' => $Penjualan->id,
             'status' => 0
         ]);
-        $Penjualan->jumlah_harga = ($Penjualan->jumlah_harga) + ($Product->jumlah_harga);
+        $Penjualan->jumlah_harga = ($Penjualan->jumlah_harga) + ($Cart->jumlah_harga);
         $Cart->save();
         $Penjualan->update();
         return $this->sendResponse('Success', 'penambahan barang sukses', $Cart, 200);
