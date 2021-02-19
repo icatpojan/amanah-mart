@@ -17,6 +17,7 @@ class CreateCartsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('penjualan_id');
             $table->unsignedBigInteger('member_id');
+            $table->string('name')->default(0);
             $table->unsignedBigInteger('barcode');
             $table->integer('harga')->default(0);
             $table->integer('harga_diskon')->default(0);
