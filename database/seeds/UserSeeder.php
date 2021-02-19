@@ -49,5 +49,12 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'role_id'   => 5
         ]);
+        Member::create([
+            'member_id' => 123123,
+            'user_id' => 5,
+            'umur'  => 17,
+            'address' => 'bandung barat',
+            'phone_number'   => 12345
+        ]);
     }
 }

@@ -69,7 +69,7 @@ class PenjualanController extends Controller
             'penjualan_id' => $Penjualan->id,
             'status' => 0
         ]);
-        $Penjualan->jumlah_harga = ($Penjualan->jumlah_harga) + ($Cart  ->jumlah_harga);
+        $Penjualan->jumlah_harga = ($Penjualan->jumlah_harga) + ($Cart->jumlah_harga);
         $Cart->save();
         $Penjualan->update();
         return $this->sendResponse('Success', 'penambahan barang sukses', $Cart, 200);
@@ -115,10 +115,10 @@ class PenjualanController extends Controller
         if ($Penjualan->jumlah_harga > $request->dibayar) {
             return $this->sendResponse('failed', 'duit anda kurang bos', null, 200);
         } else {
-        $Penjualan->dibayar = $request->dibayar;
-        $Penjualan->kembalian = $request->dibayar - $Penjualan->jumlah_harga;
-        $Penjualan->update();
-        return $this->sendResponse('Success', 'ini dia kembalian anda', $Penjualan->kembalian, 200);
+            $Penjualan->dibayar = $request->dibayar;
+            $Penjualan->kembalian = $request->dibayar - $Penjualan->jumlah_harga;
+            $Penjualan->update();
+            return $this->sendResponse('Success', 'ini dia kembalian anda', $Penjualan->kembalian, 200);
         }
     }
     public function diskon(Request $request)
@@ -127,7 +127,7 @@ class PenjualanController extends Controller
             'member_id' => 'integer',
             // 'diskon' => 'integer',
         ]);
-        $diskon= rand(1,20);
+        $diskon = rand(1, 20);
         if ($validator->fails()) {
             return response()->json($validator->errors()->toJson(), 400);
         }
@@ -135,6 +135,9 @@ class PenjualanController extends Controller
         $Member = Member::where('member_id', $request->member_id)->first();
         if ($Member == []) {
             return $this->sendResponse('Failed', 'member tidak ada', null, 400);
+        }
+        if (!($Penjualan->diskon == 0)) {
+            return $this->sendResponse('failed', 'gacha teros ampek gratis bos', $Penjualan, 400);
         }
         $Penjualan->jumlah_harga = ($Penjualan->jumlah_harga) - (($Penjualan->jumlah_harga) * ($diskon / 100));
         $Penjualan->diskon = $diskon;
@@ -146,7 +149,7 @@ class PenjualanController extends Controller
     {
 
         $Penjualan = Penjualan::where('id_kasir', Auth::user()->id)->where('status', 0)->first();
-        if ($Penjualan == null ||$Penjualan->jumlah_harga == 0 || $Penjualan == []) {
+        if ($Penjualan == null || $Penjualan->jumlah_harga == 0 || $Penjualan == []) {
             return $this->sendResponse('failed', 'anda belom memasukan apapun', null, 400);
         }
         $Cart = Cart::where('penjualan_id', $Penjualan->id)->where('status', 0)->get();
