@@ -137,6 +137,7 @@ class PenjualanController extends Controller
             return $this->sendResponse('Failed', 'member tidak ada', null, 400);
         }
         $Penjualan->jumlah_harga = ($Penjualan->jumlah_harga) - (($Penjualan->jumlah_harga) * ($diskon / 100));
+        $Penjualan->diskon = $diskon;
         $Penjualan->member_id = $request->member_id;
         $Penjualan->update();
         return $this->sendResponse('success', 'berhasil menambahkan member id', $Penjualan, 400);
