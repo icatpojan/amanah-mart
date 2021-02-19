@@ -20,59 +20,64 @@
             <div class="d-block card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">KULAKAN BARANG</h6>
                 <form id="contactForm">
-                    <div class="form-group">
-                        <input onfocus="this.value=''" type="text" name="name" class="form-control" placeholder="Enter Barcode"
-                            id="name" autofocus>
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-success" id="submit"
-                            onclick="">Cari barang</button>
-                    </div>
-                </form>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-9">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-striped" id='userTable' width="100%" cellspacing="0">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th>no</th>
-                                        <th>Name</th>
-                                        <th>jumlah</th>
-                                        <th>harga</th>
-                                        <th>total harga</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
+                    <div class="row">
+                        <div class="col-md-11">
+                            <div class="form-group">
+                                <input onfocus="this.value=''" type="text" name="name" class="form-control"
+                                    placeholder="Enter Barcode" id="name" autofocus>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <input type="text" placeholder="total" disabled class="form-control mb-2">
-                        <input type="text" placeholder="diskon" class="form-control mb-2">
-                        <input type="text" placeholder="bayar" disabled class="form-control mb-2">
-                        <button>terima</button>
-                    </div>
-                </div>
-
-                <div class="row mb-2">
-                    <div class="col-md-6">
-                        <label for="harga">harga</label>
-                        <select class="form-control" name="harga" id="selectharga">
-                            {{-- @foreach ($users as $user)
-                        <option value="{{$user->harga}}"> {{$user->harga}} </option>
-                        @endforeach --}}
-                        </select>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label for="nominal">Nominal</label>
-                        <input type="number" id="nominal" name="nominal" class="form-control">
+                </form>
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <button class="btn btn-success" id="submit" onclick="">Cari barang</button>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped" id='userTable' width="100%" cellspacing="0">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>no</th>
+                                    <th>Name</th>
+                                    <th>jumlah</th>
+                                    <th>harga</th>
+                                    <th>total harga</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" placeholder="total" disabled class="form-control mb-2">
+                    <input type="text" placeholder="diskon" class="form-control mb-2">
+                    <input type="text" placeholder="bayar" disabled class="form-control mb-2">
+                    <button>terima</button>
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col-md-6">
+                    <label for="harga">harga</label>
+                    <select class="form-control" name="harga" id="selectharga">
+                        {{-- @foreach ($users as $user)
+                        <option value="{{$user->harga}}"> {{$user->harga}} </option>
+                        @endforeach --}}
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="nominal">Nominal</label>
+                    <input type="number" id="nominal" name="nominal" class="form-control">
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
     <!-- /.container-fluid -->
 
@@ -99,6 +104,7 @@
                 fetchRecords();
             });
         }
+
         function fetchRecords() {
             $.ajax({
                 url: 'getData/',
@@ -119,8 +125,10 @@
                             var tr_str = "<tr>" +
                                 "<td align='center'>" + (i + 1) + "</td>" +
                                 "<td align='center'>" + name + "</td>" +
-                                "<td align='center'><input class='form-control mb-2' type='text' value='" + jumlah + "'></td>" +
-                                "<td align='center'><input class='form-control mb-2' type='text' value='" + harga + "'></td>" +
+                                "<td align='center'><input class='form-control mb-2' type='text' value='" +
+                                jumlah + "'></td>" +
+                                "<td align='center'><input class='form-control mb-2' type='text' value='" +
+                                harga + "'></td>" +
                                 "<td align='center'>" + harga + "</td>" +
                                 "</tr>";
                             $("#userTable tbody").append(tr_str);
@@ -157,7 +165,7 @@
             // let message = $('#message').val();
 
             $.ajax({
-                url: "{{route('cart-form')}}",
+                url: "{{ route('cart-form') }}",
                 type: "POST",
                 data: {
                     "_token": "{{ csrf_token() }}",

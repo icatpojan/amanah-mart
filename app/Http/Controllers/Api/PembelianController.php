@@ -103,6 +103,9 @@ class PembelianController extends Controller
     {
 
         $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->first();
+        if ($Kulakan->jumlah_harga = 0) {
+            return $this->sendResponse('failed', 'anda belom memasukan apapun', null, 400);
+        }
         $Pembelian = Pembelian::where('kulakan_id', $Kulakan->id)->where('status', 0)->get();
         foreach ($Pembelian as $Data) {
             $Pembelians = Pembelian::find($Data->id);
