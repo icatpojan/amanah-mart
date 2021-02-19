@@ -49,7 +49,7 @@ class PenjualanController extends Controller
         }
         // ambil data penjualan lagi
         $Penjualan = Penjualan::where('id_kasir', Auth::user()->id)->where('status', 0)->first();
-        $Cart = Penjualan::where('penjualan_id', $Penjualan->id)->where('status', 0)->where('barcode', $barcode)->first();
+        $Cart = Cart::where('penjualan_id', $Penjualan->id)->where('status', 0)->where('barcode', $barcode)->first();
         if (!($Cart == [])) {
             $Cart->jumlah_product = ($Cart->jumlah_product) + 1;
             // $Cart->harga_diskon = ($Product->harga_jual)-(($Product->harga_jual) * ($Product->diskon/100));
