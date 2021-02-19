@@ -83,15 +83,18 @@ class PenjualanController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors()->toJson(), 400);
         }
+
         // refresh dulu harga penjualan
         $Cart = Cart::find($id)->first();
         $Penjualan = Penjualan::where('id', $Cart->penjualan_id)->first();
         $Penjualan->jumlah_harga = ($Penjualan->jumlah_harga) - ($Cart->jumlah_harga);
         $Penjualan->update();
+
         // update cartnya
         $Cart->jumlah_product = $request->jumlah_product;
         $Cart->jumlah_harga = ($request->jumlah_product) * ($Cart->harga_diskon);
         $Cart->update();
+
         // masukin lagi ke penjualan
         $Penjualan->jumlah_harga = ($Penjualan->jumlah_harga) + ($Cart->jumlah_harga);
         $Penjualan->update();
@@ -99,6 +102,14 @@ class PenjualanController extends Controller
     }
     public function bayar(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'dibayar' => 'integer',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->toJson(), 400);
+        }
+
         $Penjualan = Penjualan::where('user_id', Auth::user()->id)->where('status', 0)->first();
         if (($Penjualan->jumlah_harga) > ($request->dibayar)) {
             return $this->sendResponse('failed', 'duit anda kurang bos', null, 200);
@@ -122,7 +133,7 @@ class PenjualanController extends Controller
         if ($Member == []) {
             return $this->sendResponse('Failed', 'member tidak ada', null, 400);
         }
-        $Penjualan->jumlah_harga = ($Penjualan->jumlah_harga) - (($Penjualan->jumlah_harga) * ($request->diskon/100));
+        $Penjualan->jumlah_harga = ($Penjualan->jumlah_harga) - (($Penjualan->jumlah_harga) * ($request->diskon / 100));
         $Penjualan->member_id = $request->member_id;
         $Penjualan->update();
         return $this->sendResponse('success', 'berhasil menambahkan member id', $Penjualan, 400);

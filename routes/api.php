@@ -45,7 +45,12 @@ Route::group(['namespace' => 'Api', 'middleware' => ['jwt.verify']], function ()
 
     //  Route kasir
     Route::get('penjualan', 'PenjualanController@index'); // melihat semua penjualan
-    Route::post('penjualan', 'PenjualanController@store'); // input hasil jualan
+    Route::post('penjualan/{barcode}', 'PenjualanController@store'); // input hasil jualan
+    Route::post('penjualan/update/{id}', 'PenjualanController@update'); // input hasil jualan
+    Route::post('penjualan/bayar', 'PenjualanController@bayar'); // input hasil jualan
+    Route::post('penjualan/diskon', 'PenjualanController@diskon'); // input hasil jualan
+    Route::post('penjualan/confirm', 'PenjualanController@confirm'); // input hasil jualan
+    Route::post('penjualan/destroy/{id}', 'PenjualanController@destroy'); // input hasil jualan
 
     // Route pimpinan
     Route::get('keuangan', 'KeuanganController@index'); // melihat semua transaksi keluar masuk uang

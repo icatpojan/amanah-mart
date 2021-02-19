@@ -1,147 +1,156 @@
 @extends('layouts.admin', ['title' => "Keuangan - Sammpah.com"])
 
 @section('style')
-<link href="{{asset('template/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
-<link rel="stylesheet" href="{{asset('css/style.css')}}">
+    <link href="{{ asset('template/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 @endsection
 
 @section('content')
 
-<!-- Begin Page Content -->
-<div class="container-fluid">
+    <div class="container-fluid">
 
-    <div class="d-sm-flex align-items-center justify-content-between mb-3">
-        <div aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <i class="fas fa-home breadcrumb-item mt-0_5"></i>
-                <li class="breadcrumb-item"> <a class="text-decoration-none" href="{{route('home')}}"> Home </a> </li>
-                <li class="breadcrumb-item active" aria-current="page"> Keuangan </li>
-            </ol>
-        </div>
+        {{-- card form --}}
+        <div class="card shadow mb-4">
+            <div class="d-block card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">KASIR</h6>
+                <form id="contactForm">
+                    <div class="form-group">
+                        <input type="text" name="name" class="form-control" placeholder="Enter Name" id="name">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-success" id="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id='userTable' width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>no</th>
+                                <th>jumlah</th>
+                                <th>Name</th>
+                                <th>harga</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <label for="harga">harga</label>
+                        <select class="form-control" name="harga" id="selectharga">
+                            {{-- @foreach ($users as $user)
+                        <option value="{{$user->harga}}"> {{$user->harga}} </option>
+                        @endforeach --}}
+                        </select>
+                    </div>
 
-        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick="window.print()"><i
-                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
-    </div>
-
-    <div class="row">
-        <!-- Total Pemasukan -->
-        <div class="col-xl-4 col-md-6 mb-4">
-            <div class="card border-left-success shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-2">
-                                Pemasukan (bulanan)</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-handshake fa-2x text-gray-300"></i>
-                        </div>
+                    <div class="col-md-6">
+                        <label for="nominal">Nominal</label>
+                        <input type="number" id="nominal" name="nominal" class="form-control">
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Total Pengeluaran -->
-        <div class="col-xl-4 col-md-6 mb-4">
-            <div class="card border-left-danger shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-2">
-                                Pengeluaran (bulanan)</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-university fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Total Saldo -->
-        <div class="col-xl-4 col-md-6 mb-4">
-            <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-2">
-                                Total Saldo</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-university fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
-
-    <!-- DataTales Example -->
-    <div class="card shadow mb-4">
-        <div class="card-header d-flex justify-content-between py-3">
-            <h6 class="m-0 font-weight-bold text-primary">KEUANGAN PERUSAHAAN </h6>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>nama</th>
-                            <th>supplier</th>
-                            <th>jumlah produk</th>
-                            <th>harga</th>
-                            <th>jumlah harga</th>
-                            <th>Dibuat</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th>ID</th>
-                            <th>nama</th>
-                            <th>supplier</th>
-                            <th>jumlah produk</th>
-                            <th>harga</th>
-                            <th>jumlah harga</th>
-                            <th>Dibuat</th>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        @foreach ($Pembelian as $value)
-                        <tr>
-                            <td>{{$value->id}}</td>
-                            <td>{{$value->name}}</td>
-                            <td>{{$value->supplier_id}}</td>
-                            <td>{{$value->jumlah_product}}</td>
-                            <td>{{$value->jumlah_harga}}</td>
-                            <td>{{$value->created_at}}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-</div>
-<!-- /.container-fluid -->
+    <!-- /.container-fluid -->
 
 @endsection
 
 @section('script')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> <!-- jQuery CDN -->
 
-<script src="{{asset('template/vendor/datatables/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('template/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
-<script src="{{asset('template/js/demo/datatables-demo.js')}}"></script>
+    <script src="{{ asset('template/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('template/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('template/js/demo/datatables-demo.js') }}"></script>
 
-{{-- jquery --}}
-<script src="{{asset('js/script.js')}}"></script>
+    {{-- jquery --}}
+    <script src="{{ asset('js/script.js') }}"></script>
+    <script type='text/javascript'>
+        $(document).ready(function() {
+            selesai();
+        });
 
+        function selesai() {
+            setTimeout(function() {
+                selesai();
+                fetchRecords();
+            }, 100);
+        }
+
+
+        function fetchRecords() {
+            $.ajax({
+                url: 'getData/',
+                type: 'get',
+                dataType: 'json',
+                success: function(response) {
+                    var len = 0;
+                    $('#userTable tbody').empty(); // Empty <tbody>
+                    if (response['data'] != null) {
+                        len = response['data'].length;
+                    }
+                    if (len > 0) {
+                        for (var i = 0; i < len; i++) {
+                            var id = response['data'][i].id;
+                            var jumlah = response['data'][i].jumlah;
+                            var name = response['data'][i].name;
+                            var harga = response['data'][i].harga;
+                            var tr_str = "<tr>" +
+                                "<td align='center'>" + (i + 1) + "</td>" +
+                                "<td align='center'>" + jumlah + "</td>" +
+                                "<td align='center'>" + name + "</td>" +
+                                "<td align='center'>" + harga + "</td>" +
+                                "</tr>";
+                            $("#userTable tbody").append(tr_str);
+                        }
+                    } else if (response['data'] != null) {
+                        var tr_str = "<tr>" +
+                            "<td align='center'>1</td>" +
+                            "<td align='center'>" + response['data'].jumlah + "</td>" +
+                            "<td align='center'>" + response['data'].name + "</td>" +
+                            "<td align='center'>" + response['data'].harga + "</td>" +
+                            "</tr>";
+                        $("#userTable tbody").append(tr_str);
+                    } else {
+                        var tr_str = "<tr>" +
+                            "<td align='center' colspan='4'>No record found.</td>" +
+                            "</tr>";
+                        $("#userTable tbody").append(tr_str);
+                    }
+                }
+            });
+        }
+
+    </script>
+    <script type="text/javascript">
+        $('#contactForm').on('submit', function(event) {
+            event.preventDefault();
+            fetchRecords();
+            let name = $('#name').val();
+            let jumlah = $('#jumlah').val();
+            let harga = $('#harga').val();
+            let jumlah_harga = $('#jumlah_harga').val();
+            // let message = $('#message').val();
+
+            $.ajax({
+                url: "/cart-form",
+                type: "POST",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    name: name,
+                    jumlah: jumlah,
+                    harga: harga,
+                    jumlah_harga: jumlah_harga,
+                    // message:message,
+                },
+                success: function(response) {
+                    console.log(response);
+                },
+            });
+        });
+
+    </script>
 @endsection

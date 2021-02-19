@@ -3,6 +3,7 @@
 @section('style')
     <link href="{{ asset('template/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 @endsection
 
 @section('content')
@@ -102,5 +103,14 @@
 
     {{-- jquery --}}
     <script src="{{ asset('js/script.js') }}"></script>
+    <!-- Bootstrap + Animate.css -->
+    <script type="text/javascript">
+        $('#tambah-karyawan').on('show.bs.modal', function(e) {
+            $('.modal .modal-dialog').attr('class', 'modal-dialog tada animated');
+        })
+        $('#tambah-karyawan').on('hide.bs.modal', function(e) {
+            $('.modal .modal-dialog').attr('class', 'modal-dialog rollOut animated');
+        })
 
+    </script>
 @endsection

@@ -16,10 +16,11 @@
                 <h6 class="m-0 font-weight-bold text-primary">KASIR</h6>
                 <form id="contactForm">
                     <div class="form-group">
-                        <input type="text" name="name" class="form-control" placeholder="Enter Name" id="name">
+                        {{-- onfocus="this.value=''" --}}
+                        <input type="text"name="name" class="form-control" placeholder="Enter Name" id="name">
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-success" id="submit">Submit</button>
+                        <button class="btn btn-success" id="submit" onclick="document.getElementById('name').value = ''">Submit</button>
                     </div>
                 </form>
             </div>

@@ -13,10 +13,6 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('admin')->except('index', 'tabungan');
-    // }
     public function index()
     {
         $User = karyawan::with(['user'])->get();
@@ -34,8 +30,10 @@ class UserController extends Controller
             'address'   => 'required'
         ]);
         if ($validator->fails()) {
-            alert()->error('ada yang salah dengan data anda');
-            return back();
+            return back()->withToastError($validator->messages()->all()[0])->withInput();
+        }
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->toJson(), 400);
         }
         $User = User::create([
             'name' => $request->name,
