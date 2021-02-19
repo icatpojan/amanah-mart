@@ -157,7 +157,7 @@ class PenjualanController extends Controller
         $Penjualan->status = 1;
         $Penjualan->update();
         $Penjualan = Penjualan::where('id_kasir', Auth::user()->id)->where('status', 1)->first();
-        $Cart = Cart::where('Penjualan', $Penjualan->id)->where('status', 1)->get();
+        $Cart = Cart::where('Penjualan_id', $Penjualan->id)->where('status', 1)->get();
 
         return $this->sendResponse('Success', 'oke', $Cart, 200);
     }
