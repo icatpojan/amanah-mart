@@ -15,7 +15,7 @@ class PenjualanController extends Controller
 {
     public function index()
     {
-        $Penjualan = Penjualan::where('user_id', Auth::user()->id)->where('status', 0)->latest()->first();
+        $Penjualan = Penjualan::where('id_kasir', Auth::user()->id)->where('status', 0)->latest()->first();
         $Cart = Cart::where('Penjualan_id', $Penjualan->id)->where('status', 0)->get();
         if ($Cart == '[]') {
             return $this->sendResponse('Failed', 'data kosong', null, 404);
