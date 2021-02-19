@@ -85,7 +85,7 @@ class PenjualanController extends Controller
         }
 
         // refresh dulu harga penjualan
-        $Cart = Cart::find($id)->first();
+        $Cart = Cart::where('id', $id)->first();
         $Penjualan = Penjualan::where('id', $Cart->penjualan_id)->first();
         $Penjualan->jumlah_harga = ($Penjualan->jumlah_harga) - ($Cart->jumlah_harga);
         $Penjualan->update();
