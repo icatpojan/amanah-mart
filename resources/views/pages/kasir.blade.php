@@ -16,27 +16,41 @@
                 <h6 class="m-0 font-weight-bold text-primary">KASIR</h6>
                 <form id="contactForm">
                     <div class="form-group">
-                        {{-- onfocus="this.value=''" --}}
-                        <input type="text"name="name" class="form-control" placeholder="Enter Name" id="name">
+
+                        <input onfocus="this.value=''" type="text" name="name" class="form-control" placeholder="Enter Name"
+                            id="name">
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-success" id="submit" onclick="document.getElementById('name').value = ''">Submit</button>
+                        <button class="btn btn-success" id="submit"
+                            onclick="document.getElementById('name').value = ''">Submit</button>
                     </div>
                 </form>
             </div>
             <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered" id='userTable' width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>no</th>
-                                <th>jumlah</th>
-                                <th>Name</th>
-                                <th>harga</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+                <div class="row mb-2">
+                    <div class="col-md-9">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id='userTable' width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>no</th>
+                                        <th>jumlah</th>
+                                        <th>Name</th>
+                                        <th>harga</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="harga">harga</label>
+                        <select class="form-control" name="harga" id="selectharga">
+                            {{-- @foreach ($users as $user)
+                            <option value="{{$user->harga}}"> {{$user->harga}} </option>
+                            @endforeach --}}
+                        </select>
+                    </div>
                 </div>
                 <div class="row mb-2">
                     <div class="col-md-6">

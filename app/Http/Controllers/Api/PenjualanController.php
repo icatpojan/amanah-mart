@@ -37,7 +37,7 @@ class PenjualanController extends Controller
         if (!$Product) {
             return $this->sendResponse('Failed', 'barang kosong. pastikan anda mencari berdasarkan barcode', null, 200);
         }
-        $cek_penjualan = Penjualan::where('user_id', Auth::user()->id)->where('status', 0)->first();
+        $cek_penjualan = Penjualan::where('id_kasir', Auth::user()->id)->where('status', 0)->first();
         if (empty($cek_penjualan)) {
             $Penjualan = Penjualan::create([
                 'id_kasir' => Auth::user()->id,
