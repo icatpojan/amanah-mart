@@ -65,7 +65,7 @@ class PenjualanController extends Controller
             'barcode' => $Product->barcode,
             'harga' => $Product->harga_jual,
             'harga_diskon' => ($Product->harga_jual) - (($Product->harga_jual) * ($Product->diskon / 100)),
-            'jumlah_harga' => $Product->harga_diskon,
+            'jumlah_harga' => ($Product->harga_jual) - (($Product->harga_jual) * ($Product->diskon / 100)),
             'penjualan_id' => $Penjualan->id,
             'status' => 0
         ]);
