@@ -22,6 +22,7 @@ class CreateCartsTable extends Migration
             $table->integer('harga')->default(0);
             $table->integer('harga_diskon')->default(0);
             $table->integer('jumlah_harga')->default(0);
+            $table->integer('jumlah_product')->default(0);
             $table->integer('diskon')->default(0);
             $table->integer('status')->default(0);
             $table->timestamps();
