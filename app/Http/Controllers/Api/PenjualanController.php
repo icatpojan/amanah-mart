@@ -125,8 +125,9 @@ class PenjualanController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'member_id' => 'integer',
-            'diskon' => 'integer',
+            // 'diskon' => 'integer',
         ]);
+        $diskon= rand(1,20);
         if ($validator->fails()) {
             return response()->json($validator->errors()->toJson(), 400);
         }
@@ -135,7 +136,7 @@ class PenjualanController extends Controller
         if ($Member == []) {
             return $this->sendResponse('Failed', 'member tidak ada', null, 400);
         }
-        $Penjualan->jumlah_harga = ($Penjualan->jumlah_harga) - (($Penjualan->jumlah_harga) * ($request->diskon / 100));
+        $Penjualan->jumlah_harga = ($Penjualan->jumlah_harga) - (($Penjualan->jumlah_harga) * ($diskon / 100));
         $Penjualan->member_id = $request->member_id;
         $Penjualan->update();
         return $this->sendResponse('success', 'berhasil menambahkan member id', $Penjualan, 400);
