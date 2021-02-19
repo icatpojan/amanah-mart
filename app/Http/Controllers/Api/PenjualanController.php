@@ -112,9 +112,9 @@ class PenjualanController extends Controller
         }
 
         $Penjualan = Penjualan::where('id_kasir', Auth::user()->id)->where('status', 0)->first();
-        // if ($Penjualan->jumlah_harga > $request->dibayar) {
-        //     return $this->sendResponse('failed', 'duit anda kurang bos', null, 200);
-        // } else {
+        if ($Penjualan->jumlah_harga > $request->dibayar) {
+            return $this->sendResponse('failed', 'duit anda kurang bos', null, 200);
+        } else {
         $Penjualan->dibayar = $request->dibayar;
         $Penjualan->kembalian = $request->dibayar - $Penjualan->jumlah_harga;
         $Penjualan->update();
