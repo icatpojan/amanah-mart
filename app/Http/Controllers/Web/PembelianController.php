@@ -14,15 +14,15 @@ class PembelianController extends Controller
         return view('pages.pembelian', compact('Pembelian'));
     }
 
-    public function index()
-    {
-        $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->latest()->first();
-        $Pembelian = Pembelian::where('kulakan_id', $Kulakan->id)->where('status', 0)->get();
-        if ($Pembelian == '[]') {
-            return $this->sendResponse('Failed', 'data kosong', null, 404);
-        }
-        return $this->sendResponse('Success', 'ini dia daftar Pembelian bos', $Pembelian, 200);
-    }
+    // public function index()
+    // {
+    //     $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->latest()->first();
+    //     $Pembelian = Pembelian::where('kulakan_id', $Kulakan->id)->where('status', 0)->get();
+    //     if ($Pembelian == '[]') {
+    //         return $this->sendResponse('Failed', 'data kosong', null, 404);
+    //     }
+    //     return $this->sendResponse('Success', 'ini dia daftar Pembelian bos', $Pembelian, 200);
+    // }
     public function see()
     {
         $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 1)->letest()->first();

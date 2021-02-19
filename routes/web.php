@@ -64,7 +64,7 @@ Route::get('blacklist', 'Web\UserController@blacklist')->middleware('verified')-
 
 // Route::livewire('admin/product', App\Http\Livewire\Kasir\Create::class)->name('admin.product')->middleware('auth');
 Route::get('cart-form', 'Web\CartController@create');
-Route::post('cart-form', 'Web\CartController@store');
+Route::post('cart-form', 'Web\CartController@store')->name('cart-form');
 
 Route::get('/users', 'AjaxController@index');
 Route::get('/getData/', 'AjaxController@getData');

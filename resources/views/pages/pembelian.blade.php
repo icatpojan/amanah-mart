@@ -3,6 +3,12 @@
 @section('style')
     <link href="{{ asset('template/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <style>
+        th {
+            text-align: center;
+        }
+
+    </style>
 @endsection
 
 @section('content')
@@ -12,30 +18,44 @@
         {{-- card form --}}
         <div class="card shadow mb-4">
             <div class="d-block card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">KASIR</h6>
+                <h6 class="m-0 font-weight-bold text-primary">KULAKAN BARANG</h6>
                 <form id="contactForm">
                     <div class="form-group">
-                        <input type="text" name="name" class="form-control" placeholder="Enter Name" id="name">
+                        <input onfocus="this.value=''" type="text" name="name" class="form-control" placeholder="Enter Barcode"
+                            id="name" autofocus>
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-success" id="submit">Submit</button>
+                        <button class="btn btn-success" id="submit"
+                            onclick="">Cari barang</button>
                     </div>
                 </form>
             </div>
             <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered" id='userTable' width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>no</th>
-                                <th>jumlah</th>
-                                <th>Name</th>
-                                <th>harga</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped" id='userTable' width="100%" cellspacing="0">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>no</th>
+                                        <th>Name</th>
+                                        <th>jumlah</th>
+                                        <th>harga</th>
+                                        <th>total harga</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" placeholder="total" disabled class="form-control mb-2">
+                        <input type="text" placeholder="diskon" class="form-control mb-2">
+                        <input type="text" placeholder="bayar" disabled class="form-control mb-2">
+                        <button>terima</button>
+                    </div>
                 </div>
+
                 <div class="row mb-2">
                     <div class="col-md-6">
                         <label for="harga">harga</label>
@@ -74,13 +94,11 @@
         });
 
         function selesai() {
-            setTimeout(function() {
+            $('#contactForm').on('submit', function() {
                 selesai();
                 fetchRecords();
-            }, 100);
+            });
         }
-
-
         function fetchRecords() {
             $.ajax({
                 url: 'getData/',
@@ -100,8 +118,9 @@
                             var harga = response['data'][i].harga;
                             var tr_str = "<tr>" +
                                 "<td align='center'>" + (i + 1) + "</td>" +
-                                "<td align='center'>" + jumlah + "</td>" +
                                 "<td align='center'>" + name + "</td>" +
+                                "<td align='center'><input class='form-control mb-2' type='text' value='" + jumlah + "'></td>" +
+                                "<td align='center'><input class='form-control mb-2' type='text' value='" + harga + "'></td>" +
                                 "<td align='center'>" + harga + "</td>" +
                                 "</tr>";
                             $("#userTable tbody").append(tr_str);
@@ -112,6 +131,7 @@
                             "<td align='center'>" + response['data'].jumlah + "</td>" +
                             "<td align='center'>" + response['data'].name + "</td>" +
                             "<td align='center'>" + response['data'].harga + "</td>" +
+                            "<td align='center'>" + response['data'].harga + "</td>" +
                             "</tr>";
                         $("#userTable tbody").append(tr_str);
                     } else {
@@ -120,6 +140,7 @@
                             "</tr>";
                         $("#userTable tbody").append(tr_str);
                     }
+
                 }
             });
         }
@@ -136,7 +157,7 @@
             // let message = $('#message').val();
 
             $.ajax({
-                url: "/cart-form",
+                url: "{{route('cart-form')}}",
                 type: "POST",
                 data: {
                     "_token": "{{ csrf_token() }}",
@@ -150,6 +171,7 @@
                     console.log(response);
                 },
             });
+            document.getElementById('name').value = ''
         });
 
     </script>
