@@ -103,7 +103,7 @@ class PembelianController extends Controller
     {
 
         $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->first();
-        if ($Kulakan->jumlah_harga = 0 || $Kulakan == []) {
+        if ($Kulakan->jumlah_harga == 0 || $Kulakan == []) {
             return $this->sendResponse('failed', 'anda belom memasukan apapun', null, 400);
         }
         $Pembelian = Pembelian::where('kulakan_id', $Kulakan->id)->where('status', 0)->get();
