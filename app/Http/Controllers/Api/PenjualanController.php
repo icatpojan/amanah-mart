@@ -48,7 +48,7 @@ class PenjualanController extends Controller
             $Penjualan->save();
         }
         // ambil data penjualan lagi
-        $Penjualan = Penjualan::where('user_id', Auth::user()->id)->where('status', 0)->first();
+        $Penjualan = Penjualan::where('id_kasir', Auth::user()->id)->where('status', 0)->first();
         $Cart = Penjualan::where('penjualan_id', $Penjualan->id)->where('status', 0)->where('barcode', $barcode)->first();
         if (!($Cart == [])) {
             $Cart->jumlah_product = ($Cart->jumlah_product) + 1;
@@ -110,7 +110,7 @@ class PenjualanController extends Controller
             return response()->json($validator->errors()->toJson(), 400);
         }
 
-        $Penjualan = Penjualan::where('user_id', Auth::user()->id)->where('status', 0)->first();
+        $Penjualan = Penjualan::where('id_kasir', Auth::user()->id)->where('status', 0)->first();
         if (($Penjualan->jumlah_harga) > ($request->dibayar)) {
             return $this->sendResponse('failed', 'duit anda kurang bos', null, 200);
         }
@@ -128,7 +128,7 @@ class PenjualanController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors()->toJson(), 400);
         }
-        $Penjualan = Penjualan::where('user_id', Auth::user()->id)->where('status', 0)->first();
+        $Penjualan = Penjualan::where('id_kasir', Auth::user()->id)->where('status', 0)->first();
         $Member = Member::where('member_id', $request->member_id)->first();
         if ($Member == []) {
             return $this->sendResponse('Failed', 'member tidak ada', null, 400);
@@ -141,7 +141,7 @@ class PenjualanController extends Controller
     public function confirm()
     {
 
-        $Penjualan = Penjualan::where('user_id', Auth::user()->id)->where('status', 0)->first();
+        $Penjualan = Penjualan::where('id_kasir', Auth::user()->id)->where('status', 0)->first();
         $Cart = Cart::where('penjualan_id', $Penjualan->id)->where('status', 0)->get();
         foreach ($Penjualan as $Data) {
             $Penjualans = Penjualan::find($Data->id);
@@ -154,7 +154,7 @@ class PenjualanController extends Controller
 
         $Penjualan->status = 1;
         $Penjualan->update();
-        $Penjualan = Penjualan::where('user_id', Auth::user()->id)->where('status', 1)->first();
+        $Penjualan = Penjualan::where('id_kasir', Auth::user()->id)->where('status', 1)->first();
         $Pembelian = Cart::where('kulakan_id', $Penjualan->id)->where('status', 1)->get();
 
         return $this->sendResponse('Success', 'oke', null, 200);
