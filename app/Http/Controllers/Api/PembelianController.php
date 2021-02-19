@@ -114,7 +114,7 @@ class PembelianController extends Controller
 
         $Kulakan->status = 1;
         $Kulakan->update();
-        $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 1)->first();
+        $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 1)->latest()->first();
         $Pembelian = Pembelian::where('kulakan_id', $Kulakan->id)->where('status', 1)->get();
 
         return $this->sendResponse('Success', 'oke', null, 200);

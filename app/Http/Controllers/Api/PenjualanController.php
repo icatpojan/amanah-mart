@@ -167,7 +167,7 @@ class PenjualanController extends Controller
         if (!$Cart) {
             return $this->sendResponse('error', 'data tidak ada', null, 200);
         }
-        $Penjualan = Penjualan::where('id', $Cart->Penjualan_id)->first();
+        $Penjualan = Penjualan::where('id', $Cart->penjualan_id)->first();
         $Penjualan->jumlah_harga = ($Penjualan->jumlah_harga) - ($Cart->jumlah_harga);
         $Penjualan->update();
         $Cart->delete();
