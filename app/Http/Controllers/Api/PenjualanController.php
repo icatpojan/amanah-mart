@@ -146,9 +146,9 @@ class PenjualanController extends Controller
         $Penjualan = Penjualan::where('id_kasir', Auth::user()->id)->where('status', 0)->first();
         $Cart = Cart::where('penjualan_id', $Penjualan->id)->where('status', 0)->get();
         foreach ($Cart as $Data) {
-            $Penjualans = Penjualan::find($Data->id);
-            $Penjualans->status = 1;
-            $Penjualans->update();
+            $Carts = Cart::find($Data->id);
+            $Carts->status = 1;
+            $Carts->update();
             $Product = Product::where('barcode', $Data->barcode)->first();
             $Product->stock = ($Product->stock) - ($Data->jumlah_product);
             $Product->update();
