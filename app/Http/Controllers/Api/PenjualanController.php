@@ -119,7 +119,7 @@ class PenjualanController extends Controller
         $Penjualan->kembalian = $request->dibayar - $Penjualan->jumlah_harga;
         $Penjualan->update();
         return $this->sendResponse('Success', 'ini dia kembalian anda', $Penjualan->kembalian, 200);
-        // }
+        }
     }
     public function diskon(Request $request)
     {
