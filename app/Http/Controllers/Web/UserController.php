@@ -32,9 +32,6 @@ class UserController extends Controller
         if ($validator->fails()) {
             return back()->withToastError($validator->messages()->all()[0])->withInput();
         }
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 400);
-        }
         $User = User::create([
             'name' => $request->name,
             'email' => $request->email,

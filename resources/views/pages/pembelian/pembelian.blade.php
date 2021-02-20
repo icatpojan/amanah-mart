@@ -1,4 +1,4 @@
-@extends('layouts.admin', ['title' => "Keuangan - Sammpah.com"])
+@extends('layouts.admin', ['title' => "Pembelian - Amanah.com"])
 
 @section('style')
     <link href="{{ asset('template/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
@@ -23,8 +23,8 @@
                     <div class="col-md-11">
                         <div class="form-group">
                             <form id="contactForm">
-                                <input onfocus="this.value=''" type="text" name="name" class="form-control"
-                                    placeholder="Enter Barcode" id="name" autofocus>
+                                <input onfocus="this.value=''" type="text" name="barcode" class="form-control"
+                                    placeholder="Enter Barcode" id="barcode" autofocus>
                             </form>
                         </div>
                     </div>
@@ -158,28 +158,20 @@
         $('#contactForm').on('submit', function(event) {
             event.preventDefault();
             fetchRecords();
-            let name = $('#name').val();
-            let jumlah = $('#jumlah').val();
-            let harga = $('#harga').val();
-            let jumlah_harga = $('#jumlah_harga').val();
-            // let message = $('#message').val();
+            let barcode = $('#barcode').val();
 
             $.ajax({
-                url: "{{ route('cart-form') }}",
+                url: "{{ route('pembelian.store') }}",
                 type: "POST",
                 data: {
                     "_token": "{{ csrf_token() }}",
-                    name: name,
-                    jumlah: jumlah,
-                    harga: harga,
-                    jumlah_harga: jumlah_harga,
-                    // message:message,
+                    barcode: barcode,
                 },
                 success: function(response) {
                     console.log(response);
                 },
             });
-            document.getElementById('name').value = ''
+            document.getElementById('barcode').value = ''
         });
 
     </script>

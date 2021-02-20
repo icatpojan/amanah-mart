@@ -39,9 +39,9 @@ class PembelianController extends Controller
         }
         return $this->sendResponse('Success', 'ini dia daftar Pembelian bos', $Pembelian, 200);
     }
-    public function store($barcode)
+    public function store(Request $request)
     {
-        $Product = Product::where('barcode', $barcode)->first();
+        $Product = Product::where('barcode', $request->barcode)->first();
         if (!$Product) {
             return $this->sendResponse('failed', 'barang kosong. pastikan anda mencari berdasarkan barcode', null, 200);
         }
@@ -57,6 +57,11 @@ class PembelianController extends Controller
         }
         // ambil data kulakan lagi
         $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->first();
+        $Pembelian = Pembelian::where('kulakan_id', $Kulakan->id)->where('status', 0)->where('barcode', $Product->barcode)->first();
+        if (!($Pembelian == [])) {
+            alert()->success('SuccessAlert', 'Lorem ipsum dolor sit amet.');
+            return back();
+        }
         $Pembelian = Pembelian::create([
             'name' => $Product->name,
             'merek' => $Product->merek,
@@ -68,9 +73,6 @@ class PembelianController extends Controller
             'status' => 0
         ]);
         $Pembelian->save();
-        // $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->first();
-        // $Kulakan->jumlah_harga = ($Kulakan->jumlah_harga) + ($Product->harga_beli);
-        // $Kulakan->update();
         return $this->sendResponse('Success', 'penambahan barang sukses', $Pembelian, 200);
     }
     public function update(Request $request, $id)

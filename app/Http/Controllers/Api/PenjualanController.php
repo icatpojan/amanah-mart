@@ -20,7 +20,7 @@ class PenjualanController extends Controller
         if ($Cart == '[]') {
             return $this->sendResponse('Failed', 'data kosong', null, 404);
         }
-        return $this->sendResponse('Success', 'ini dia daftar Cart bos', $Cart, 200);
+        return $this->sendResponse('Success', 'ini dia daftar Cart bos', compact('Cart','Penjualan'), 200);
     }
     public function see()
     {
