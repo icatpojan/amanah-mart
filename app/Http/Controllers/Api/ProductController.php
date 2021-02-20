@@ -30,7 +30,7 @@ class ProductController extends Controller
             'name' => $request->name,
             'category_id' => $request->category_id,
             'barcode' => $request->barcode,
-            'supplier_id' => $request->supplier_id,
+            'supplier_id' => $request->supplier_id, 
             'merek' => $request->merek,
             'diskon' => $request->diskon,
         ]);

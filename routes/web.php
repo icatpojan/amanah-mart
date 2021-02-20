@@ -57,6 +57,12 @@ Route::get('pengeluaran', 'Web\PengeluaranController@index')->middleware('verifi
 Route::post('pengeluaran', 'Web\PengeluaranController@store')->middleware('verified')->middleware('role')->name('pengeluaran.store');
 
 Route::get('pembelian', 'Web\PembelianController@index')->middleware('verified')->middleware('role')->name('pembelian.index');
+Route::get('pembelianform', 'Web\PembelianController@form')->middleware('verified')->middleware('role')->name('pembelian.form');
+Route::post('pembelian', 'Web\PembelianController@store')->middleware('verified')->middleware('role')->name('pembelian.store');
+Route::get('getpembelian', 'Web\PembelianController@getData')->middleware('verified')->middleware('role')->name('pembelian.get');
+
+
+
 Route::get('penjualan', 'Web\PenjualanController@index')->middleware('verified')->middleware('role')->name('penjualan.index');
 Route::get('kasir', 'Web\KasirController@index')->middleware('verified')->middleware('role')->name('kasir.index');
 
@@ -65,6 +71,7 @@ Route::get('blacklist', 'Web\UserController@blacklist')->middleware('verified')-
 // Route::livewire('admin/product', App\Http\Livewire\Kasir\Create::class)->name('admin.product')->middleware('auth');
 Route::get('cart-form', 'Web\CartController@create');
 Route::post('cart-form', 'Web\CartController@store')->name('cart-form');
+Route::post('beli-form/{id}', 'Web\CartController@beli')->name('beli-form');
 
 Route::get('/users', 'AjaxController@index');
 Route::get('/getData/', 'AjaxController@getData');

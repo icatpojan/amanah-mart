@@ -3,26 +3,33 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Model\kulakan;
 use App\Model\Pembelian;
+use App\Model\Product;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PembelianController extends Controller
 {
     public function index()
     {
-        $Pembelian = Pembelian::all();
-        return view('pages.pembelian', compact('Pembelian'));
+        $Kulakan = kulakan::all();
+        $Product = Product::all();
+        return view('pages.pembelian.index', compact('Kulakan', 'Product'));
     }
-
-    // public function index()
-    // {
-    //     $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->latest()->first();
-    //     $Pembelian = Pembelian::where('kulakan_id', $Kulakan->id)->where('status', 0)->get();
-    //     if ($Pembelian == '[]') {
-    //         return $this->sendResponse('Failed', 'data kosong', null, 404);
-    //     }
-    //     return $this->sendResponse('Success', 'ini dia daftar Pembelian bos', $Pembelian, 200);
-    // }
+    public function form()
+    {
+        $Kulakan = kulakan::all();
+        $Product = Product::all();
+        return view('pages.pembelian.pembelian', compact('Kulakan', 'Product'));
+    }
+    public function getData()
+    {
+        $arr['data'] = Pembelian::orderBy('id', 'asc')->get();
+        echo json_encode($arr);
+        exit;
+    }
     public function see()
     {
         $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 1)->letest()->first();
@@ -57,9 +64,6 @@ class PembelianController extends Controller
             'supplier_id' => $Product->supplier_id,
             'barcode' => $Product->barcode,
             'category_id' => $Product->category_id,
-            // 'harga' => $Product->harga_beli,
-            // 'harga_jual' => $Product->harga_jual,
-            // 'jumlah_harga' => $Product->harga_beli,
             'kulakan_id' => $Kulakan->id,
             'status' => 0
         ]);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Model\karyawan;
 use App\Model\Member;
 use App\User;
 use Illuminate\Http\Request;
@@ -27,16 +28,29 @@ class UserController extends Controller
         $credentials = $request->only('email', 'password');
         $user = User::where('email', request('email'))->first();
         $user == null ? $user = "anda pengurus" : $user;
-
-        try {
-            if (!$token = JWTAuth::attempt($credentials)) {
-                return response()->json(['error' => 'invalid_credentials'], 400);
+        if ($user->role_id == 5) {
+            $member = Member::where('user_id', $user->id)->first();
+            try {
+                if (!$token = JWTAuth::attempt($credentials)) {
+                    return response()->json(['error' => 'invalid_credentials'], 400);
+                }
+            } catch (JWTException $e) {
+                return response()->json(['error' => 'could_not_create_token'], 500);
             }
-        } catch (JWTException $e) {
-            return response()->json(['error' => 'could_not_create_token'], 500);
-        }
 
-        return response()->json(compact('token', 'user'));
+            return response()->json(compact('token', 'user', 'member'));
+        } else {
+            $karyawan = karyawan::where('user_id', $user->id)->first();
+            try {
+                if (!$token = JWTAuth::attempt($credentials)) {
+                    return response()->json(['error' => 'invalid_credentials'], 400);
+                }
+            } catch (JWTException $e) {
+                return response()->json(['error' => 'could_not_create_token'], 500);
+            }
+
+            return response()->json(compact('token', 'user','karyawan'));
+        }
     }
 
     public function register(Request $request)

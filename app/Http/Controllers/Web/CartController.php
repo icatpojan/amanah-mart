@@ -24,6 +24,16 @@ class CartController extends Controller
         $Cart->harga = $Product->harga_jual;
         $Cart->jumlah_harga = $request->jumlah_harga;
         $Cart->save();
+    }
+    public function beli($id)
+    {
+        $Product = Product::where('barcode' , $id)->first();
+        $Cart = new Cart;
+        $Cart->name = $Product->name;
+        $Cart->jumlah = 1;
+        $Cart->harga = $Product->harga_jual;
+        // $Cart->jumlah_harga = $request->jumlah_harga;
+        $Cart->save();
 
         return response()->json(['success' => 'Form is successfully submitted!']);
     }

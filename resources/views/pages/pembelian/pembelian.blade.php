@@ -19,68 +19,68 @@
         <div class="card shadow mb-4">
             <div class="d-block card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">KULAKAN BARANG</h6>
-                <form id="contactForm">
-                    <div class="row">
-                        <div class="col-md-11">
-                            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-11">
+                        <div class="form-group">
+                            <form id="contactForm">
                                 <input onfocus="this.value=''" type="text" name="name" class="form-control"
                                     placeholder="Enter Barcode" id="name" autofocus>
-                            </div>
+                            </form>
                         </div>
-                </form>
-                <div class="col-md-1">
-                    <div class="form-group">
-                        <button class="btn btn-success" id="submit" onclick="">Cari barang</button>
+                    </div>
+                    <div class="col-md-1">
+                        <button type="button" class="btn btn-success btn" data-toggle="modal" data-target="#exampleModal">
+                            CARI
+                        </button>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-9">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-striped" id='userTable' width="100%" cellspacing="0">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>no</th>
-                                    <th>Name</th>
-                                    <th>jumlah</th>
-                                    <th>harga</th>
-                                    <th>total harga</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped" id='userTable' width="100%" cellspacing="0">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>no</th>
+                                        <th>Name</th>
+                                        <th>jumlah</th>
+                                        <th>harga</th>
+                                        <th>total harga</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" placeholder="total" disabled class="form-control mb-2">
+                        <input type="text" placeholder="diskon" class="form-control mb-2">
+                        <input type="text" placeholder="bayar" disabled class="form-control mb-2">
+                        <button>terima</button>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <input type="text" placeholder="total" disabled class="form-control mb-2">
-                    <input type="text" placeholder="diskon" class="form-control mb-2">
-                    <input type="text" placeholder="bayar" disabled class="form-control mb-2">
-                    <button>terima</button>
-                </div>
-            </div>
 
-            <div class="row mb-2">
-                <div class="col-md-6">
-                    <label for="harga">harga</label>
-                    <select class="form-control" name="harga" id="selectharga">
-                        {{-- @foreach ($users as $user)
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <label for="harga">harga</label>
+                        <select class="form-control" name="harga" id="selectharga">
+                            {{-- @foreach ($users as $user)
                         <option value="{{$user->harga}}"> {{$user->harga}} </option>
                         @endforeach --}}
-                    </select>
-                </div>
+                        </select>
+                    </div>
 
-                <div class="col-md-6">
-                    <label for="nominal">Nominal</label>
-                    <input type="number" id="nominal" name="nominal" class="form-control">
+                    <div class="col-md-6">
+                        <label for="nominal">Nominal</label>
+                        <input type="number" id="nominal" name="nominal" class="form-control">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
     <!-- /.container-fluid -->
-
+    @include('components.modal-product')
 @endsection
 
 @section('script')
@@ -107,7 +107,7 @@
 
         function fetchRecords() {
             $.ajax({
-                url: 'getData/',
+                url: "{{ route('pembelian.get') }}",
                 type: 'get',
                 dataType: 'json',
                 success: function(response) {
