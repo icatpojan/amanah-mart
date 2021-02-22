@@ -101,7 +101,10 @@ class MemberController extends Controller
     }
     public function topup(Request $request ,$id)
     {
-        $Member = Member::findOrfail($id);
+        $Member = Member::find($id);
+        if ($Member == null) {
+            return $this->sendResponse('failed', 'member tidak ada', null, 400);
+        }
         $Member = Member::where('member_id', $id)->first();
         $Member->saldo = $request->topup + $Member->saldo;
         $Member->update();
