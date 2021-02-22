@@ -60,6 +60,19 @@
 
                                                 </div>
                                             </div>
+                                            <div class="row mb-2">
+                                                <div class="col">
+                                                    <label>harga beli : </label>
+                                                    <input type="text" class="form-control" name="harga_beli" required>
+
+                                                </div>
+                                                <div class="col">
+                                                    <label>harga jual : </label>
+                                                    <input type="number" class="form-control" name="harga_jual" value="0" required>
+
+                                                </div>
+                                            </div>
+
                                             @csrf
                                     </div>
                                 </div>

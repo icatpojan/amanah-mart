@@ -16,7 +16,7 @@ class ProductController extends Controller
         $Category = Category::all();
         $Product = Product::all();
         $Supplier = Supplier::all();
-        return view('pages.product', compact('Product','Category','Supplier'));
+        return view('pages.product', compact('Product', 'Category', 'Supplier'));
     }
     public function store(Request $request)
     {
@@ -37,6 +37,8 @@ class ProductController extends Controller
             'supplier_id' => $request->supplier_id,
             'merek' => $request->merek,
             'diskon' => $request->diskon,
+            'harga_beli' => $request->harga_beli,
+            'harga_jual' => $request->diskon_jual,
         ]);
 
         try {

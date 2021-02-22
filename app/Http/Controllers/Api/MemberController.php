@@ -12,7 +12,7 @@ class MemberController extends Controller
 {
     public function index()
     {
-        $Member = Member::where('role_id', 5)->with(['user'])->get();
+        $Member = Member::with(['user'])->get();
         if ($Member == '[]') {
             return $this->sendResponse('Failed', 'data kosong', null, 404);
         }
