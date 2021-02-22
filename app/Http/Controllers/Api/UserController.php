@@ -22,7 +22,7 @@ class UserController extends Controller
             return response('silakan login terlebih dahulu bos');
         }
         if ($user->role_id == 5) {
-            $user = User::where('id', Auth::user()->id)->first();
+            $User = User::where('id', Auth::user()->id)->first();
             $Member = Member::where('user_id', $user->id)->first();
             return $this->sendResponse('Success', 'ini dia profil anda bos', compact('Member','User'), 200);
         }else
