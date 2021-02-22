@@ -62,7 +62,7 @@ Route::group(['namespace' => 'Api', 'middleware' => ['jwt.verify']], function ()
     Route::post('member/update', 'MemberController@updateme'); // mengupdate data diri sendiri
     Route::post('member/{id}', 'MemberController@update'); // mengupdate member berdasarkan id
     Route::post('member/delete/{id}', 'MemberController@destroy'); // menghapus member berdasarkan id
-    Route::post('member/topup/{id}', 'MemberController@top_up'); //  member top up berdasarkan id
+    Route::post('member/topup/{id}', 'MemberController@topup'); //  member top up berdasarkan id
 
     Route::get('pengeluaran', 'PengeluaranController@index'); // melihat semua pengeluaran
     Route::post('pengeluaran', 'PengeluaranController@store'); // menginput pengluaran
