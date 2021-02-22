@@ -9,6 +9,7 @@ use App\Model\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class PembelianController extends Controller
 {
@@ -27,6 +28,12 @@ class PembelianController extends Controller
     public function getData()
     {
         $arr['data'] = Pembelian::orderBy('id', 'asc')->get();
+        echo json_encode($arr);
+        exit;
+    }
+    public function getdataku()
+    {
+        $arr['data'] = Kulakan::where('status', 0)->get();
         echo json_encode($arr);
         exit;
     }
@@ -57,11 +64,10 @@ class PembelianController extends Controller
         }
         // ambil data kulakan lagi
         $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->first();
-        $Pembelian = Pembelian::where('kulakan_id', $Kulakan->id)->where('status', 0)->where('barcode', $Product->barcode)->first();
-        if (!($Pembelian == [])) {
-            alert()->success('SuccessAlert', 'Lorem ipsum dolor sit amet.');
-            return back();
-        }
+        // $Pembelian = Pembelian::where('kulakan_id', $Kulakan->id)->where('status', 0)->where('barcode', $Product->barcode)->first();
+        // if (!($Pembelian == [])) {
+        //     return $this->sendResponse('Success', 'penambahan barang gagal', $Pembelian, 200);
+        // }
         $Pembelian = Pembelian::create([
             'name' => $Product->name,
             'merek' => $Product->merek,
@@ -73,22 +79,52 @@ class PembelianController extends Controller
             'status' => 0
         ]);
         $Pembelian->save();
+        $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->first();
+        $Kulakan->jumlah_harga = ($Kulakan->jumlah_harga) + ($Product->harga_beli);
+        $Kulakan->update();
         return $this->sendResponse('Success', 'penambahan barang sukses', $Pembelian, 200);
     }
-    public function update(Request $request, $id)
+    public function stire(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-
-            'jumlah_product' => 'integer|required',
-            'harga' => 'integer|required',
-            'harga_jual' => 'integer|required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 400);
+        $Product = Product::where('barcode', $request->kode)->first();
+        if (!$Product) {
+            return $this->sendResponse('failed', 'barang kosong. pastikan anda mencari berdasarkan barcode', null, 200);
         }
-
-        $Pembelian = Pembelian::where('id', $id)->first();
+        $cek_kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->first();
+        if (empty($cek_kulakan)) {
+            $Kulakan = kulakan::create([
+                'user_id' => Auth::user()->id,
+                'tanggal' => Carbon::now(),
+                'status' => 0,
+                'jumlah_harga' => 0,
+            ]);
+            $Kulakan->save();
+        }
+        // ambil data kulakan lagi
+        $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->first();
+        // $Pembelian = Pembelian::where('kulakan_id', $Kulakan->id)->where('status', 0)->where('barcode', $Product->barcode)->first();
+        // if (!($Pembelian == [])) {
+        //     return $this->sendResponse('Success', 'penambahan barang gagal', $Pembelian, 200);
+        // }
+        $Pembelian = Pembelian::create([
+            'name' => $Product->name,
+            'merek' => $Product->merek,
+            'jumlah_product' => 1,
+            'supplier_id' => $Product->supplier_id,
+            'barcode' => $Product->barcode,
+            'category_id' => $Product->category_id,
+            'kulakan_id' => $Kulakan->id,
+            'status' => 0
+        ]);
+        $Pembelian->save();
+        $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->first();
+        $Kulakan->jumlah_harga = ($Kulakan->jumlah_harga) + ($Product->harga_beli);
+        $Kulakan->update();
+        return $this->sendResponse('Success', 'penambahan barang sukses', $Pembelian, 200);
+    }
+    public function update(Request $request)
+    {
+        $Pembelian = Pembelian::where('id', $request->id)->first();
         $Kulakan = kulakan::where('id', $Pembelian->kulakan_id)->first();
         $Kulakan->jumlah_harga = ($Kulakan->jumlah_harga) - ($Pembelian->jumlah_harga);
         $Kulakan->update();

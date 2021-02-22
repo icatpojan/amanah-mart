@@ -33,6 +33,9 @@ Route::post('user/delete/{id}', 'Web\UserController@destroy')->middleware('verif
 // Route User
 Route::get('user', 'Web\UserController@index')->middleware('verified')->middleware('role')->name('user.index');
 Route::get('product', 'Web\ProductController@index')->middleware('verified')->middleware('role')->name('product.index');
+Route::post('product', 'Web\ProductController@store')->middleware('verified')->middleware('role')->name('product.store');
+Route::get('product/update/{id}', 'Web\ProductController@update')->middleware('verified')->middleware('role')->name('product.update');
+Route::get('product/delete/{id}', 'Web\ProductController@destroy')->middleware('verified')->middleware('role')->name('product.destroy');
 
 Route::get('category', 'Web\CategoryController@index')->middleware('verified')->middleware('role')->name('category.index');
 Route::post('category', 'Web\CategoryController@store')->middleware('verified')->middleware('role')->name('category.store');
@@ -59,7 +62,10 @@ Route::post('pengeluaran', 'Web\PengeluaranController@store')->middleware('verif
 Route::get('pembelian', 'Web\PembelianController@index')->middleware('verified')->middleware('role')->name('pembelian.index');
 Route::get('pembelianform', 'Web\PembelianController@form')->middleware('verified')->middleware('role')->name('pembelian.form');
 Route::post('pembelian', 'Web\PembelianController@store')->middleware('verified')->middleware('role')->name('pembelian.store');
+Route::post('pembelian/stir', 'Web\PembelianController@stire')->middleware('verified')->middleware('role')->name('pembelian.stire');
 Route::get('getpembelian', 'Web\PembelianController@getData')->middleware('verified')->middleware('role')->name('pembelian.get');
+Route::get('kulakan', 'Web\PembelianController@getdataku')->middleware('verified')->middleware('role')->name('kulakan.get');
+Route::post('pembelian/update', 'Web\PembelianController@update')->middleware('verified')->middleware('role')->name('pembelian.update');
 
 
 

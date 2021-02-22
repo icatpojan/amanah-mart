@@ -46,15 +46,25 @@
                                         <th>Name</th>
                                         <th>jumlah</th>
                                         <th>harga</th>
+                                        <th>harga jual</th>
                                         <th>total harga</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
                             </table>
+
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <input type="text" placeholder="total" disabled class="form-control mb-2">
+                        <table class="table table-bordered table-dark" id='kulakanTable' width="100%" cellspacing="0">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <td style="text-align: center">
+                                        TOTAL BAYAR
+                                    </td>
+                                </tr>
+                            </thead>
+                        </table>
                         <input type="text" placeholder="diskon" class="form-control mb-2">
                         <input type="text" placeholder="bayar" disabled class="form-control mb-2">
                         <button>terima</button>
@@ -93,86 +103,6 @@
 
     {{-- jquery --}}
     <script src="{{ asset('js/script.js') }}"></script>
-    <script type='text/javascript'>
-        $(document).ready(function() {
-            selesai();
-        });
-
-        function selesai() {
-            $('#contactForm').on('submit', function() {
-                selesai();
-                fetchRecords();
-            });
-        }
-
-        function fetchRecords() {
-            $.ajax({
-                url: "{{ route('pembelian.get') }}",
-                type: 'get',
-                dataType: 'json',
-                success: function(response) {
-                    var len = 0;
-                    $('#userTable tbody').empty(); // Empty <tbody>
-                    if (response['data'] != null) {
-                        len = response['data'].length;
-                    }
-                    if (len > 0) {
-                        for (var i = 0; i < len; i++) {
-                            var id = response['data'][i].id;
-                            var jumlah = response['data'][i].jumlah;
-                            var name = response['data'][i].name;
-                            var harga = response['data'][i].harga;
-                            var tr_str = "<tr>" +
-                                "<td align='center'>" + (i + 1) + "</td>" +
-                                "<td align='center'>" + name + "</td>" +
-                                "<td align='center'><input class='form-control mb-2' type='text' value='" +
-                                jumlah + "'></td>" +
-                                "<td align='center'><input class='form-control mb-2' type='text' value='" +
-                                harga + "'></td>" +
-                                "<td align='center'>" + harga + "</td>" +
-                                "</tr>";
-                            $("#userTable tbody").append(tr_str);
-                        }
-                    } else if (response['data'] != null) {
-                        var tr_str = "<tr>" +
-                            "<td align='center'>1</td>" +
-                            "<td align='center'>" + response['data'].jumlah + "</td>" +
-                            "<td align='center'>" + response['data'].name + "</td>" +
-                            "<td align='center'>" + response['data'].harga + "</td>" +
-                            "<td align='center'>" + response['data'].harga + "</td>" +
-                            "</tr>";
-                        $("#userTable tbody").append(tr_str);
-                    } else {
-                        var tr_str = "<tr>" +
-                            "<td align='center' colspan='4'>No record found.</td>" +
-                            "</tr>";
-                        $("#userTable tbody").append(tr_str);
-                    }
-
-                }
-            });
-        }
-
-    </script>
-    <script type="text/javascript">
-        $('#contactForm').on('submit', function(event) {
-            event.preventDefault();
-            fetchRecords();
-            let barcode = $('#barcode').val();
-
-            $.ajax({
-                url: "{{ route('pembelian.store') }}",
-                type: "POST",
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    barcode: barcode,
-                },
-                success: function(response) {
-                    console.log(response);
-                },
-            });
-            document.getElementById('barcode').value = ''
-        });
-
-    </script>
+    @include('script.pembelian')
 @endsection
+<!-- Button trigger modal -->

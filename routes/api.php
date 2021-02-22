@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-
+Route::get('cobalah', 'CobaController@coba')->name('verification.resend'); //kirim
 Route::get('/email/resend', 'Api\VerificationController@resend')->name('verification.resend'); //kirim email verivikasi
 Route::get('/email/verify/{id}/{hash}', 'Api\VerificationController@verify')->name('verification.verify'); //kirim email verivikasi
 
@@ -26,6 +26,7 @@ Route::group(['namespace' => 'Api', 'middleware' => ['jwt.verify']], function ()
     Route::post('category', 'CategoryController@store'); // input category baru
     Route::post('category/{id}', 'CategoryController@update'); // update category
     Route::post('category/delete/{id}', 'CategoryController@destroy'); // hapus category
+
 
     Route::get('product', 'ProductController@index'); // melihat semua supplier
     Route::post('product', 'ProductController@store'); // input supplier baru
@@ -48,6 +49,7 @@ Route::group(['namespace' => 'Api', 'middleware' => ['jwt.verify']], function ()
     Route::post('penjualan/bayar', 'PenjualanController@bayar'); // input hasil jualan
     Route::post('penjualan/diskon', 'PenjualanController@diskon'); // input hasil jualan
     Route::post('penjualan/confirm', 'PenjualanController@confirm'); // input hasil jualan
+    Route::post('penjualan/confirmsaldo', 'PenjualanController@confirm_saldo'); // input hasil jualan dengan saldo
     Route::post('penjualan/{barcode}', 'PenjualanController@store'); // input hasil jualan
     Route::post('penjualan/update/{id}', 'PenjualanController@update'); // input hasil jualan
     Route::post('penjualan/destroy/{id}', 'PenjualanController@destroy'); // input hasil jualan
@@ -57,9 +59,10 @@ Route::group(['namespace' => 'Api', 'middleware' => ['jwt.verify']], function ()
 
     Route::get('member', 'MemberController@index'); // melihat semua member
     Route::post('member', 'MemberController@store'); // membuat member baru
+    Route::post('member/update', 'MemberController@updateme'); // mengupdate data diri sendiri
     Route::post('member/{id}', 'MemberController@update'); // mengupdate member berdasarkan id
     Route::post('member/delete/{id}', 'MemberController@destroy'); // menghapus member berdasarkan id
-    Route::post('member/update', 'MemberController@updateme'); // mengupdate data diri sendiri
+    Route::post('member/topup/{id}', 'MemberController@top_up'); //  member top up berdasarkan id
 
     Route::get('pengeluaran', 'PengeluaranController@index'); // melihat semua pengeluaran
     Route::post('pengeluaran', 'PengeluaranController@store'); // menginput pengluaran

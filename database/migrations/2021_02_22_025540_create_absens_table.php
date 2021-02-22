@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateKulakansTable extends Migration
+class CreateAbsensTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateKulakansTable extends Migration
      */
     public function up()
     {
-        Schema::create('kulakans', function (Blueprint $table) {
-            $table->bigIncrements('id');
-                $table->unsignedBigInteger('user_id');
-                $table->date('tanggal');
-                $table->string('status')->nullable();
-                $table->integer('jumlah_harga')->nullable();
+        Schema::create('absens', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('karyawan_id');
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateKulakansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kulakans');
+        Schema::dropIfExists('absens');
     }
 }

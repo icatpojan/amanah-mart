@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Model\Cart;
+use App\Model\Keuangan;
 use App\Model\Member;
 use App\Model\Penjualan;
 use App\Model\Product;
@@ -20,7 +21,7 @@ class PenjualanController extends Controller
         if ($Cart == '[]') {
             return $this->sendResponse('Failed', 'data kosong', null, 404);
         }
-        return $this->sendResponse('Success', 'ini dia daftar Cart bos', compact('Cart','Penjualan'), 200);
+        return $this->sendResponse('Success', 'ini dia daftar Cart bos', compact('Cart', 'Penjualan'), 200);
     }
     public function see()
     {
@@ -166,7 +167,54 @@ class PenjualanController extends Controller
         $Penjualan->update();
         $Penjualan = Penjualan::where('id_kasir', Auth::user()->id)->where('status', 1)->latest()->first();
         $Cart = Cart::where('penjualan_id', $Penjualan->id)->where('status', 1)->get();
+        $Keuangan = Keuangan::latest()->first();
+        Keuangan::create([
+            'keterangan' => 'Penjualan',
+            'debit' => $Penjualan->jumlah_harga,
+            'saldo' => ($Keuangan->saldo) + ($Penjualan->jumlah_harga)
+        ]);
+        return $this->sendResponse('Success', 'oke', $Cart, 200);
+    }
+    public function confirm_saldo()
+    {
+        // cek penjualan
+        $Penjualan = Penjualan::where('id_kasir', Auth::user()->id)->where('status', 0)->first();
+        if ($Penjualan == null || $Penjualan->jumlah_harga == 0 || $Penjualan == []) {
+            return $this->sendResponse('failed', 'anda belom memasukan apapun', null, 400);
+        }
 
+        //cek kode member dan saldonya
+        $Member = Member::where('member_id', $Penjualan->member_id)->first();
+        if ($Member == null) {
+            return $this->sendResponse('Failed', 'anda belom memasukan kode member', null, 200);
+        }
+        if ($Penjualan->jumlah_harga > $Member->saldo) {
+            return $this->sendResponse('Failed', 'saldo member kurang', null, 200);
+        }
+        $Member->saldo = $Member->saldo - $Penjualan->jumlah_harga;
+        $Member->update();
+
+        // masukin ke keranjang
+        $Cart = Cart::where('penjualan_id', $Penjualan->id)->where('status', 0)->get();
+        foreach ($Cart as $Data) {
+            $Carts = Cart::find($Data->id);
+            $Carts->status = 1;
+            $Carts->update();
+            $Product = Product::where('barcode', $Data->barcode)->first();
+            $Product->stock = ($Product->stock) - ($Data->jumlah_product);
+            $Product->update();
+        }
+
+        $Penjualan->status = 1;
+        $Penjualan->update();
+        $Penjualan = Penjualan::where('id_kasir', Auth::user()->id)->where('status', 1)->latest()->first();
+        $Cart = Cart::where('penjualan_id', $Penjualan->id)->where('status', 1)->get();
+        $Keuangan = Keuangan::latest()->first();
+        Keuangan::create([
+            'keterangan' => 'Penjualan',
+            'debit' => $Penjualan->jumlah_harga,
+            'saldo' => ($Keuangan->saldo) + ($Penjualan->jumlah_harga)
+        ]);
         return $this->sendResponse('Success', 'oke', $Cart, 200);
     }
     public function destroy($id)

@@ -25,7 +25,10 @@
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
             <div class="card-header d-flex justify-content-between py-3">
-                <h6 class="m-0 font-weight-bold text-primary">DAFTAR KARYAWAN</h6>
+                <h6 class="m-0 font-weight-bold text-primary">DAFTAR PRODUCT</h6>
+                <button type="button" class="btn-primary btn-sm" data-toggle="modal" data-target="#tambah-product">
+                    <i class="fas fa-user-plus"></i>
+                </button>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -65,6 +68,16 @@
                                     <td>{{ $produk->diskon }}</td>
                                     <td>{{ $produk->category_id }}</td>
                                     <td class="text-center">
+                                        <button type="button" class="btn-primary btn-sm" data-toggle="modal" data-target="#update-product-{{ $produk->id }}">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                        <form action="{{ route('product.destroy', $produk->id) }}" method="POST">
+                                            <button class="btn border p-1 bg-warning text-black" type="submit"
+                                                title="Blacklist User" onclick="return confirm ('Yakin hapus Produk ?')">
+                                                <i class="fas fa-fire">hapus</i>
+                                            </button>
+                                            @csrf
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
@@ -77,7 +90,7 @@
             </div>
         </div>
 
-        {{-- @include('components.modal') --}}
+        @include('components.modal')
 
     </div>
     <!-- /.container-fluid -->

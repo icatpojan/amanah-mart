@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Model\Keuangan;
 use App\Model\kulakan;
 use App\Model\Pembelian;
 use App\Model\Product;
@@ -71,6 +72,7 @@ class PembelianController extends Controller
         // $Kulakan->update();
         return $this->sendResponse('Success', 'penambahan barang sukses', $Pembelian, 200);
     }
+
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
@@ -103,7 +105,7 @@ class PembelianController extends Controller
     {
 
         $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->first();
-        if ($Kulakan == null ||$Kulakan->jumlah_harga == 0 || $Kulakan == []) {
+        if ($Kulakan == null || $Kulakan->jumlah_harga == 0 || $Kulakan == []) {
             return $this->sendResponse('failed', 'anda belom memasukan apapun', null, 400);
         }
         $Pembelian = Pembelian::where('kulakan_id', $Kulakan->id)->where('status', 0)->get();
@@ -123,6 +125,13 @@ class PembelianController extends Controller
         $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 1)->latest()->first();
         $Pembelian = Pembelian::where('kulakan_id', $Kulakan->id)->where('status', 1)->get();
 
+        // update keuangan
+        $Keuangan = Keuangan::latest()->first();
+        Keuangan::create([
+            'keterangan' => 'pembelian',
+            'debit' => $Kulakan->jumlah_harga,
+            'saldo' => ($Keuangan->saldo) + ($Kulakan->jumlah_harga)
+        ]);
         return $this->sendResponse('Success', 'oke', null, 200);
     }
     public function destroy($id)
@@ -137,4 +146,5 @@ class PembelianController extends Controller
         $Pembelian->delete();
         return $this->sendResponse('Success', 'berhasil menghapus barang', $Kulakan, 200);
     }
+    
 }

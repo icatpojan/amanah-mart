@@ -64,9 +64,9 @@ class UserController extends Controller
             'address'   => 'required'
         ]);
         if ($validator->fails()) {
-            alert()->error('ada yang salah dengan data anda');
-            return back();
+            return back()->withToastError($validator->messages()->all()[0])->withInput();
         }
+
         $User = User::where('id', $id)->first();
         $User->update([
             'name' => $request->name,

@@ -99,5 +99,14 @@ class MemberController extends Controller
         $Member->delete();
         return $this->sendResponse('Success', 'member berhasil anda hapus bos', null, 200);
     }
+    public function top_up(Request $request ,$id)
+    {
+        $Member = Member::findOrfail($id);
+        $Member->delete();
+        $Member = Member::where('member_id', $id)->first();
+        $Member->saldo = $request->topup + $Member->saldo;
+        $Member->update();
+        return $this->sendResponse('Success', 'member top up berhasil', null, 200);
+    }
 
 }

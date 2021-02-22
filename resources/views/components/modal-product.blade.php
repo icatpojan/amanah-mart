@@ -12,6 +12,7 @@
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
+                                <th>Barcode</th>
                                 <th>Nama</th>
                                 <th>merek</th>
                                 <th>stok</th>
@@ -25,6 +26,7 @@
                         <tbody>
                             @foreach ($Product as $produk)
                                 <tr>
+                                    <td>{{ $produk->barcode }}</td>
                                     <td>{{ $produk->name }}</td>
                                     <td>{{ $produk->merek }}</td>
                                     <td>{{ $produk->stock }}</td>
@@ -33,9 +35,14 @@
                                     <td>{{ $produk->diskon }}</td>
                                     <td>{{ $produk->category_id }}</td>
                                     <td class="text-center">
-                                        <form action="{{route('cart-form')}}">
-                                        
+                                        <form id="tambahForm">
+                                            <input  type="hidden" name="kode"
+                                                class="form-control"id="kode" value="{{ $produk->barcode }}">
+                                            <button type="submit" class="btn btn-outline-primary btn">
+                                                MASUK<a type="button" data-dismiss="modal"></a>
+                                            </button>
                                         </form>
+                                        <form action=""></form>
                                     </td>
                                 </tr>
                             @endforeach
@@ -48,8 +55,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>
 </div>
+{{-- modal --}}
