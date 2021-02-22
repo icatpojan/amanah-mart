@@ -102,7 +102,6 @@ class MemberController extends Controller
     public function top_up(Request $request ,$id)
     {
         $Member = Member::findOrfail($id);
-        $Member->delete();
         $Member = Member::where('member_id', $id)->first();
         $Member->saldo = $request->topup + $Member->saldo;
         $Member->update();
