@@ -173,7 +173,7 @@ class PenjualanController extends Controller
             'debit' => $Penjualan->jumlah_harga,
             'saldo' => ($Keuangan->saldo) + ($Penjualan->jumlah_harga)
         ]);
-        return $this->sendResponse('Success', 'oke', $Cart, 200);
+        return $this->sendResponse('Success', 'oke', $Penjualan, 200);
     }
     public function confirm_saldo()
     {
