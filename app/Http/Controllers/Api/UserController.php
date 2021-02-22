@@ -21,7 +21,15 @@ class UserController extends Controller
         if (empty($user)) {
             return response('silakan login terlebih dahulu bos');
         }
-        return $this->sendResponse('Success', 'ini dia profil anda bos', $user, 200);
+        if ($user->role_id == 5) {
+            $user = User::where('id', Auth::user()->id)->first();
+            $Member = Member::where('user_id', $user->id)->first();
+            return $this->sendResponse('Success', 'ini dia profil anda bos', compact('Member','User'), 200);
+        }else
+        $user = User::where('id', Auth::user()->id)->first();
+        $Karyawan = Karyawan::where('user_id', $user->id)->first();
+        return $this->sendResponse('Success', 'ini dia profil anda bos', compact('Karyawan','User'), 200);
+
     }
     public function login(Request $request)
     {

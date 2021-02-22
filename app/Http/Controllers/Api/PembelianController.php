@@ -130,7 +130,7 @@ class PembelianController extends Controller
         Keuangan::create([
             'keterangan' => 'pembelian',
             'debit' => $Kulakan->jumlah_harga,
-            'saldo' => ($Keuangan->saldo) + ($Kulakan->jumlah_harga)
+            'saldo' => ($Keuangan->saldo) - ($Kulakan->jumlah_harga)
         ]);
         return $this->sendResponse('Success', 'oke', null, 200);
     }
@@ -146,5 +146,5 @@ class PembelianController extends Controller
         $Pembelian->delete();
         return $this->sendResponse('Success', 'berhasil menghapus barang', $Kulakan, 200);
     }
-    
+
 }

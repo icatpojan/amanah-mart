@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Model\Keuangan;
 use App\Model\kulakan;
 use App\Model\Pembelian;
 use App\Model\Product;
@@ -27,7 +28,7 @@ class PembelianController extends Controller
     }
     public function getData()
     {
-        $arr['data'] = Pembelian::orderBy('id', 'asc')->get();
+        $arr['data'] = Pembelian::where('status', 0)->orderBy('id', 'asc')->get();
         echo json_encode($arr);
         exit;
     }
@@ -160,7 +161,15 @@ class PembelianController extends Controller
         $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 1)->first();
         $Pembelian = Pembelian::where('kulakan_id', $Kulakan->id)->where('status', 1)->get();
 
-        return $this->sendResponse('Success', 'oke', null, 200);
+        $Keuangan = Keuangan::latest()->first();
+        Keuangan::create([
+            'keterangan' => 'pembelian',
+            'debit' => $Kulakan->jumlah_harga,
+            'saldo' => ($Keuangan->saldo) - ($Kulakan->jumlah_harga)
+        ]);
+
+        alert()->success('SuccessAlert', 'Lorem ipsum dolor sit amet.');
+        return back();
     }
     public function destroy($id)
     {

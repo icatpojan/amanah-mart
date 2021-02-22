@@ -66,11 +66,22 @@ Route::post('pembelian/stir', 'Web\PembelianController@stire')->middleware('veri
 Route::get('getpembelian', 'Web\PembelianController@getData')->middleware('verified')->middleware('role')->name('pembelian.get');
 Route::get('kulakan', 'Web\PembelianController@getdataku')->middleware('verified')->middleware('role')->name('kulakan.get');
 Route::post('pembelian/update', 'Web\PembelianController@update')->middleware('verified')->middleware('role')->name('pembelian.update');
+Route::post('pembelian/confirm', 'Web\PembelianController@confirm')->middleware('verified')->middleware('role')->name('pembelian.confirm');
 
 
 
 Route::get('penjualan', 'Web\PenjualanController@index')->middleware('verified')->middleware('role')->name('penjualan.index');
 Route::get('kasir', 'Web\KasirController@index')->middleware('verified')->middleware('role')->name('kasir.index');
+Route::get('getcart', 'Web\KasirController@getData')->middleware('verified')->middleware('role')->name('cart.get');
+Route::get('getpenjualan', 'Web\KasirController@getdataku')->middleware('verified')->middleware('role')->name('penjualan.get');
+Route::post('penjualan/store', 'Web\KasirController@store')->middleware('verified')->middleware('role')->name('penjualan.store');
+Route::post('penjualan/stir', 'Web\KasirController@stire')->middleware('verified')->middleware('role')->name('penjualan.stire');
+Route::post('penjualan/confirm', 'Web\KasirController@confirm')->middleware('verified')->middleware('role')->name('penjualan.confirm');
+
+
+
+
+
 
 Route::get('blacklist', 'Web\UserController@blacklist')->middleware('verified')->middleware('role')->name('blacklist.index');
 

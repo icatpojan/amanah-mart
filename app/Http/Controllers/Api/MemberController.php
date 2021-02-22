@@ -12,11 +12,11 @@ class MemberController extends Controller
 {
     public function index()
     {
-        $User = User::where('role_id', 5)->get();
-        if ($User == '[]') {
+        $Member = Member::where('role_id', 5)->with(['user'])->get();
+        if ($Member == '[]') {
             return $this->sendResponse('Failed', 'data kosong', null, 404);
         }
-        return $this->sendResponse('Success', 'ini dia daftar member bos', $User, 200);
+        return $this->sendResponse('Success', 'ini dia daftar member bos', $Member, 200);
     }
     public function store(Request $request)
     {

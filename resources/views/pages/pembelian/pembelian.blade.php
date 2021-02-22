@@ -50,7 +50,13 @@
                                         <th>total harga</th>
                                     </tr>
                                 </thead>
-                                <tbody></tbody>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="6" style="text-align: center">
+                                            No record found.
+                                        </td>
+                                    </tr>
+                                </tbody>
                             </table>
 
                         </div>
@@ -67,7 +73,10 @@
                         </table>
                         <input type="text" placeholder="diskon" class="form-control mb-2">
                         <input type="text" placeholder="bayar" disabled class="form-control mb-2">
-                        <button>terima</button>
+                    <form action="{{ route('pembelian.confirm') }}" method="POST">
+                        @csrf
+                        <button type="submit" >terima</button>
+                    </form>
                     </div>
                 </div>
 

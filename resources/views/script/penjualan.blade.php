@@ -8,7 +8,7 @@
         $('#contactForm').on('submit', function() {
             selesai();
             fetchRecords();
-            kulakanRecords();
+            penjualanRecords();
         });
         $('#tambahForm').on('submit', function() {
             selesai();
@@ -18,7 +18,7 @@
 
     function fetchRecords() {
         $.ajax({
-            url: "{{ route('pembelian.get') }}",
+            url: "{{ route('cart.get') }}",
             type: 'get',
             dataType: 'json',
             success: function(response) {
@@ -30,20 +30,22 @@
                 if (len > 0) {
                     for (var i = 0; i < len; i++) {
                         var id = response['data'][i].id;
-                        var jumlah_product = response['data'][i].jumlah_product;
+                        var barcode = response['data'][i].barcode;
                         var name = response['data'][i].name;
+                        var jumlah_product = response['data'][i].jumlah_product;
                         var harga = response['data'][i].harga;
-                        var harga_jual = response['data'][i].harga_jual;
+                        var diskon = response['data'][i].diskon;
+                        var jumlah_harga = response['data'][i].jumlah_harga;
+
                         var tr_str = "<tr><form id='updateForm'>" +
                             "<td align='center'>" + (i + 1) + "</td>" +
+                            "<td align='center'>" + barcode + "</td>" +
                             "<td align='center'>" + name + "</td>" +
                             "<td align='center'><input class='form-control mb-2' type='text' name='jumlah_product' value='" + jumlah_product + "'></td>" +
-                            "<td align='center'><input class='form-control mb-2' type='text' name='harga' value='" +
-                            harga + "'></td>" +
-                            "<td align='center'><input class='form-control mb-2' type='text' name='harga_jual' value='" +
-                            harga_jual + "'></td>" +
+                            "<td align='center'>" + harga + "</td>" +
+                            "<td align='center'>" + diskon + "</td>" +
                             "<td align='center'><input class='form-control mb-2' type='text' value='" +
-                            harga_jual + "'disabled></td>" +
+                            jumlah_harga + "'disabled></td>" +
                             "</tr></form>";
                         $("#userTable tbody").append(tr_str);
                     }
@@ -53,6 +55,7 @@
                         "<td align='center'>" + response['data'].jumlah + "</td>" +
                         "<td align='center'>" + response['data'].name + "</td>" +
                         "<td align='center'>" + response['data'].harga + "</td>" +
+                        "<td align='center'>" + response['data'].harga_jual + "</td>" +
                         "<td align='center'>" + response['data'].harga_jual + "</td>" +
                         "<td align='center'>" + response['data'].harga_jual + "</td>" +
                         "</tr>";
@@ -68,9 +71,9 @@
         });
     }
 
-    function kulakanRecords() {
+    function penjualanRecords() {
         $.ajax({
-            url: "{{ route('kulakan.get') }}",
+            url: "{{ route('penjualan.get') }}",
             type: 'get',
             dataType: 'json',
             success: function(response) {
@@ -111,7 +114,7 @@
         let barcode = $('#barcode').val();
 
         $.ajax({
-            url: "{{ route('pembelian.store') }}",
+            url: "{{ route('penjualan.store') }}",
             type: "POST",
             data: {
                 "_token": "{{ csrf_token() }}",
@@ -129,7 +132,7 @@
         let kode = $('#kode').val();
 
         $.ajax({
-            url: "{{ route('pembelian.stire') }}",
+            url: "{{ route('penjualan.stire') }}",
             type: "POST",
             data: {
                 "_token": "{{ csrf_token() }}",
