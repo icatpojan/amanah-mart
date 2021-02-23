@@ -14,9 +14,12 @@ class CreateAbsensTable extends Migration
     public function up()
     {
         Schema::create('absens', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('karyawan_id');
-            $table->string('status')->nullable();
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id');
+            $table->integer('status')->default(1);
+            $table->date('tanggal');
+            $table->time('jam_masuk')->nullable();
+            $table->time('jam_keluar')->nullable();
             $table->timestamps();
         });
     }

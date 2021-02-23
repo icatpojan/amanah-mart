@@ -65,7 +65,7 @@
                                     <td>{{ $user->created_at }}</td>
                                     <td class="text-center">
                                         <a class="see text-decoration-none" href="#" data-toggle="modal"
-                                            data-target="#update-karyawan-{{ $user->id }}">
+                                            data-target="#update-karyawan-{{ $user->user_id }}">
                                             <i class="fas fa-eye"></i>
                                         </a>
                                         <form action="{{ route('karyawan.destroy', $user->user_id) }}" method="POST">
@@ -88,7 +88,7 @@
             </div>
         </div>
 
-        @include('components.modal')
+        @include('components.modal-karyawan')
 
     </div>
     <!-- /.container-fluid -->
@@ -111,6 +111,6 @@
         $('#tambah-karyawan').on('hide.bs.modal', function(e) {
             $('.modal .modal-dialog').attr('class', 'modal-dialog rollOut animated');
         })
-
     </script>
+
 @endsection

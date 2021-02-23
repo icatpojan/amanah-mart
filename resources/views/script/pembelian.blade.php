@@ -1,7 +1,7 @@
 <script type='text/javascript'>
     $(document).ready(function() {
         selesai();
-
+        fetchRecords();
     });
 
     function selesai() {
@@ -123,6 +123,7 @@
         });
         document.getElementById('barcode').value = ''
     });
+
     $('#tambahForm').on('submit', function(event) {
         event.preventDefault();
         fetchRecords();

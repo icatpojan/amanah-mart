@@ -25,7 +25,9 @@ class MemberController extends Controller
             'email' => 'string|required',
             'password' => 'integer|required',
             'umur' => 'integer|required',
-            'address' => 'string|required'
+            'address' => 'string|required',
+            'phone_number' => 'string|required',
+            'umur' => 'string|required'
         ]);
         $User = User::create([
             'name' => $request->name,
@@ -99,9 +101,9 @@ class MemberController extends Controller
         $Member->delete();
         return $this->sendResponse('Success', 'member berhasil anda hapus bos', null, 200);
     }
-    public function topup(Request $request ,$id)
+    public function topup(Request $request, $id)
     {
-        $Member = Member::where('member_id',$id);
+        $Member = Member::where('member_id', $id);
         if ($Member == null) {
             return $this->sendResponse('failed', 'member tidak ada', null, 400);
         }
@@ -110,5 +112,4 @@ class MemberController extends Controller
         $Member->update();
         return $this->sendResponse('Success', 'member top up berhasil', null, 200);
     }
-
 }

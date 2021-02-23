@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('cobalah', 'CobaController@coba')->name('verification.resend'); //kirim
+Route::get('cobalah', 'CobaController@coba');
 Route::get('/email/resend', 'Api\VerificationController@resend')->name('verification.resend'); //kirim email verivikasi
 Route::get('/email/verify/{id}/{hash}', 'Api\VerificationController@verify')->name('verification.verify'); //kirim email verivikasi
 
@@ -66,6 +66,11 @@ Route::group(['namespace' => 'Api', 'middleware' => ['jwt.verify']], function ()
 
     Route::get('pengeluaran', 'PengeluaranController@index'); // melihat semua pengeluaran
     Route::post('pengeluaran', 'PengeluaranController@store'); // menginput pengluaran
+
+    // Route absen
+    Route::post('checkin', 'AbsenController@checkin'); // absen masuk
+    Route::post('checkout', 'AbsenController@checkout'); // absen keluar
+
 
     // Route member
     Route::get('user', 'UserController@index'); // melihat data diri

@@ -38,7 +38,7 @@ class ProductController extends Controller
             'merek' => $request->merek,
             'diskon' => $request->diskon,
             'harga_beli' => $request->harga_beli,
-            'harga_jual' => $request->diskon_jual,
+            'harga_jual' => $request->harga_jual,
         ]);
 
         try {

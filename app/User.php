@@ -51,5 +51,8 @@ class User extends Authenticatable implements JWTSubject , MustVerifyEmail
     {
         return $this->hasOne('App\Model\Member',  'user_id', 'id');
     }
-
+    public function absen()
+    {
+        return $this->hasMany('App\Api\Absen');
+    }
 }

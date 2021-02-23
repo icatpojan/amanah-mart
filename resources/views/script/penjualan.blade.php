@@ -1,7 +1,7 @@
 <script type='text/javascript'>
     $(document).ready(function() {
         selesai();
-
+        fetchRecords();
     });
 
     function selesai() {
@@ -41,7 +41,8 @@
                             "<td align='center'>" + (i + 1) + "</td>" +
                             "<td align='center'>" + barcode + "</td>" +
                             "<td align='center'>" + name + "</td>" +
-                            "<td align='center'><input class='form-control mb-2' type='text' name='jumlah_product' value='" + jumlah_product + "'></td>" +
+                            "<td align='center'><input class='form-control mb-2' type='text' name='jumlah_product' value='" +
+                            jumlah_product + "'></td>" +
                             "<td align='center'>" + harga + "</td>" +
                             "<td align='center'>" + diskon + "</td>" +
                             "<td align='center'><input class='form-control mb-2' type='text' value='" +

@@ -37,12 +37,11 @@
                                     <td class="text-center">
                                         <form id="tambahForm">
                                             <input  type="hidden" name="kode"
-                                                class="form-control"id="kode" value="{{ $produk->barcode }}">
+                                                class="form-control" value="{{ $produk->barcode }}">
                                             <button type="submit" class="btn btn-outline-primary btn">
                                                 MASUK<a type="button" data-dismiss="modal"></a>
                                             </button>
                                         </form>
-                                        <form action=""></form>
                                     </td>
                                 </tr>
                             @endforeach

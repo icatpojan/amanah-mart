@@ -158,10 +158,17 @@ class PenjualanController extends Controller
         }
         $Cart = Cart::where('penjualan_id', $Penjualan->id)->where('status', 0)->get();
         foreach ($Cart as $Data) {
+            $Product = Product::where('barcode', $Data->barcode)->first();
+            if ($Product->stock < $Data->jumlah_product) {
+                return $this->sendResponse('failed', 'stok barang kurang', $Data->name, 400);
+            }
+        }
+        foreach ($Cart as $Data) {
             $Carts = Cart::find($Data->id);
+            $Product = Product::where('barcode', $Data->barcode)->first();
+
             $Carts->status = 1;
             $Carts->update();
-            $Product = Product::where('barcode', $Data->barcode)->first();
             $Product->stock = ($Product->stock) - ($Data->jumlah_product);
             $Product->update();
         }
@@ -185,7 +192,6 @@ class PenjualanController extends Controller
         if ($Penjualan == null || $Penjualan->jumlah_harga == 0 || $Penjualan == []) {
             return $this->sendResponse('failed', 'anda belom memasukan apapun', null, 400);
         }
-
         //cek kode member dan saldonya
         $Member = Member::where('member_id', $Penjualan->member_id)->first();
         if ($Member == null) {
