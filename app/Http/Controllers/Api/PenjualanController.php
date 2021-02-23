@@ -117,7 +117,8 @@ class PenjualanController extends Controller
 
         $Penjualan = Penjualan::where('id_kasir', Auth::user()->id)->where('status', 0)->first();
         if ($Penjualan->jumlah_harga > $request->dibayar) {
-            return $this->sendResponse('failed', 'duit anda kurang bos', null, 200);
+            $uang_kurang = ($Penjualan->jumlah_harga)-($request->dibayar);
+            return $this->sendResponse('failed', 'duit anda kurang bos', $uang_kurang, 200);
         } else {
             $Penjualan->dibayar = $request->dibayar;
             $Penjualan->kembalian = $request->dibayar - $Penjualan->jumlah_harga;
@@ -153,8 +154,12 @@ class PenjualanController extends Controller
     {
 
         $Penjualan = Penjualan::where('id_kasir', Auth::user()->id)->where('status', 0)->first();
+
         if ($Penjualan == null || $Penjualan->jumlah_harga == 0 || $Penjualan == []) {
             return $this->sendResponse('failed', 'anda belom memasukan apapun', null, 400);
+        }
+        if ($Penjualan->dibayar = 0) {
+            return $this->sendResponse('failed', 'bayar dulu baru konfirmasi', null, 400);
         }
         $Cart = Cart::where('penjualan_id', $Penjualan->id)->where('status', 0)->get();
         foreach ($Cart as $Data) {
