@@ -73,7 +73,8 @@ class LaporanController extends Controller
         }
         $data[] = array("", "", "", "", "Total Pendapatan", format_uang($total_pendapatan));
 
-        return $data;
+        // return $data;
+        return $this->sendResponse('Success', 'berhasil menambahkan barang', $data, 200);
     }
 
 
