@@ -19,7 +19,7 @@ class AbsenController extends Controller
         if ($Absen == '[]') {
             return $this->sendResponse('Failed', 'data kosong', null, 404);
         }
-        return $this->sendResponse('Success', 'ini dia daftar member bos', $Absen, 200);
+        return $this->sendResponse('Success', 'ini dia semau absen bos', $Absen, 200);
     }
     public function show($id)
     {
@@ -33,7 +33,7 @@ class AbsenController extends Controller
         foreach ($kehadiran as $present) {
             $totalJamTelat = $totalJamTelat + (\Carbon\Carbon::parse($present->jam_masuk)->diffInHours(\Carbon\Carbon::parse('07:00:00')));
         }
-        return $this->sendResponse('Success', 'ini dia profil anda bos', compact('Karyawan', 'User','telat','hadir','alpha','totalJamTelat'), 200);
+        return $this->sendResponse('Success', 'ini dia absen dan profil dia bos', compact('Karyawan', 'User','telat','hadir','alpha','totalJamTelat'), 200);
     }
     public function checkin()
     {
