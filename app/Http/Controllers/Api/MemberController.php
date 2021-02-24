@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class MemberController extends Controller
 {
+
     public function index()
     {
         $Member = Member::with(['user'])->get();

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Model\Absen;
 use App\Model\karyawan;
 use App\Model\Member;
 use App\User;
@@ -22,14 +23,22 @@ class UserController extends Controller
             return response('silakan login terlebih dahulu bos');
         }
         if ($user->role_id == 5) {
-            $User = User::where('id', Auth::user()->id)->first();
+            $User = User::where('id', Auth::id())->first();
             $Member = Member::where('user_id', $user->id)->first();
-            return $this->sendResponse('Success', 'ini dia profil anda bos', compact('Member','User'), 200);
-        }else
-        $user = User::where('id', Auth::user()->id)->first();
-        $Karyawan = Karyawan::where('user_id', $user->id)->first();
-        return $this->sendResponse('Success', 'ini dia profil anda bos', compact('Karyawan','User'), 200);
-
+            return $this->sendResponse('Success', 'ini dia profil anda bos', compact('Member', 'User'), 200);
+        } else {
+            $user = User::where('id', Auth::user()->id)->first();
+            $Karyawan = Karyawan::where('user_id', $user->id)->first();
+            $telat = Absen::where('user_id', Auth::id())->where('status', 3)->count();
+            $hadir = Absen::where('user_id', Auth::id())->where('status', '!=', 1)->count();
+            $alpha = Absen::where('user_id', Auth::id())->where('status', 1)->count();
+            $kehadiran = Absen::where('user_id', Auth::id())->whereMonth('tanggal', date('m'))->whereYear('tanggal', date('Y'))->where('status', 3)->get();
+            $totalJamTelat = 0;
+            foreach ($kehadiran as $present) {
+                $totalJamTelat = $totalJamTelat + (\Carbon\Carbon::parse($present->jam_masuk)->diffInHours(\Carbon\Carbon::parse('07:00:00')));
+            }
+            return $this->sendResponse('Success', 'ini dia profil anda bos', compact('Karyawan', 'User','telat','hadir','alpha','totalJamTelat'), 200);
+        }
     }
     public function login(Request $request)
     {
@@ -57,7 +66,7 @@ class UserController extends Controller
                 return response()->json(['error' => 'could_not_create_token'], 500);
             }
 
-            return response()->json(compact('token', 'user','karyawan'));
+            return response()->json(compact('token', 'user', 'karyawan'));
         }
     }
 

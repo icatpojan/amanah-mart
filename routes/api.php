@@ -70,6 +70,8 @@ Route::group(['namespace' => 'Api', 'middleware' => ['jwt.verify']], function ()
     // Route absen
     Route::post('checkin', 'AbsenController@checkin'); // absen masuk
     Route::post('checkout', 'AbsenController@checkout'); // absen keluar
+    Route::get('absen', 'AbsenController@index'); // mengambil data absen semua
+    Route::get('absen/{id}', 'AbsenController@show'); // absen sesuai id
 
 
     // Route member

@@ -5,12 +5,36 @@ namespace App\Http\Controllers\Api;
 use App\Absen as AppAbsen;
 use App\Http\Controllers\Controller;
 use App\Model\Absen;
+use App\Model\karyawan;
+use App\Model\Member;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AbsenController extends Controller
 {
+    public function index()
+    {
+        $Absen = Absen::all();
+        if ($Absen == '[]') {
+            return $this->sendResponse('Failed', 'data kosong', null, 404);
+        }
+        return $this->sendResponse('Success', 'ini dia daftar member bos', $Absen, 200);
+    }
+    public function show($id)
+    {
+        $user = User::where('id', $id)->first();
+        $Karyawan = karyawan::where('user_id', $user->id)->first();
+        $telat = Absen::where('user_id', $id)->where('status', 3)->count();
+        $hadir = Absen::where('user_id', $id)->where('status', '!=', 1)->count();
+        $alpha = Absen::where('user_id', $id)->where('status', 1)->count();
+        $kehadiran = Absen::where('user_id', $id)->whereMonth('tanggal', date('m'))->whereYear('tanggal', date('Y'))->where('status', 3)->get();
+        $totalJamTelat = 0;
+        foreach ($kehadiran as $present) {
+            $totalJamTelat = $totalJamTelat + (\Carbon\Carbon::parse($present->jam_masuk)->diffInHours(\Carbon\Carbon::parse('07:00:00')));
+        }
+        return $this->sendResponse('Success', 'ini dia profil anda bos', compact('Karyawan', 'User','telat','hadir','alpha','totalJamTelat'), 200);
+    }
     public function checkin()
     {
         $User = User::all();
