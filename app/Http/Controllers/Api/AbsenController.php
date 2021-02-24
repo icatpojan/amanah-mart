@@ -23,8 +23,8 @@ class AbsenController extends Controller
     }
     public function show($id)
     {
-        $user = User::where('id', $id)->first();
-        $Karyawan = karyawan::where('user_id', $user->id)->first();
+        $User = User::where('id', $id)->first();
+        $Karyawan = karyawan::where('user_id', $User->id)->first();
         $telat = Absen::where('user_id', $id)->where('status', 3)->count();
         $hadir = Absen::where('user_id', $id)->where('status', '!=', 1)->count();
         $alpha = Absen::where('user_id', $id)->where('status', 1)->count();
