@@ -74,6 +74,7 @@ class AbsenController extends Controller
                     $data['status'] = '3';
                 } else {
                     $data['status'] = '1';
+                    return $this->sendResponse('Failed', 'percuma absen, udah bukan waktunya', $Absen, 200);
                 }
                 $Absen->update($data);
                 return $this->sendResponse('Success', 'berhasil absen anda wahai kasir', $Absen, 200);
