@@ -60,6 +60,7 @@ Route::group(['namespace' => 'Api', 'middleware' => ['jwt.verify']], function ()
     Route::get('keuangan', 'KeuanganController@index'); // melihat semua transaksi keluar masuk uang
     Route::get('laporan', 'LaporanController@index'); // melihat semua laporan keluar masuk uang dalam 1 bulan
     Route::get('harian', 'LaporanController@indexharian'); // melihat semua laporan keluar masuk uang dalam 1 bulan
+    Route::post('perwaktu/{awal}/{akhir}', 'LaporanController@getdata'); // melihat semua laporan keluar masuk uang dalam 1 bulan
 
     // Route CRUD member oleh member dan karyawan
     Route::get('member', 'MemberController@index'); // melihat semua member oleh karyawan
