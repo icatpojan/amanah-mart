@@ -57,6 +57,7 @@ class PenjualanController extends Controller
         if (!($Cart == [])) {
             $Cart->jumlah_product = ($Cart->jumlah_product) + 1;
             // $Cart->harga_diskon = ($Product->harga_jual)-(($Product->harga_jual) * ($Product->diskon/100));
+            $Cart->diskon = $Product->diskon;
             $Cart->jumlah_harga = ($Cart->jumlah_harga) + ($Cart->harga_diskon);
             $Penjualan->jumlah_harga = ($Penjualan->jumlah_harga) + ($Cart->harga_diskon);
             $Cart->update();
