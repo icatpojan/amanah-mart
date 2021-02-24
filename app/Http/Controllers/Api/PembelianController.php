@@ -129,7 +129,7 @@ class PembelianController extends Controller
         $Keuangan = Keuangan::latest()->first();
         Keuangan::create([
             'keterangan' => 'pembelian',
-            'debit' => $Kulakan->jumlah_harga,
+            'kredit' => $Kulakan->jumlah_harga,
             'saldo' => ($Keuangan->saldo) - ($Kulakan->jumlah_harga)
         ]);
         return $this->sendResponse('Success', 'oke', null, 200);

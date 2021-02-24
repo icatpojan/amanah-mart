@@ -16,30 +16,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 
 class UserController extends Controller
 {
-    public function index()
-    {
-        $user = User::where('id', Auth::user()->id)->first();
-        if (empty($user)) {
-            return response('silakan login terlebih dahulu bos');
-        }
-        if ($user->role_id == 5) {
-            $User = User::where('id', Auth::id())->first();
-            $Member = Member::where('user_id', $user->id)->first();
-            return $this->sendResponse('Success', 'ini dia profil anda bos', compact('Member', 'User'), 200);
-        } else {
-            $user = User::where('id', Auth::user()->id)->first();
-            $Karyawan = Karyawan::where('user_id', $user->id)->first();
-            $telat = Absen::where('user_id', Auth::id())->where('status', 3)->count();
-            $hadir = Absen::where('user_id', Auth::id())->where('status', '!=', 1)->count();
-            $alpha = Absen::where('user_id', Auth::id())->where('status', 1)->count();
-            $kehadiran = Absen::where('user_id', Auth::id())->whereMonth('tanggal', date('m'))->whereYear('tanggal', date('Y'))->where('status', 3)->get();
-            $totalJamTelat = 0;
-            foreach ($kehadiran as $present) {
-                $totalJamTelat = $totalJamTelat + (\Carbon\Carbon::parse($present->jam_masuk)->diffInHours(\Carbon\Carbon::parse('07:00:00')));
-            }
-            return $this->sendResponse('Success', 'ini dia profil anda bos', compact('Karyawan', 'User','telat','hadir','alpha','totalJamTelat'), 200);
-        }
-    }
+
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -89,36 +66,6 @@ class UserController extends Controller
             'role_id' => $request->get('role_id'),
         ])->sendEmailVerificationNotification();
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'silakan verivikasi',
-        ]);
-    }
-    public function register_member(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 400);
-        }
-
-        $User = User::create([
-            'name' => $request->get('name'),
-            'email' => $request->get('email'),
-            'password' => Hash::make($request->get('password')),
-            'role_id' => 5
-        ]);
-
-        $User->save();
-        $member = Member::create([
-            'user_id' => $User->id,
-            'member_id' => rand(10, 10000)
-        ]);
-        $User->sendEmailVerificationNotification();
         return response()->json([
             'status' => 'success',
             'message' => 'silakan verivikasi',

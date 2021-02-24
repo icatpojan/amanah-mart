@@ -68,8 +68,8 @@ class PenjualanController extends Controller
             'jumlah_product' => 1,
             'barcode' => $Product->barcode,
             'harga' => $Product->harga_jual,
-            'harga_diskon' => ($Product->harga_jual) - (($Product->harga_jual) * ($Product->diskon / 100)),
-            'jumlah_harga' => ($Product->harga_jual) - (($Product->harga_jual) * ($Product->diskon / 100)),
+            'harga_diskon' => ($Product->harga_jual) - round(($Product->harga_jual) * ($Product->diskon / 100)),
+            'jumlah_harga' => ($Product->harga_jual) - round(($Product->harga_jual) * ($Product->diskon / 100)),
             'penjualan_id' => $Penjualan->id,
             'status' => 0
         ]);
@@ -144,7 +144,7 @@ class PenjualanController extends Controller
         if (!($Penjualan->diskon == 0)) {
             return $this->sendResponse('failed', 'gacha teros ampek gratis bos', $Penjualan, 400);
         }
-        $Penjualan->jumlah_harga = ($Penjualan->jumlah_harga) - (($Penjualan->jumlah_harga) * ($diskon / 100));
+        $Penjualan->jumlah_harga = ($Penjualan->jumlah_harga) - round(($Penjualan->jumlah_harga) * ($diskon / 100));
         $Penjualan->diskon = $diskon;
         $Penjualan->member_id = $request->member_id;
         $Penjualan->update();
