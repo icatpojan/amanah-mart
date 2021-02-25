@@ -44,6 +44,11 @@
         "classmap": [
             "database/seeds",
             "database/factories"
+        ],
+        "files": [
+            "app/Helpers/TanggalIndonesia.php",
+            "app/Helpers/FormatUang.php",
+            "app/Helpers/AngkaTerbilang.php"
         ]
     },
     "autoload-dev": {
