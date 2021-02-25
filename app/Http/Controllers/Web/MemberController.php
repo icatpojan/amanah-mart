@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Model\Member;
 use App\User;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -35,6 +36,21 @@ class MemberController extends Controller
             'role_id' => 5,
         ]);
         $User->save();
+        $image = 'https://via.placeholder.com/150';
+        if ($request->image) {
+            $img = base64_encode(file_get_contents($request->image));
+            $client = new Client();
+            $res = $client->request('POST', 'https://freeimage.host/api/1/upload', [
+                'form_params' => [
+                    'key' => '6d207e02198a847aa98d0a2a901485a5',
+                    'action' => 'upload',
+                    'source' => $img,
+                    'format' => 'json',
+                ]
+            ]);
+            $array = json_decode($res->getBody()->getContents());
+            $image = $array->image->file->resource->chain->image;
+        }
         $User = User::latest()->first();
         $Member = Member::create([
             'umur' => $request->umur,
@@ -42,6 +58,7 @@ class MemberController extends Controller
             'user_id' => $User->id,
             'member_id' => rand(1000, 100000),
             'phone_number' => $request->phone_number,
+            'image' => $image,
         ]);
         try {
             $Member->save();
@@ -59,10 +76,28 @@ class MemberController extends Controller
         $User->update([
             'name' => $request->name,
         ]);
+        if ($request->image == null) {
+            $image = $Member->image;
+        }
+        if ($request->image) {
+            $img = base64_encode(file_get_contents($request->image));
+            $client = new Client();
+            $res = $client->request('POST', 'https://freeimage.host/api/1/upload', [
+                'form_params' => [
+                    'key' => '6d207e02198a847aa98d0a2a901485a5',
+                    'action' => 'upload',
+                    'source' => $img,
+                    'format' => 'json',
+                ]
+            ]);
+            $array = json_decode($res->getBody()->getContents());
+            $image = $array->image->file->resource->chain->image;
+        }
         $Member->update([
             'phone_number' => $request->phone_number,
             'umur' => $request->umur,
             'address' => $request->address,
+            'image' => $image,
         ]);
         alert()->success('SuccessAlert', 'Lorem ipsum dolor sit amet.');
         return back();

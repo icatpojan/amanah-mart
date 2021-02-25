@@ -43,6 +43,7 @@
                                     <th>Umur</th>
                                     <th>alamat</th>
                                     <th>nomor telpon</th>
+                                    <th>foto</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -54,6 +55,7 @@
                                 <th>umur</th>
                                 <th>alamat</th>
                                 <th>nomor telpon</th>
+                                <th>foto</th>
                                 <th>Aksi</th>
                             </tr>
                         </tfoot>
@@ -66,6 +68,7 @@
                                     <td>{{ $user->umur }}</td>
                                     <td>{{ $user->address }}</td>
                                     <td>{{ $user->phone_number }}</td>
+                                    <td><img src="{{ $user->image }}" alt="{{ $user->user->name }}" width="100px"></td>
                                     <td class="text-center">
                                         <a class="see text-decoration-none" href="#" data-toggle="modal"
                                             data-target="#update-member-{{ $user->user_id }}">

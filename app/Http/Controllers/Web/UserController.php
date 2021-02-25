@@ -41,6 +41,7 @@ class UserController extends Controller
             'role_id' => $request->role_id,
         ]);
         $User->save();
+        $image = 'https://via.placeholder.com/150';
         if ($request->image) {
             $img = base64_encode(file_get_contents($request->image));
             $client = new Client();
@@ -55,6 +56,7 @@ class UserController extends Controller
             $array = json_decode($res->getBody()->getContents());
             $image = $array->image->file->resource->chain->image;
         }
+
         $Karyawan = karyawan::create([
             'umur' => $request->umur,
             'phone_number' => $request->phone_number,
@@ -88,6 +90,10 @@ class UserController extends Controller
         $User->update([
             'name' => $request->name,
         ]);
+        $Karyawan = Karyawan::where('user_id', $id)->first();
+        if ($request->image == null) {
+            $image = $Karyawan->image;
+        }
         if ($request->image) {
             $img = base64_encode(file_get_contents($request->image));
             $client = new Client();
@@ -102,7 +108,6 @@ class UserController extends Controller
             $array = json_decode($res->getBody()->getContents());
             $image = $array->image->file->resource->chain->image;
         }
-        $Karyawan = Karyawan::where('user_id', $id)->first();
         $Karyawan->update([
             'umur' => $request->umur,
             'phone_number' => $request->phone_number,

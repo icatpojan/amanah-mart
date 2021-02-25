@@ -14,7 +14,8 @@
 
                                     <div class="col-md-12 p-3">
                                         {{-- start form --}}
-                                        <form action="{{ route('member.store') }}" method="POST">
+                                        <form action="{{ route('member.store') }}" method="POST" enctype="multipart/form-data">
+                                            @csrf
                                             <div class="row mb-2">
                                                 <div class="col">
                                                     <label>Nama : </label>
@@ -47,6 +48,13 @@
                                                 </div>
                                             </div>
 
+                                            <div class="row mb-2">
+                                                <div class="col">
+                                                    <label>foto : </label>
+                                                    <input type="file" class="form-control" name="image" required>
+                                                </div>
+                                            </div>
+
                                             <div class="form-group mb-2">
                                                 <label>Alamat</label>
                                                 <textarea class="form-control" name="address" cols="30" rows="3"
@@ -73,21 +81,22 @@
                 <!-- Modal -->
                 @foreach ($Member as $user)
 
-                    <div class="modal fade" id="update-member-{{ $user->user_id }}" tabindex="-1"
-                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h6 class="text-primary font-weight-bold pt-2">UPDATE MEMEBER</h6>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div class="col-md-12 p-3">
-                                            {{-- start form --}}
-                                            <form action="{{ route('member.update', $user->user_id) }}" method="POST">
+                <div class="modal fade" id="update-member-{{ $user->user_id }}" tabindex="-1"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h6 class="text-primary font-weight-bold pt-2">UPDATE MEMEBER</h6>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-12 p-3">
+                                        {{-- start form --}}
+                                        <form action="{{ route('member.update', $user->user_id) }}" method="POST" enctype="multipart/form-data">
+                                            @csrf
                                                 <div class="row mb-2">
                                                     <div class="col">
                                                         <label>Nama : </label>
@@ -111,8 +120,11 @@
                                                         <input class="form-control" name="umur"
                                                             value="{{ $user->umur }}" required>
                                                     </div>
+                                                    <div class="col">
+                                                        <label>foto : </label>
+                                                        <input type="file" class="form-control" name="image">
+                                                    </div>
                                                 </div>
-                                                @csrf
                                         </div>
 
                                     </div>

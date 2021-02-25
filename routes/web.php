@@ -28,7 +28,7 @@ Route::group(['namespace' => 'Web', 'middleware' => ['verified', 'admin']], func
     Route::get('user', 'UserController@index')->name('user.index');
     Route::get('product', 'ProductController@index')->name('product.index');
     Route::post('product', 'ProductController@store')->name('product.store');
-    Route::get('product/update/{id}', 'ProductController@update')->name('product.update');
+    Route::post('product/update/{id}', 'ProductController@update')->name('product.update');
     Route::get('product/delete/{id}', 'ProductController@destroy')->name('product.destroy');
 
     Route::get('category', 'CategoryController@index')->name('category.index');

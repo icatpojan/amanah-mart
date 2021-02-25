@@ -18,11 +18,11 @@
                                             <div class="row mb-2">
                                                 <div class="col">
                                                     <label>Nama : </label>
-                                                    <input type="text" class="form-control" name="name" required>
+                                                    <input type="text" class="form-control" name="name" value="{{ old('name') }}" required>
                                                 </div>
                                                 <div class="col">
                                                     <label>Barcode : </label>
-                                                    <input type="number" class="form-control" name="barcode" placeholde="unik jangan sama"required>
+                                                    <input type="number" class="form-control" name="barcode" placeholde="unik jangan sama" value="{{ old('barcode') }}"required>
                                                 </div>
                                             </div>
 

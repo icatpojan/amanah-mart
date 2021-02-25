@@ -16,8 +16,8 @@
                 <ol class="breadcrumb">
                     <i class="fas fa-home mt-0_5 breadcrumb-item"></i>
                     <li class="breadcrumb-item"> <a class="text-decoration-none" href=""> Home </a> </li>
-                    <li class="breadcrumb-item "> Kelola User </li>
-                    <li class="breadcrumb-item active" aria-current="page"> Karyawan </li>
+                    <li class="breadcrumb-item "> Kelola Produk </li>
+                    <li class="breadcrumb-item active" aria-current="page"> Product </li>
                 </ol>
             </div>
         </div>
@@ -36,6 +36,7 @@
                         <thead>
                             <tr>
                                 <th>Nama</th>
+                                <th>barcode</th>
                                 <th>merek</th>
                                 <th>stok</th>
                                 <th>harga beli</th>
@@ -48,6 +49,7 @@
                         <tfoot>
                             <tr>
                                 <th>Nama</th>
+                                <th>barcode</th>
                                 <th>merek</th>
                                 <th>stok</th>
                                 <th>harga beli</th>
@@ -61,6 +63,7 @@
                             @foreach ($Product as $produk)
                                 <tr>
                                     <td>{{ $produk->name }}</td>
+                                    <td>{{ $produk->barcode }}</td>
                                     <td>{{ $produk->merek }}</td>
                                     <td>{{ $produk->stock }}</td>
                                     <td>{{ $produk->harga_beli }}</td>

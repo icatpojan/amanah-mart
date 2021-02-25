@@ -16,7 +16,7 @@
                 <ol class="breadcrumb">
                     <i class="fas fa-home mt-0_5 breadcrumb-item"></i>
                     <li class="breadcrumb-item"> <a class="text-decoration-none" href=""> Home </a> </li>
-                    <li class="breadcrumb-item "> Kelola User </li>
+                    <li class="breadcrumb-item "> Kelola Produk </li>
                     <li class="breadcrumb-item active" aria-current="page"> Katagori </li>
                 </ol>
             </div>
