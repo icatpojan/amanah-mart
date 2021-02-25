@@ -25,11 +25,11 @@ class LaporanController extends Controller
 
         $saldo = Keuangan::latest()->first('saldo');
 
-        return $this->sendResponse('Success', 'ini dia semua laporan bos', compact( 'jumlah_penjualan',  'jumlah_pembelian',  'jumlah_pengeluaran', 'saldo'), 200);
+        return $this->sendResponse('Success', 'ini dia semua laporan bos', compact('jumlah_penjualan',  'jumlah_pembelian',  'jumlah_pengeluaran', 'saldo'), 200);
     }
     public function indexharian()
     {
-        $Product = Product::all('name','stock');
+        $Product = Product::all('name', 'stock');
 
         // $penjualan = Keuangan::where('keterangan', 'Penjualan')->get();
         $jumlah_penjualan = Keuangan::where('keterangan', 'Penjualan')->whereDay('created_at', date('d'))->sum('debit');
@@ -42,14 +42,15 @@ class LaporanController extends Controller
 
         $saldo = Keuangan::latest()->first('saldo');
 
-        return $this->sendResponse('Success', 'ini dia semua laporan bos', compact( 'jumlah_penjualan',  'jumlah_pembelian',  'jumlah_pengeluaran', 'saldo','Product'), 200);
+        return $this->sendResponse('Success', 'ini dia semua laporan bos', compact('jumlah_penjualan',  'jumlah_pembelian',  'jumlah_pengeluaran', 'saldo', 'Product'), 200);
     }
     protected function getdata($awal, $akhir)
     {
         $no = 0;
-        $data = array();
+        $data =[];
         $pendapatan = 0;
         $total_pendapatan = 0;
+        $row = [];
         while (strtotime($awal) <= strtotime($akhir)) {
             $tanggal = $awal;
             $awal = date('Y-m-d', strtotime("+1 day", strtotime($awal)));
@@ -62,20 +63,34 @@ class LaporanController extends Controller
             $total_pendapatan += $pendapatan;
 
             $no++;
-            $row = array();
-            $row[] = $no;
-            $row[] = tanggal_indonesia($tanggal, false);
-            $row[] = format_uang($total_penjualan);
-            $row[] = format_uang($total_pembelian);
-            $row[] = format_uang($total_pengeluaran);
-            $row[] = format_uang($pendapatan);
-            $data[] = $row;
+            $row[] = [
+                'no' => $no,
+                'tanggal' => $tanggal,
+                'penjualan' => $total_penjualan,
+                'pembelian' => $total_pembelian,
+                'pengeluaran' => $total_pengeluaran,
+                'pendapatan' => $pendapatan
+            ];
+            // $response = [
+            //     'tanggal' => $tanggal,
+            //     'total_penjualan' => $total_penjualan,
+            //     'total_pembelian' => $total_pembelian,
+            //     'total_pengeluaran' => $total_pengeluaran,
+            //     'pendapatan' => $pendapatan,
+            //     'data' => $row
+            // ];
+
+            // $row[] = tanggal_indonesia($tanggal, false);
+            // $row[] = format_uang($total_penjualan);
+            // $row[] = format_uang($total_pembelian);
+            // $row[] = format_uang($total_pengeluaran);
+            // $row[] = format_uang($pendapatan);
+            // $data[] = $row;
         }
-        $data[] = array("", "", "", "", "Total Pendapatan", format_uang($total_pendapatan));
+        // $data[] = array("", "", "", "", "Total Pendapatan", format_uang($total_pendapatan));
+        $data[] = ["Total Pendapatan" => format_uang($total_pendapatan)];
 
         // return $data;
-        return $this->sendResponse('Success', 'berhasil menambahkan barang', $data, 200);
+        return $this->sendResponse('Success', 'berhasil mengambil laporan', compact('row','data'), 200);
     }
-
-
 }
