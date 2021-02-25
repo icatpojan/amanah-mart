@@ -1,5 +1,6 @@
 <?php
 
+use App\Model\karyawan;
 use App\Model\Member;
 use App\User;
 use Illuminate\Database\Seeder;
@@ -56,5 +57,24 @@ class UserSeeder extends Seeder
             'address' => 'bandung barat',
             'phone_number'   => 12345
         ]);
+        karyawan::create([
+            'user_id' => 2,
+            'umur'  => 17,
+            'address' => 'bandung barat',
+            'phone_number'   => 12345
+        ]);
+        karyawan::create([
+            'user_id' => 3,
+            'umur'  => 17,
+            'address' => 'bandung barat',
+            'phone_number'   => 12345
+        ]);
+        karyawan::create([
+            'user_id' => 4,
+            'umur'  => 17,
+            'address' => 'bandung barat',
+            'phone_number'   => 12345
+        ]);
+
     }
 }

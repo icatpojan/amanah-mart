@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Karyawan as AppKaryawan;
 use App\Model\karyawan;
 use App\Model\Tabungan;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -27,7 +28,8 @@ class UserController extends Controller
             'phone_number'  => 'required',
             'role_id'   => 'required',
             'password'  => 'required',
-            'address'   => 'required'
+            'address'   => 'required',
+            'image' => 'image|mimes:png,jpeg,jpg',
         ]);
         if ($validator->fails()) {
             return back()->withToastError($validator->messages()->all()[0])->withInput();
@@ -38,13 +40,27 @@ class UserController extends Controller
             'password' => bcrypt($request->password),
             'role_id' => $request->role_id,
         ]);
-
         $User->save();
+        if ($request->image) {
+            $img = base64_encode(file_get_contents($request->image));
+            $client = new Client();
+            $res = $client->request('POST', 'https://freeimage.host/api/1/upload', [
+                'form_params' => [
+                    'key' => '6d207e02198a847aa98d0a2a901485a5',
+                    'action' => 'upload',
+                    'source' => $img,
+                    'format' => 'json',
+                ]
+            ]);
+            $array = json_decode($res->getBody()->getContents());
+            $image = $array->image->file->resource->chain->image;
+        }
         $Karyawan = karyawan::create([
             'umur' => $request->umur,
             'phone_number' => $request->phone_number,
             'address' => $request->address,
-            'user_id' => $User->id
+            'user_id' => $User->id,
+            'image' => $image
         ]);
         try {
             $Karyawan->save();
@@ -61,7 +77,8 @@ class UserController extends Controller
             'name'  => 'required',
             'phone_number'  => 'required',
             'umur'  => 'required',
-            'address'   => 'required'
+            'address'   => 'required',
+            'image' => 'image|mimes:png,jpeg,jpg',
         ]);
         if ($validator->fails()) {
             return back()->withToastError($validator->messages()->all()[0])->withInput();
@@ -71,12 +88,26 @@ class UserController extends Controller
         $User->update([
             'name' => $request->name,
         ]);
-
+        if ($request->image) {
+            $img = base64_encode(file_get_contents($request->image));
+            $client = new Client();
+            $res = $client->request('POST', 'https://freeimage.host/api/1/upload', [
+                'form_params' => [
+                    'key' => '6d207e02198a847aa98d0a2a901485a5',
+                    'action' => 'upload',
+                    'source' => $img,
+                    'format' => 'json',
+                ]
+            ]);
+            $array = json_decode($res->getBody()->getContents());
+            $image = $array->image->file->resource->chain->image;
+        }
         $Karyawan = Karyawan::where('user_id', $id)->first();
         $Karyawan->update([
             'umur' => $request->umur,
             'phone_number' => $request->phone_number,
             'address' => $request->address,
+            'image' => $image,
         ]);
         try {
             $Karyawan->save();

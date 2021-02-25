@@ -30,4 +30,8 @@ class HomeController extends Controller
     {
         return view('pages.home');
     }
+    public function kasir()
+    {
+        return view('pages.kasir.home');
+    }
 }

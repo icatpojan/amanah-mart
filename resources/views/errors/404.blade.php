@@ -49,7 +49,7 @@
                         <p class="text-gray-500 mb-2">
 kembali ke halaman home <i class="fas fa-user-secret"></i>
                         </p>
-                        <a href="{{route('home')}}">balik</a>
+                        <a href="{{route('admin.dashboard')}}">balik</a>
                     </div>
 
                 </div>

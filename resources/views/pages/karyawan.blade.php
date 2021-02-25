@@ -41,6 +41,7 @@
                                 <th>phone number</th>
                                 <th>Umur</th>
                                 <th>alamat</th>
+                                <th>foto</th>
                                 <th>dibuat</th>
                                 <th>Aksi</th>
                             </tr>
@@ -51,6 +52,7 @@
                                 <th>phone number</th>
                                 <th>umur</th>
                                 <th>alamat</th>
+                                <th>foto</th>
                                 <th>dibuat</th>
                                 <th>Aksi</th>
                             </tr>
@@ -62,6 +64,11 @@
                                     <td>{{ $user->phone_number == null ? 'data belum ada' : $user->phone_number }}</td>
                                     <td>{{ $user->umur == null ? 'data belum ada' : $user->umur }}</td>
                                     <td>{{ $user->address }}</td>
+                                    <td>
+                                        <a href="#" class="pop">
+                                            <img width="80" height="80" src="{{ $user->image }}">
+                                        </a>
+                                    </td>
                                     <td>{{ $user->created_at }}</td>
                                     <td class="text-center">
                                         <a class="see text-decoration-none" href="#" data-toggle="modal"
@@ -87,7 +94,23 @@
                 </div>
             </div>
         </div>
+        {{-- modal foto preview --}}
 
+        <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+
+                        <button type="button" class="close" data-dismiss="modal"><span
+                                aria-hidden="true">&times;</span><span class="sr-
+                     only">Close</span></button>
+                        <img src="" class="imagepreview" style="width: 350px;">
+
+                    </div>
+                </div>
+            </div>
+        </div>
         @include('components.modal-karyawan')
 
     </div>
@@ -104,13 +127,39 @@
     {{-- jquery --}}
     <script src="{{ asset('js/script.js') }}"></script>
     <!-- Bootstrap + Animate.css -->
+    <script>
+        $(function() {
+            $('.pop').on('click', function() {
+                $('.imagepreview').attr('src', $(this).find('img').attr('src'));
+                $('#imagemodal').modal('show');
+            });
+        });
+
+    </script>
     <script type="text/javascript">
         $('#tambah-karyawan').on('show.bs.modal', function(e) {
-            $('.modal .modal-dialog').attr('class', 'modal-dialog tada animated');
+            $('.modal .modal-tambah').attr('class', 'modal-tambah tada animated');
         })
         $('#tambah-karyawan').on('hide.bs.modal', function(e) {
-            $('.modal .modal-dialog').attr('class', 'modal-dialog rollOut animated');
+            $('.modal .modal-tambah').attr('class', 'modal-tambah rollOut animated');
         })
+
     </script>
 
+    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> --}}
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#blah').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#imgInp").change(function() {
+            readURL(this);
+        });
+
+    </script>
 @endsection

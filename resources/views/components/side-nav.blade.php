@@ -25,25 +25,30 @@
     </div>
 
     <!-- Nav Item - Kelola User -->
+    @if (Auth::user()->role_id <= 3)
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#toggleUser" aria-expanded="true"
+                aria-controls="toggleUser">
+                <i class="fas fa-fw fa-users"></i>
+                <span>Kelola User</span>
+            </a>
+            <div id="toggleUser" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Kelola User</h6>
+                    @if (Auth::user()->role_id < 3)
 
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#toggleUser" aria-expanded="true"
-            aria-controls="toggleUser">
-            <i class="fas fa-fw fa-users"></i>
-            <span>Kelola User</span>
-        </a>
-        <div id="toggleUser" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Kelola User</h6>
-                <a class="collapse-item{{ request()->is('karyawan') ? ' active' : '' }}"
-                    href="{{ route('user.index') }}">Daftar karyawan</a>
-                <a class="collapse-item{{ request()->is('member') ? ' active' : '' }}"
-                    href="{{ route('member.index') }}">Daftar member</a>
+                        <a class="collapse-item{{ request()->is('karyawan') ? ' active' : '' }}"
+                            href="{{ route('user.index') }}">Daftar karyawan</a>
+                    @endif
+                    @if (Auth::user()->role_id == 1 || Auth::user()->role_id == 3 || Auth::user()->role_id == 4)
+                        <a class="collapse-item{{ request()->is('member') ? ' active' : '' }}"
+                            href="{{ route('member.index') }}">Daftar member</a>
+                    @endif
+                </div>
             </div>
-        </div>
-    </li>
-
-    <!-- Nav Item - Kelola Sampah -->
+        </li>
+    @endif
+    <!-- Nav Item - Kelola Produk -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#toggleSampah" aria-expanded="true"
             aria-controls="toggleSampah">
@@ -53,12 +58,20 @@
         <div id="toggleSampah" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Kelola Produk</h6>
-                <a class="collapse-item{{ request()->is('sampah') ? ' active' : '' }}"
-                    href="{{ route('product.index') }}">Produk</a>
-                <a class="collapse-item{{ request()->is('gudang') ? ' active' : '' }}"
-                    href="{{ route('supplier.index') }}">Supplier</a>
-                <a class="collapse-item{{ request()->is('gudang') ? ' active' : '' }}"
-                    href="{{ route('category.index') }}">Kategori</a>
+                @if (Auth::user()->role_id == 1 || Auth::user()->role_id == 3)
+
+                    <a class="collapse-item{{ request()->is('sampah') ? ' active' : '' }}"
+                        href="{{ route('product.index') }}">Produk</a>
+                @endif
+                @if (Auth::user()->role_id < 4)
+
+                    <a class="collapse-item{{ request()->is('gudang') ? ' active' : '' }}"
+                        href="{{ route('supplier.index') }}">Supplier</a>
+                @endif
+                @if (Auth::user()->role_id == 1 || Auth::user()->role_id == 3)
+                    <a class="collapse-item{{ request()->is('gudang') ? ' active' : '' }}"
+                        href="{{ route('category.index') }}">Kategori</a>
+                @endif
             </div>
         </div>
     </li>
@@ -71,39 +84,51 @@
         Kasir
     </div>
 
-
-    <!-- Nav Item - Keuangan -->
-    <li class="nav-item{{ request()->is('keuangan') ? ' active' : '' }}"">
-        <a class=" nav-link" href="{{ route('keuangan.index') }}">
-        <i class="fas fa-fw fa-chart-line"></i>
-        <span>Keuangan</span></a>
-    </li>
+    @if (Auth::user()->role_id < 3)
+        <!-- Nav Item - Keuangan -->
+        <li class="nav-item{{ request()->is('keuangan') ? ' active' : '' }}"">
+    <a class=" nav-link" href="{{ route('keuangan.index') }}">
+            <i class="fas fa-fw fa-chart-line"></i>
+            <span>Keuangan</span></a>
+        </li>
+    @endif
 
     <!-- Nav Item - penjualan -->
-    <li class="nav-item{{ request()->is('penjualan') ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('penjualan.index') }}">
-            <i class="fas fa-fw fa-hand-holding-water"></i>
-            <span>Penjualan</span></a>
-    </li>
+    @if (Auth::user()->role_id < 3 || Auth::user()->role_id == 4)
+
+        <li class="nav-item{{ request()->is('penjualan') ? ' active' : '' }}">
+            <a class="nav-link" href="{{ route('penjualan.index') }}">
+                <i class="fas fa-fw fa-hand-holding-water"></i>
+                <span>Penjualan</span></a>
+        </li>
+    @endif
 
     <!-- Nav Item - pembelian -->
-    <li class="nav-item{{ request()->is('pembelian') ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('pembelian.index') }}">
-            <i class="fas fa-fw fa-water"></i>
-            <span>Pembelian</span></a>
-    </li>
-     {{-- Nav item pemgeluaran --}}
-    <li class="nav-item{{ request()->is('pengeluaran') ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('pengeluaran.index') }}">
-            <i class="fas fa-fw fa-file-invoice-dollar"></i>
-            <span>Pengeluaran</span></a>
-    </li>
+    @if (Auth::user()->role_id < 4)
+
+        <li class="nav-item{{ request()->is('pembelian') ? ' active' : '' }}">
+            <a class="nav-link" href="{{ route('pembelian.index') }}">
+                <i class="fas fa-fw fa-water"></i>
+                <span>Pembelian</span></a>
+        </li>
+    @endif
+    {{-- Nav item pemgeluaran --}}
+    @if (Auth::user()->role_id == 1 || Auth::user()->role_id == 3)
+
+        <li class="nav-item{{ request()->is('pengeluaran') ? ' active' : '' }}">
+            <a class="nav-link" href="{{ route('pengeluaran.index') }}">
+                <i class="fas fa-fw fa-file-invoice-dollar"></i>
+                <span>Pengeluaran</span></a>
+        </li>
+    @endif
     {{-- Nav item  kasir --}}
-    <li class="nav-item{{ request()->is('kasir') ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('kasir.index') }}">
-            <i class="fas fa-fw fa-fire"></i>
-            <span>Kasir</span></a>
-    </li>
+    @if (Auth::user()->role_id == 1 || Auth::user()->role_id == 4)
+        <li class="nav-item{{ request()->is('kasir') ? ' active' : '' }}">
+            <a class="nav-link" href="{{ route('kasir.index') }}">
+                <i class="fas fa-fw fa-fire"></i>
+                <span>Kasir</span></a>
+        </li>
+    @endif
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
