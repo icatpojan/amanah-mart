@@ -19,7 +19,7 @@ class CreateKaryawansTable extends Migration
             $table->integer('umur')->nullable();
             $table->string('address')->nullable();
             $table->integer('phone_number')->nullable();
-            $table->string('image')->nullable();
+            $table->string('image')->nullable()->default('https://via.placeholder.com/150');
             $table->timestamps();
         });
     }

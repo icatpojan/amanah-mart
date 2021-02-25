@@ -1,7 +1,7 @@
 <ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('home') }}">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('admin.dashboard') }}">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-key"></i>
         </div>
@@ -12,7 +12,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item{{ request()->is('home') ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('home') }}">
+        <a class="nav-link" href="{{ route('admin.dashboard') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>

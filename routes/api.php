@@ -20,7 +20,7 @@ Route::post('register', 'Api\UserController@register');
 Route::post('login', 'Api\UserController@login');
 Route::post('registermember', 'Api\MemberController@register_member');
 
-Route::group(['namespace' => 'Api', 'middleware' => ['jwt.verify']], function () {
+Route::group(['namespace' => 'Api', 'middleware' => ['jwt.verify','verified']], function () {
     // Route CRUD category
     Route::get('category', 'CategoryController@index'); // melihat semua category
     Route::post('category', 'CategoryController@store'); // input category baru
