@@ -65,10 +65,10 @@ class LaporanController extends Controller
             $row = array();
             $row[] = $no;
             $row[] = tanggal_indonesia($tanggal, false);
-            $row[] = "penjualan" + format_uang($total_penjualan);
-            $row[] = "pembelian" + format_uang($total_pembelian);
-            $row[] = "pengeluaran" + format_uang($total_pengeluaran);
-            $row[] = "pendapatan" + format_uang($pendapatan);
+            $row[] = $penjualan= format_uang($total_penjualan);
+            $row[] = $pembelian= format_uang($total_pembelian);
+            $row[] = $pengeluaran= format_uang($total_pengeluaran);
+            $row[] = $pendapatann= format_uang($pendapatan);
             $data[] = $row;
         }
         $data[] = array("", "", "", "", "Total Pendapatan", format_uang($total_pendapatan));
