@@ -22,7 +22,7 @@ class KeuanganController extends Controller
         // $pengeluaran = Pengeluaran::all();
         $jumlah_pengeluaran = Pengeluaran::whereMonth('created_at', date('m'))->sum('kredit');
 
-        $saldo = Keuangan::latest()->first('saldo');
+        $saldo = Keuangan::sum('debit') - Keuangan::sum('kredit');
 
         $Product = Product::all('name','stock');
 

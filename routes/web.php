@@ -17,7 +17,7 @@ Auth::routes(['verify' => true]);
 Route::get('kasir/dashboard', 'Web\HomeController@kasir');
 Route::get('admin/dashboard', 'Web\HomeController@admin')->name('admin.dashboard');
 Route::get('staff/dashboard', 'Web\HomeController@staff');
-Route::group(['namespace' => 'Web', 'middleware' => ['verified', 'admin']], function () {
+Route::group(['namespace' => 'Web', 'middleware' => ['verified']], function () {
 
 
     Route::post('user/create', 'UserController@store')->name('karyawan.store'); //menambah karyawan

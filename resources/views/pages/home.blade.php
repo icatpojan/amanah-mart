@@ -29,8 +29,10 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                    User Aktif</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                                    Member Aktif</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    {{ $Member }}
+                                </div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-user fa-2x text-gray-300"></i>
@@ -47,8 +49,9 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                                    Penyetoran (Bulan ini)</div>
+                                    Karyawan aktif</div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    {{ $Kariyawan }}
                                 </div>
                             </div>
                             <div class="col-auto">
@@ -68,6 +71,7 @@
                                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                     Pendapatan (Bulan ini)</div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    {{ $Keuangan }}
                                 </div>
                             </div>
                             <div class="col-auto">
@@ -87,6 +91,7 @@
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                     Keuangan</div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">IDR
+                                    {{ $Keuangan }}
                                 </div>
                             </div>
                             <div class="col-auto">
@@ -106,9 +111,10 @@
                         masuk</button>
                 </form>
             @endif
-            @if (strtotime(date('H:i:s')) > strtotime('15:00:00') && strtotime(date('H:i:s')) < strtotime('17:00:00'))
+            @if (strtotime(date('H:i:s')) > strtotime('15:00:00') && strtotime(date('H:i:s')) < strtotime('18:00:00'))
                 <p>Jika pekerjaan telah selesai silahkan check-out</p>
                 <form action="{{ route('kehadiran.check-out') }}" method="post">
+                    @csrf
                     <button type="submit" class="btn btn-outline-warning btn-lg btn-block mb-3">Absen pulang</button>
                 </form>
             @endif

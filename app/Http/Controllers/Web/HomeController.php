@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Model\karyawan;
 use App\Model\Absen;
+use App\Model\Keuangan;
+use App\Model\Member;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -49,8 +51,10 @@ class HomeController extends Controller
         $User = User::where('id', Auth::id())->first();
 
         $Karyawan = karyawan::where('user_id', $User->id)->first();
-
-        return view('pages.home', compact('Karyawan', 'present', 'Alpha', 'Masuk', 'Telat', 'totalJamTelat'));
+        $Member = Member::all()->count();
+        $Kariyawan = Karyawan::all()->count();
+        $Keuangan = Keuangan::sum('debit') - Keuangan::sum('kredit');
+        return view('pages.home', compact('Karyawan', 'present', 'Alpha', 'Masuk', 'Telat', 'totalJamTelat', 'Member', 'Kariyawan','Keuangan'));
     }
     public function kasir()
     {
