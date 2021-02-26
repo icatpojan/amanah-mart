@@ -58,6 +58,12 @@ class UserSeeder extends Seeder
             'phone_number'   => 12345
         ]);
         karyawan::create([
+            'user_id' => 1,
+            'umur'  => 17,
+            'address' => 'bandung barat',
+            'phone_number'   => 12345
+        ]);
+        karyawan::create([
             'user_id' => 2,
             'umur'  => 17,
             'address' => 'bandung barat',

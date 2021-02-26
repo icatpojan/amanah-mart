@@ -151,7 +151,7 @@
      let name = $('#name').val();
      let jumlah = $('#jumlah').val();
      let harga = $('#harga').val();
-     let jumlah_harga = $('#jumlah_harga').val();
+     let jumkzlah_harga = $('#jumlah_harga').val();
      // let message = $('#message').val();
 
      $.ajax({

@@ -19,6 +19,7 @@ Route::get('admin/dashboard', 'Web\HomeController@admin')->name('admin.dashboard
 Route::get('staff/dashboard', 'Web\HomeController@staff');
 Route::group(['namespace' => 'Web', 'middleware' => ['verified', 'admin']], function () {
 
+
     Route::post('user/create', 'UserController@store')->name('karyawan.store'); //menambah karyawan
     Route::post('user/update/{id}', 'UserController@update')->name('karyawan.update'); //menambah karyawan
     Route::get('userr/{id}', 'UserController@show')->name('karyawan.show'); //menambah karyawan
@@ -78,6 +79,9 @@ Route::group(['namespace' => 'Web', 'middleware' => ['verified', 'admin']], func
     Route::get('cart-form', 'CartController@create');
     Route::post('cart-form', 'CartController@store')->name('cart-form');
     Route::post('beli-form/{id}', 'CartController@beli')->name('beli-form');
+
+    Route::post('absensi', 'AbsenController@checkin')->name('kehadiran.check-in');
+    Route::post('absen', 'AbsenController@checkout')->name('kehadiran.check-out');
 });
 Route::get('/users', 'AjaxController@index');
 Route::get('/getData/', 'AjaxController@getData');
