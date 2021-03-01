@@ -23,18 +23,19 @@ class CobaController extends Controller
         // $User = User::where('created_at', '2018-10-21')->get(); // jangan lupa di get() BOS
         // $User = User::whereBetween('created_at',[$from,$to])->get(); // jangan lupa di get() BOS
         // for ($i = 1; $i < 4; $i++) {
-            $User = User::all('name');
-            $Penjualan = Penjualan::all();
-            foreach ($User as $value) {
-                
-                $row[] = $value->name;
-            }
+            $User = User::popen();
+            // $User->pop();
+            // $Penjualan = Penjualan::all();
+            // foreach ($User as $value) {
+
+            //     $row[] = $value->name;
+            // }
         //     $row = [];
         //     $row[] = $i;
         //     $row[] = $User;
         //     $Data = $row;
         // }
 
-        return response()->json(compact('row'));
+        return response()->json(compact('User'));
     }
 }

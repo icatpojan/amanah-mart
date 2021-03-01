@@ -27,7 +27,7 @@ class CreatePembeliansTable extends Migration
             $table->integer('jumlah_harga')->default(0);
             $table->integer('status')->nullable();
             $table->timestamps();
-});
+        });
     }
 
     /**

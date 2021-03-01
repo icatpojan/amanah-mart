@@ -39,17 +39,17 @@ class KaryawanController extends Controller
     }
     public function index()
     {
-        $user = User::where('id', Auth::user()->id)->first();
-        if (empty($user)) {
+        $User = User::where('id', Auth::user()->id)->first();
+        if (empty($User)) {
             return response('silakan login terlebih dahulu bos');
         }
-        if ($user->role_id == 5) {
+        if ($User->role_id == 5) {
             $User = User::where('id', Auth::id())->first();
-            $Member = Member::where('user_id', $user->id)->first();
+            $Member = Member::where('user_id', $User->id)->first();
             return $this->sendResponse('Success', 'ini dia profil anda bos', compact('Member', 'User'), 200);
         } else {
-            $user = User::where('id', Auth::user()->id)->first();
-            $Karyawan = karyawan::where('user_id', $user->id)->first();
+            $User = User::where('id', Auth::user()->id)->first();
+            $Karyawan = karyawan::where('user_id', $User->id)->first();
             $telat = Absen::where('user_id', Auth::id())->where('status', 3)->count();
             $hadir = Absen::where('user_id', Auth::id())->where('status', '!=', 1)->count();
             $alpha = Absen::where('user_id', Auth::id())->where('status', 1)->count();

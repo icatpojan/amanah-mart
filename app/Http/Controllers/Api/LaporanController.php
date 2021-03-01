@@ -71,23 +71,7 @@ class LaporanController extends Controller
                 'pengeluaran' => $total_pengeluaran,
                 'pendapatan' => $pendapatan
             ];
-            // $response = [
-            //     'tanggal' => $tanggal,
-            //     'total_penjualan' => $total_penjualan,
-            //     'total_pembelian' => $total_pembelian,
-            //     'total_pengeluaran' => $total_pengeluaran,
-            //     'pendapatan' => $pendapatan,
-            //     'data' => $row
-            // ];
-
-            // $row[] = tanggal_indonesia($tanggal, false);
-            // $row[] = format_uang($total_penjualan);
-            // $row[] = format_uang($total_pembelian);
-            // $row[] = format_uang($total_pengeluaran);
-            // $row[] = format_uang($pendapatan);
-            // $data[] = $row;
         }
-        // $data[] = array("", "", "", "", "Total Pendapatan", format_uang($total_pendapatan));
         $data[] = ["Total Pendapatan" => format_uang($total_pendapatan)];
 
         // return $data;

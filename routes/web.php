@@ -49,6 +49,9 @@ Route::group(['namespace' => 'Web', 'middleware' => ['verified']], function () {
     Route::post('member/delete/{id}', 'MemberController@destroy')->name('member.destroy');
 
     Route::get('keuangan', 'KeuanganController@index')->name('keuangan.index');
+    Route::get('keuangan/cetak_pdf', 'KeuanganController@cetak_pdf')->name('cetak.keuangan');
+    Route::post('perwaktu', 'KeuanganController@getdata')->name('get.keuangan');
+
 
     // Route Pengeluaran
     Route::get('pengeluaran', 'PengeluaranController@index')->name('pengeluaran.index');
@@ -69,6 +72,7 @@ Route::group(['namespace' => 'Web', 'middleware' => ['verified']], function () {
     Route::get('kasir', 'KasirController@index')->name('kasir.index');
     Route::get('getcart', 'KasirController@getData')->name('cart.get');
     Route::get('getpenjualan', 'KasirController@getdataku')->name('penjualan.get');
+    Route::get('penjualan/cetak_pdf', 'PenjualanController@cetak_pdf')->name('cetak.penjualan');
     Route::post('penjualan/store', 'KasirController@store')->name('penjualan.store');
     Route::post('penjualan/stir', 'KasirController@stire')->name('penjualan.stire');
     Route::post('penjualan/confirm', 'KasirController@confirm')->name('penjualan.confirm');
@@ -82,6 +86,7 @@ Route::group(['namespace' => 'Web', 'middleware' => ['verified']], function () {
 
     Route::post('absensi', 'AbsenController@checkin')->name('kehadiran.check-in');
     Route::post('absen', 'AbsenController@checkout')->name('kehadiran.check-out');
+
 });
 Route::get('/users', 'AjaxController@index');
 Route::get('/getData/', 'AjaxController@getData');

@@ -44,38 +44,4 @@ class LaporanController extends Controller
 
         return $this->sendResponse('Success', 'ini dia semua laporan bos', compact( 'jumlah_penjualan',  'jumlah_pembelian',  'jumlah_pengeluaran', 'saldo','Product'), 200);
     }
-    protected function getdata($awal, $akhir)
-    {
-        $no = 0;
-        $data = array();
-        $pendapatan = 0;
-        $total_pendapatan = 0;
-        while (strtotime($awal) <= strtotime($akhir)) {
-            $tanggal = $awal;
-            $awal = date('Y-m-d', strtotime("+1 day", strtotime($awal)));
-
-            $total_penjualan = Penjualan::where('created_at', 'LIKE', "$tanggal%")->sum('jumlah_harga');
-            $total_pembelian = Pembelian::where('created_at', 'LIKE', "$tanggal%")->sum('jumlah_harga');
-            $total_pengeluaran = Pengeluaran::where('created_at', 'LIKE', "$tanggal%")->sum('nominal');
-
-            $pendapatan = $total_penjualan - $total_pembelian - $total_pengeluaran;
-            $total_pendapatan += $pendapatan;
-
-            $no++;
-            $row = array();
-            $row[] = $no;
-            $row[] = tanggal_indonesia($tanggal, false);
-            $row[] = format_uang($total_penjualan);
-            $row[] = format_uang($total_pembelian);
-            $row[] = format_uang($total_pengeluaran);
-            $row[] = format_uang($pendapatan);
-            $data[] = $row;
-        }
-        $data[] = array("", "", "", "", "Total Pendapatan", format_uang($total_pendapatan));
-
-        // return $data;
-        return $this->sendResponse('Success', 'berhasil menambahkan barang', $data, 200);
-    }
-
-
 }

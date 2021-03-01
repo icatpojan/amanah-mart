@@ -16,8 +16,7 @@
                 <ol class="breadcrumb">
                     <i class="fas fa-home mt-0_5 breadcrumb-item"></i>
                     <li class="breadcrumb-item"> <a class="text-decoration-none" href=""> Home </a> </li>
-                    <li class="breadcrumb-item "> Kelola User </li>
-                    <li class="breadcrumb-item active" aria-current="page"> Karyawan </li>
+                    <li class="breadcrumb-item active" aria-current="page"> Pembelian </li>
                 </ol>
             </div>
         </div>
@@ -25,7 +24,7 @@
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
             <div class="card-header d-flex justify-content-between py-3">
-                <h6 class="m-0 font-weight-bold text-primary">DAFTAR KARYAWAN</h6>
+                <h6 class="m-0 font-weight-bold text-primary">DAFTAR PEMBELIAN</h6>
                 <a class="btn-primary btn-sm" href="{{route('pembelian.form')}}"><i class="fas fa-plus"></i></a>
             </div>
 
