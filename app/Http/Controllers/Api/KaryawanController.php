@@ -39,7 +39,7 @@ class KaryawanController extends Controller
     }
     public function index()
     {
-        $User = User::where('id', Auth::user()->id)->first();
+        $User = User::where('id', Auth::id())->first();
         if (empty($User)) {
             return response('silakan login terlebih dahulu bos');
         }
@@ -132,12 +132,12 @@ class KaryawanController extends Controller
     }
     public function updateme(Request $request)
     {
-        $User = User::where('id', Auth::user()->id)->first();
+        $User = User::where('id', Auth::id())->first();
         $User->update([
             'name' => $request->name == null ? $User->name : $request->name,
             'email' => $request->email == null ? $User->email : $request->email,
         ]);
-        $Karyawan = Karyawan::where('user_id', Auth::user()->id)->first();
+        $Karyawan = Karyawan::where('user_id', Auth::id())->first();
         if ($request->image) {
             $img = base64_encode(file_get_contents($request->image));
             $client = new Client();

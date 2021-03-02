@@ -75,7 +75,8 @@
                 </div>
             </div>
         </div>
-        <a href="{{ route('cetak.penjualan') }}" class="btn btn-primary" target="_blank">CETAK LAPORAN</a>
+        <a href="{{ route('cetak.penjualan') }}" class="btn btn-primary mb-2" target="_blank">CETAK LAPORAN</a>
+@include('card.laporpenjualan')
     </div>
     <!-- /.container-fluid -->
 
