@@ -161,7 +161,7 @@ class KaryawanController extends Controller
         try {
             $User->save();
             $Karyawan->save();
-            return $this->sendResponse('Success', 'berhasil mengupdate diri  sendiri bos', $User, 200);
+            return $this->sendResponse('Success', 'berhasil mengupdate diri  sendiri bos', compact('User','Karyawan'), 200);
         } catch (\Throwable $th) {
             return $this->sendResponse('Error', 'Gagal mengupdate diri sendiri bos', null, 500);
         }
