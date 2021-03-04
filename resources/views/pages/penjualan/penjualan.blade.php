@@ -37,37 +37,39 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Keterangan</th>
-                                <th>debit</th>
-                                <th>Kredit</th>
-                                <th>Saldo</th>
+                                <th>kasir</th>
+                                <th>member</th>
+                                <th>jumlah</th>
+                                <th>dibayar</th>
                                 <th>Dibuat</th>
+                                <th>aksi</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
                                 <th>ID</th>
-                                <th>Keterangan</th>
-                                <th>debit</th>
-                                <th>Kredit</th>
-                                <th>Saldo</th>
+                                <th>kasir</th>
+                                <th>member</th>
+                                <th>jumlah</th>
+                                <th>dibayar</th>
                                 <th>Dibuat</th>
+                                <th>aksi</th>
                             </tr>
                         </tfoot>
                         <tbody>
-                            <tr>
-                                <td colspan="6" style="text-align: center">
-                                    No record found.
-                                </td>
-                            </tr>
                             @foreach ($Penjualan as $value)
                                 <tr>
                                     <td>{{ $value->id }}</td>
-                                    <td>{{ $value->keterangan }}</td>
-                                    <td>{{ number_format($value->debit, 0, ',', '.') }}</td>
-                                    <td>{{ number_format($value->kredit, 0, ',', '.') }}</td>
-                                    <td>{{ number_format($value->saldo, 0, ',', '.') }}</td>
+                                    <td>{{ $value->user->name }}</td>
+                                    <td>{{ $value->id_member?? 'tidak pakai member' }}</td>
+                                    <td>{{ number_format($value->jumlah_harga, 0, ',', '.') }}</td>
+                                    <td>{{ number_format($value->dibayar, 0, ',', '.') }}</td>
                                     <td>{{ $value->created_at }}</td>
+                                    <td>
+                                        <form action="{{route('penjualan.show', $value->id)}}" method="get">
+                                            <button type="submit" class="btn btn-warning">Lihat</button>
+                                        </form>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

@@ -16,12 +16,16 @@
             </div>
 
             <h1>SELAMAT DATANG {{ Auth::user()->name }}</h1>
+
             <a class=" d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick="window.print()"><i
-                    class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                    class="fas fa-download fa-sm text-white-50"></i>SCREEN SHOOT</a>
+
         </div>
 
         <!-- Content Row -->
-        @include('card.admin')
+        @if (Auth::user()->role_id == 1)
+            @include('card.admin')
+        @endif
         @if (Auth::user()->role_id < 5 && Auth::user()->role_id > 1)
             @include('card.cardkasir')
             @if (strtotime(date('H:i:s')) >= strtotime('07:00:00') && strtotime(date('H:i:s')) < strtotime('15:00:00'))
@@ -39,34 +43,69 @@
                 </form>
             @endif
         @endif
-        <div class="card mb-3 mt-4 shadow" style="max-width: 1540px;">
-            <div class="row no-gutters">
-                <div class="col-md-4">
-                    {{-- <img src="{{ $Karyawan->image == null ? $Karyawan->name : $Karyawan->image }}" class="card-img" --}}
-                        alt="kosong">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $Karyawan->user->name }}</h5>
-                        <div class="row">
-                            <div class="col">
-                                <label for="kredit">umur</label>
-                                <input class="form-control" value="{{ $Karyawan->umur }}">
-                                <label for="kredit">alamat</label>
-                                <input class="form-control" value="{{ $Karyawan->address }}">
-                                <label for="kredit">nomor telpon</label>
-                                <input class="form-control" value="{{ $Karyawan->phone_number }}">
-                                <label for="kredit">role</label>
-                                <input class="form-control" value="{{ $Karyawan->user->role_id }}">
-                                <button class="btn btn-primary mt-2" href="#" data-toggle="modal"
-                                    data-target="#update-karyawan">Update profile
-                                </button>
+        @if (Auth::user()->role_id !== 5)
+            <div class="card mb-3 mt-4 shadow" style="max-width: 1540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+
+                        <img src="{{ $Karyawan->image == null ? $Karyawan->name : $Karyawan->image }}" class="card-img"
+                            alt="kosong">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $Karyawan->user->name }}</h5>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="kredit">umur</label>
+                                    <input class="form-control" value="{{ $Karyawan->umur }}">
+                                    <label for="kredit">alamat</label>
+                                    <input class="form-control" value="{{ $Karyawan->address }}">
+                                    <label for="kredit">nomor telpon</label>
+                                    <input class="form-control" value="{{ $Karyawan->phone_number }}">
+                                    <label for="kredit">role</label>
+                                    <input class="form-control" value="{{ $Karyawan->user->role_id }}">
+                                    <button class="btn btn-primary mt-2" href="#" data-toggle="modal"
+                                        data-target="#update-karyawan">Update profile
+                                    </button>
+                                </div>
+                                @include('components.modal-home')
                             </div>
-                            @include('components.modal-home')
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endif
+        @if (Auth::user()->role_id == 5)
+            <div class="card mb-3 mt-4 shadow" style="max-width: 1540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="{{ $Member->image == null ? $Member->name : $Member->image }}" class="card-img"
+                            alt="kosong">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $Member->user->name }}</h5>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="kredit">umur</label>
+                                    <input class="form-control" value="{{ $Member->umur }}">
+                                    <label for="kredit">alamat</label>
+                                    <input class="form-control" value="{{ $Member->address }}">
+                                    <label for="kredit">nomor telpon</label>
+                                    <input class="form-control" value="{{ $Member->phone_number }}">
+                                    <label for="kredit">role</label>
+                                    <input class="form-control" value="{{ $Member->user->role_id }}">
+                                    <button class="btn btn-primary mt-2" href="#" data-toggle="modal"
+                                        data-target="#update-member">Update profile
+                                    </button>
+                                </div>
+                                @include('components.modal-home')
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        @endif
     </div>
 @endsection

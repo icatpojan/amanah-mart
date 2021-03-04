@@ -14,7 +14,21 @@
 @section('content')
 
     <div class="container-fluid">
-
+        <div class="card mb-2">
+            <div class="card-header">
+                <h3>SUPPLIER</h3>
+            </div>
+            <div class="card-body">
+                Nama : {{ $Supplier->name }}
+                <br>
+                Alamat : {{ $Supplier->address }}
+                <br>
+                Nomor telpon : {{ $Supplier->phone_number }}
+                <form action="{{ route('pembelian.kembali') }}" method="get">
+                    <button type="submit" class="btn btn-warning">kembali</button>
+                </form>
+            </div>
+        </div>
         {{-- card form --}}
         <div class="card shadow mb-4">
             <div class="d-block card-header py-3">
@@ -22,9 +36,11 @@
                 <div class="row">
                     <div class="col-md-11">
                         <div class="form-group">
-                            <form id="contactForm">
-                                <input onfocus="this.value=''" type="text" name="barcode" class="form-control"
+                            <form action="{{ route('pembelian.store') }}" method="POST">
+                                @csrf
+                                <input onfocus="this.value=''" type="number" name="barcode" class="form-control"
                                     placeholder="Enter Barcode" id="barcode" autofocus>
+                                <input type="hidden" value="{{ $Supplier->id }}" name="supplier_id">
                             </form>
                         </div>
                     </div>
@@ -46,19 +62,37 @@
                                         <th>Name</th>
                                         <th>jumlah</th>
                                         <th>harga</th>
-                                        <th>harga jual</th>
                                         <th>total harga</th>
+                                        <th>aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td colspan="6" style="text-align: center">
-                                            No record found.
-                                        </td>
-                                    </tr>
+                                    @foreach ($Pembelian as $pembelian)
+                                        <tr>
+                                            <td></td>
+                                            <td>{{ $pembelian->name }}</td>
+                                            <td style="width: 3cm">
+                                                <form action="{{ route('pembelian.update', $pembelian->id) }}"
+                                                    method="post">
+                                                    @csrf
+                                                    <input style="text-align: center" class="form-control" type="number"
+                                                        name="jumlah_product" value="{{ $pembelian->jumlah_product }}"
+                                                        name="umlah_product">
+                                                </form>
+                                            </td>
+                                            <td>{{ $pembelian->harga }}</td>
+                                            <td>{{ $pembelian->jumlah_harga }}</td>
+                                            <td style="text-align: center">
+                                                <form action="{{ route('pembelian.destroy', $pembelian->id) }}"
+                                                    method="post">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
-
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -66,35 +100,25 @@
                             <thead class="thead-dark">
                                 <tr>
                                     <td style="text-align: center">
-                                        TOTAL BAYAR
+                                        {{ $Kulakan->jumlah_harga ?? 'Jumlah Harga' }}
                                     </td>
                                 </tr>
                             </thead>
                         </table>
-                        <input type="text" placeholder="diskon" class="form-control mb-2">
-                        <input type="text" placeholder="bayar" disabled class="form-control mb-2">
-                    <form action="{{ route('pembelian.confirm') }}" method="POST">
-                        @csrf
-                        <button type="submit" >terima</button>
-                    </form>
+                        <form action="{{ route('pembelian.diskon') }}" method="post">
+                            @csrf
+                            <input name="diskon" type="number" value="{{ $Kulakan->diskon ?? 'diskon' }}"
+                                placeholder="diskon" class="form-control mb-2">
+                        </form>
+                        <input type="text" placeholder="bayar" value="{{ $Kulakan->bayar ?? 'Bayar' }}" disabled
+                            class="form-control mb-2">
+                        <form action="{{ route('pembelian.confirm') }}" method="POST">
+                            @csrf
+                            <button type="submit">terima</button>
+                        </form>
                     </div>
                 </div>
 
-                <div class="row mb-2">
-                    <div class="col-md-6">
-                        <label for="harga">harga</label>
-                        <select class="form-control" name="harga" id="selectharga">
-                            {{-- @foreach ($users as $user)
-                        <option value="{{$user->harga}}"> {{$user->harga}} </option>
-                        @endforeach --}}
-                        </select>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label for="nominal">Nominal</label>
-                        <input type="number" id="nominal" name="nominal" class="form-control">
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -112,6 +136,6 @@
 
     {{-- jquery --}}
     <script src="{{ asset('js/script.js') }}"></script>
-    @include('script.pembelian')
+    {{-- @include('script.pembelian') --}}
 @endsection
 <!-- Button trigger modal -->

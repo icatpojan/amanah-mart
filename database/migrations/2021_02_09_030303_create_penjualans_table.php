@@ -15,9 +15,10 @@ class CreatePenjualansTable extends Migration
     {
         Schema::create('penjualans', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('id_kasir'); 
+            $table->unsignedBigInteger('id_kasir');
             $table->unsignedBigInteger('member_id')->nullable();
             $table->integer('jumlah_harga')->default(0);
+            $table->integer('harus_dibayar')->default(0);
             $table->integer('dibayar')->default(0);
             $table->integer('kembalian')->default(0);
             $table->integer('diskon')->default(0);

@@ -7,6 +7,7 @@ use App\Model\Member;
 use App\User;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class MemberController extends Controller
@@ -98,6 +99,37 @@ class MemberController extends Controller
             'umur' => $request->umur,
             'address' => $request->address,
             'image' => $image,
+        ]);
+        alert()->success('SuccessAlert', 'Lorem ipsum dolor sit amet.');
+        return back();
+    }
+    public function updateme(Request $request)
+    {
+        $User = User::where('id', Auth::user()->id)->first();
+        $User->update([
+            'name' => $request->name == null ? $User->name : $request->name,
+            'email' => $request->email == null ? $User->email : $request->email,
+        ]);
+        $Member = Member::where('user_id', Auth::user()->id)->first();
+        if ($request->image) {
+            $img = base64_encode(file_get_contents($request->image));
+            $client = new Client();
+            $res = $client->request('POST', 'https://freeimage.host/api/1/upload', [
+                'form_params' => [
+                    'key' => '6d207e02198a847aa98d0a2a901485a5',
+                    'action' => 'upload',
+                    'source' => $img,
+                    'format' => 'json',
+                ]
+            ]);
+            $array = json_decode($res->getBody()->getContents());
+            $image = $array->image->file->resource->chain->image;
+        }
+        $Member->update([
+            'phone_number' => $request->phone_number == null ? $Member->phone_number : $request->phone_number,
+            'umur' => $request->umur == null ? $Member->umur : $request->umur,
+            'address' => $request->address == null ? $Member->address : $request->address,
+            'image' => $request->image == null ? $Member->image : $image,
         ]);
         alert()->success('SuccessAlert', 'Lorem ipsum dolor sit amet.');
         return back();

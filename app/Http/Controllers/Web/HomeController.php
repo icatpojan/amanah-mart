@@ -34,6 +34,11 @@ class HomeController extends Controller
     }
     public function admin()
     {
+        if (Auth::user()->role_id == 5) {
+            $User = User::where('id', Auth::id())->first();
+            $Member = Member::where('user_id', $User->id)->first();
+            return view('pages.home', compact('Member'));
+        }
         //menghitung jam telat
         $kehadiran = Absen::where('user_id', Auth::id())->whereMonth('tanggal', date('m'))->whereYear('tanggal', date('Y'))->where('status', 3)->get();
         $totalJamTelat = 0;
@@ -54,10 +59,10 @@ class HomeController extends Controller
         $Member = Member::all()->count();
         $Kariyawan = Karyawan::all()->count();
         $Keuangan = Keuangan::sum('debit') - Keuangan::sum('kredit');
-        return view('pages.home', compact('Karyawan', 'present', 'Alpha', 'Masuk', 'Telat', 'totalJamTelat', 'Member', 'Kariyawan','Keuangan'));
+        return view('pages.home', compact('Karyawan', 'present', 'Alpha', 'Masuk', 'Telat', 'totalJamTelat', 'Member', 'Kariyawan', 'Keuangan'));
     }
-    public function kasir()
+    public function forbiden()
     {
-        return view('pages.kasir.home');
+        return view('errors.403');
     }
 }

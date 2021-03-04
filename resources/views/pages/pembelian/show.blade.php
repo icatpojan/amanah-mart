@@ -16,7 +16,8 @@
                 <ol class="breadcrumb">
                     <i class="fas fa-home mt-0_5 breadcrumb-item"></i>
                     <li class="breadcrumb-item"> <a class="text-decoration-none" href=""> Home </a> </li>
-                    <li class="breadcrumb-item active" aria-current="page"> Pembelian </li>
+                    <li class="breadcrumb-item active" aria-current="page"> <a class="text-decoration-none" href="{{route('pembelian.index')}}"> Pembelian</a> </li>
+                    <li class="breadcrumb-item active" aria-current="page">Show</li>
                 </ol>
             </div>
         </div>
@@ -25,11 +26,6 @@
         <div class="card shadow mb-4">
             <div class="card-header d-flex justify-content-between py-3">
                 <h6 class="m-0 font-weight-bold text-primary">DAFTAR PEMBELIAN</h6>
-
-                {{-- <a class="btn-primary btn-sm" href="{{ route('pembelian.form') }}"><i class="fas fa-plus"></i></a> --}}
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-supplier">
-                    <i class="fas fa-plus"></i>
-                </button>
             </div>
 
             <div class="card-body">
@@ -37,53 +33,44 @@
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>id</th>
-                                <th>Penangung jawab</th>
-                                <th>jumlah harga</th>
-                                <th>diskon</th>
-                                <th>total bayar</th>
-                                <th>tanggal beli</th>
-                                <th>Aksi</th>
+                                <th>nama</th>
+                                <th>barcode</th>
+                                <th>jumlah produk</th>
+                                <th>harga</th>
+                                <th>merek</th>
+                                <th>tanggal</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                                <th>id</th>
-                                <th>Penangung jawab</th>
-                                <th>umlah harga</th>
-                                <th>diskon</th>
-                                <th>total bayar</th>
-                                <th>tanggal beli</th>
-                                <th>Aksi</th>
+                                <th>nama</th>
+                                <th>barcode</th>
+                                <th>jumlah produk</th>
+                                <th>harga</th>
+                                <th>merek</th>
+                                <th>tanggal</th>
                             </tr>
                         </tfoot>
                         <tbody>
-                            @foreach ($Kulakan as $kulakan)
+                            @foreach ($Pembelian as $pembelian)
                                 <tr>
-                                    <td>{{ $kulakan->id }}</td>
-                                    <td>{{ $kulakan->user->name }}</td>
-                                    <td>{{ $kulakan->jumlah_harga }}</td>
-                                    <td>{{ $kulakan->diskon }}%</td>
-                                    <td>{{ $kulakan->bayar }}</td>
-                                    <td>{{ $kulakan->created_at }}</td>
-                                    <td class="text-center">
-                                        <form action="{{route('pembelian.show', $kulakan->id)}}" method="get">
-                                            <button type="submit" class="btn btn-success">LIHAT</button>
-                                        </form>
-                                    </td>
+
+                                    <td>{{ $pembelian->name }}</td>
+                                    <td>{{ $pembelian->barcode }}</td>
+                                    <td>{{ $pembelian->jumlah_product }}</td>
+                                    <td>{{ $pembelian->harga }}%</td>
+                                    <td>{{ $pembelian->merek }}</td>
+                                    <td>{{ $pembelian->created_at }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    <div class="d-flex justify-content-end">
-                        {{-- {{$User->links()}} --}}
-                    </div>
+                    <form action="{{route ('pembelian.index')}}" method="get">
+                        <button class="btn btn-warning"type="submit">BALI</button>
+                    </form>
                 </div>
             </div>
         </div>
-
-        @include('components.supplier')
-
     </div>
     <!-- /.container-fluid -->
 

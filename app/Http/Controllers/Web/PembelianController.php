@@ -7,36 +7,41 @@ use App\Model\Keuangan;
 use App\Model\kulakan;
 use App\Model\Pembelian;
 use App\Model\Product;
+use App\Model\Supplier;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
 class PembelianController extends Controller
 {
     public function index()
     {
-        $Kulakan = kulakan::all();
+        $Kulakan = kulakan::where('user_id', Auth::id())->where('status', 0)->first();
+        if ($Kulakan) {
+            $Kulakan = kulakan::where('user_id', Auth::id())->where('status', 0)->first();
+            $Pembelian = Pembelian::where('kulakan_id', $Kulakan->id)->where('status', 0)->get();
+            $Supplier = Supplier::where('id', $Kulakan->supplier_id)->first();
+            $Product = Product::all();
+            return view('pages.pembelian.pembelian', compact('Kulakan', 'Product', 'Supplier', 'Pembelian'));
+        }
+        $Kulakan = kulakan::with(['user'])->get();
+        // $Product = Product::all();
+        $Supplier = Supplier::all();
+        return view('pages.pembelian.index', compact('Kulakan', 'Supplier'));
+    }
+    public function form(Request $request)
+    {
+        $Supplier = Supplier::where('id', $request->id)->first();
+        $Kulakan = kulakan::where('user_id', Auth::id())->where('status', 0)->first();
         $Product = Product::all();
-        return view('pages.pembelian.index', compact('Kulakan', 'Product'));
-    }
-    public function form()
-    {
-        $Kulakan = kulakan::all();
-        $Product = Product::all();
-        return view('pages.pembelian.pembelian', compact('Kulakan', 'Product'));
-    }
-    public function getData()
-    {
-        $arr['data'] = Pembelian::where('status', 0)->orderBy('id', 'asc')->get();
-        echo json_encode($arr);
-        exit;
-    }
-    public function getdataku()
-    {
-        $arr['data'] = Kulakan::where('status', 0)->get();
-        echo json_encode($arr);
-        exit;
+        if ($Kulakan == []) {
+            $Pembelian = [];
+            return view('pages.pembelian.pembelian', compact('Kulakan', 'Product', 'Supplier', 'Pembelian'));
+        }
+        $Pembelian = Pembelian::where('kulakan_id', $Kulakan->id)->where('status', 0)->get();
+        return view('pages.pembelian.pembelian', compact('Kulakan', 'Product', 'Supplier', 'Pembelian'));
     }
     public function see()
     {
@@ -51,7 +56,8 @@ class PembelianController extends Controller
     {
         $Product = Product::where('barcode', $request->barcode)->first();
         if (!$Product) {
-            return $this->sendResponse('failed', 'barang kosong. pastikan anda mencari berdasarkan barcode', null, 200);
+            alert()->error('ErrorAlert', 'pastikan barcod anda enar');
+            return back();
         }
         $cek_kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->first();
         if (empty($cek_kulakan)) {
@@ -60,127 +66,133 @@ class PembelianController extends Controller
                 'tanggal' => Carbon::now(),
                 'status' => 0,
                 'jumlah_harga' => 0,
+                'supplier_id' => $request->supplier_id,
             ]);
             $Kulakan->save();
         }
-        // ambil data kulakan lagi
         $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->first();
-        // $Pembelian = Pembelian::where('kulakan_id', $Kulakan->id)->where('status', 0)->where('barcode', $Product->barcode)->first();
-        // if (!($Pembelian == [])) {
-        //     return $this->sendResponse('Success', 'penambahan barang gagal', $Pembelian, 200);
-        // }
+        $Pembelian = Pembelian::where('kulakan_id', $Kulakan->id)->where('barcode', $Product->barcode)->first();
+        if (!($Pembelian == [])) {
+            $Pembelian->jumlah_product = $Pembelian->jumlah_product + 1;
+            $Pembelian->jumlah_harga = $Pembelian->jumlah_harga + $Product->harga_beli;
+            $Pembelian->update();
+            $Kulakan->jumlah_harga = ($Kulakan->jumlah_harga) + ($Product->harga_beli);
+            $Kulakan->update();
+            $Kulakan->bayar = ($Kulakan->jumlah_harga) - (($Kulakan->jumlah_harga) * ($Kulakan->diskon / 100));
+            $Kulakan->update();
+            return back();
+        }
         $Pembelian = Pembelian::create([
             'name' => $Product->name,
             'merek' => $Product->merek,
+            'harga' => $Product->harga_beli,
             'jumlah_product' => 1,
-            'supplier_id' => $Product->supplier_id,
+            'supplier_id' => $request->supplier_id,
             'barcode' => $Product->barcode,
             'category_id' => $Product->category_id,
             'kulakan_id' => $Kulakan->id,
-            'status' => 0
+            'status' => 0,
+            'jumlah_harga' => $Product->harga_beli
         ]);
         $Pembelian->save();
         $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->first();
         $Kulakan->jumlah_harga = ($Kulakan->jumlah_harga) + ($Product->harga_beli);
         $Kulakan->update();
-        return $this->sendResponse('Success', 'penambahan barang sukses', $Pembelian, 200);
-    }
-    public function stire(Request $request)
-    {
-        $Product = Product::where('barcode', $request->kode)->first();
-        if (!$Product) {
-            return $this->sendResponse('failed', 'barang kosong. pastikan anda mencari berdasarkan barcode', null, 200);
-        }
-        $cek_kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->first();
-        if (empty($cek_kulakan)) {
-            $Kulakan = kulakan::create([
-                'user_id' => Auth::user()->id,
-                'tanggal' => Carbon::now(),
-                'status' => 0,
-                'jumlah_harga' => 0,
-            ]);
-            $Kulakan->save();
-        }
-        // ambil data kulakan lagi
-        $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->first();
-        // $Pembelian = Pembelian::where('kulakan_id', $Kulakan->id)->where('status', 0)->where('barcode', $Product->barcode)->first();
-        // if (!($Pembelian == [])) {
-        //     return $this->sendResponse('Success', 'penambahan barang gagal', $Pembelian, 200);
-        // }
-        $Pembelian = Pembelian::create([
-            'name' => $Product->name,
-            'merek' => $Product->merek,
-            'jumlah_product' => 1,
-            'supplier_id' => $Product->supplier_id,
-            'barcode' => $Product->barcode,
-            'category_id' => $Product->category_id,
-            'kulakan_id' => $Kulakan->id,
-            'status' => 0
-        ]);
-        $Pembelian->save();
-        $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->first();
-        $Kulakan->jumlah_harga = ($Kulakan->jumlah_harga) + ($Product->harga_beli);
+        $Kulakan->bayar = ($Kulakan->jumlah_harga) - (($Kulakan->jumlah_harga) * ($Kulakan->diskon / 100));
         $Kulakan->update();
-        return $this->sendResponse('Success', 'penambahan barang sukses', $Pembelian, 200);
+        alert()->success('SuccessAlert', 'barhasil');
+        return back();
     }
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        $Pembelian = Pembelian::where('id', $request->id)->first();
+        $Pembelian = Pembelian::where('id', $id)->first();
         $Kulakan = kulakan::where('id', $Pembelian->kulakan_id)->first();
         $Kulakan->jumlah_harga = ($Kulakan->jumlah_harga) - ($Pembelian->jumlah_harga);
         $Kulakan->update();
 
         $Pembelian->jumlah_product = $request->jumlah_product;
-        $Pembelian->harga = $request->harga;
-        $Pembelian->harga_jual = $request->harga_jual;
-        $Pembelian->jumlah_harga = ($request->jumlah_product) * ($request->harga);
+        $Pembelian->jumlah_harga = ($request->jumlah_product) * ($Pembelian->harga);
         $Pembelian->update();
 
         $Kulakan->jumlah_harga = ($Kulakan->jumlah_harga) + ($Pembelian->jumlah_harga);
         $Kulakan->update();
-        return $this->sendResponse('Success', 'berhasil mengupdate jumlah barang', compact('Pembelian', 'Kulakan'), 200);
+        $Kulakan->bayar = ($Kulakan->jumlah_harga) - (($Kulakan->jumlah_harga) * ($Kulakan->diskon / 100));
+        $Kulakan->update();
+        return back();
     }
     public function confirm()
     {
 
-        $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->first();
+        $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 0)->latest()->first();
         $Pembelian = Pembelian::where('kulakan_id', $Kulakan->id)->where('status', 0)->get();
+        $Keuangan = Keuangan::latest()->first();
+        if ($Keuangan->saldo < $Kulakan->bayar) {
+            alert()->error('KANTONG KERING', 'saldo anda kurang');
+            return back();
+        }
         foreach ($Pembelian as $Data) {
             $Pembelians = Pembelian::find($Data->id);
             $Pembelians->status = 1;
             $Pembelians->update();
             $Product = Product::where('barcode', $Data->barcode)->first();
             $Product->stock = ($Product->stock) + ($Data->jumlah_product);
-            $Product->harga_jual = $Data->harga_jual;
-            $Product->harga_beli = $Data->harga;
             $Product->update();
         }
-
-        $Kulakan->status = 1;
-        $Kulakan->update();
-        $Kulakan = kulakan::where('user_id', Auth::user()->id)->where('status', 1)->first();
-        $Pembelian = Pembelian::where('kulakan_id', $Kulakan->id)->where('status', 1)->get();
-
-        $Keuangan = Keuangan::latest()->first();
         Keuangan::create([
             'keterangan' => 'pembelian',
-            'debit' => $Kulakan->jumlah_harga,
-            'saldo' => ($Keuangan->saldo) - ($Kulakan->jumlah_harga)
+            'kredit' => $Kulakan->bayar,
+            'saldo' => ($Keuangan->saldo) - ($Kulakan->bayar)
         ]);
+        $Kulakan->status = 1;
+        $Kulakan->update();
 
-        alert()->success('SuccessAlert', 'Lorem ipsum dolor sit amet.');
-        return back();
+        alert()->success('SuccessAlert', 'Berhasil');
+        return Redirect('pembelian');
     }
     public function destroy($id)
     {
         $Pembelian = Pembelian::where('id', $id)->first();
         if (!$Pembelian) {
-            return $this->sendResponse('error', 'data tidak ada', null, 200);
+            alert()->error('ErrorAlert', 'data tidak ada');
+            return back();
         }
         $Kulakan = kulakan::where('id', $Pembelian->kulakan_id)->first();
         $Kulakan->jumlah_harga = ($Kulakan->jumlah_harga) - ($Pembelian->jumlah_harga);
         $Kulakan->update();
+        $Kulakan->bayar = ($Kulakan->jumlah_harga) - (($Kulakan->jumlah_harga) * ($Kulakan->diskon / 100));
+        $Kulakan->update();
         $Pembelian->delete();
-        return $this->sendResponse('Success', 'berhasil menghapus barang', $Kulakan, 200);
+        alert()->success('SuccessAlert', 'Lorem ipsum dolor sit amet.');
+        return back();
+    }
+    public function diskon(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'diskon' => 'integer',
+        ]);
+        $Kulakan = Kulakan::where('user_id', Auth::id())->where('status', 0)->first();
+        $Kulakan->diskon = $request->diskon;
+        $Kulakan->bayar = ($Kulakan->jumlah_harga) - (($Kulakan->jumlah_harga) * ($request->diskon / 100));
+        $Kulakan->update();
+        alert()->success('SuccessAlert', 'Lorem ipsum dolor sit amet.');
+        return back();
+    }
+    public function kembali(Request $request)
+    {
+        $Kulakan = Kulakan::where('user_id', Auth::id())->where('status', 0)->first();
+        if ($Kulakan) {
+            $Pembelian = Pembelian::where('kulakan_id', $Kulakan->id)->where('status', 0)->get();
+            foreach ($Pembelian as $value) {
+                $value->delete();
+            }
+            $Kulakan->delete();
+            return redirect('pembelian');
+        }
+        return redirect('pembelian');
+    }
+    public function show($id)
+    {
+        $Pembelian = Pembelian::where('kulakan_id', $id)->get();
+        return view('pages.pembelian.show', compact('Pembelian'));
     }
 }

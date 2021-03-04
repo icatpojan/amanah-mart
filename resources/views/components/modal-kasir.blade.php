@@ -1,4 +1,5 @@
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+{{-- modal --}}
+<div class="modal fade" id="modal-barang" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-xl">
         <div class="modal-content">
             <div class="modal-header">
@@ -35,9 +36,8 @@
                                     <td>{{ $produk->diskon }}</td>
                                     <td>{{ $produk->category_id }}</td>
                                     <td class="text-center">
-                                        <form action="{{ route('pembelian.store')}}" method="POST">
+                                        <form action="{{ route('penjualan.store')}}" method="POST">
                                             @csrf
-                                            <input type="hidden" value="{{ $Supplier->id }}" name="supplier_id">
                                             <input  type="hidden" name="barcode"
                                                 class="form-control" value="{{ $produk->barcode }}">
                                             <button type="submit" class="btn btn-outline-primary btn">
@@ -60,3 +60,4 @@
         </div>
     </div>
 </div>
+{{-- modal --}}

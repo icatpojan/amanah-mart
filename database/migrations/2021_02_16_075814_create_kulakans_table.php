@@ -16,10 +16,14 @@ class CreateKulakansTable extends Migration
         Schema::create('kulakans', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('supplier_id');
             $table->date('tanggal');
             $table->string('status')->nullable();
             $table->integer('jumlah_harga')->nullable();
+            $table->integer('bayar')->default(0);
+            $table->integer('diskon')->nullable();
             $table->timestamps();
+
         });
     }
 

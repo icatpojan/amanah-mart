@@ -47,9 +47,9 @@
                         <div class="error mx-auto" data-text="403">403</div>
                         <p class="lead text-gray-800 mb-5">Access Forbidden</p>
                         <p class="text-gray-500 mb-2">
-                            Anda Tidak Memiliki Akses ... <i class="fas fa-lock"></i>
+                            Anda Tidak Memiliki Akses <i class="fas fa-lock"></i>
                         </p>
-                        <a href="{{route('home')}}">&larr; Segera Kembali</a>
+                        <button onclick="goBack()" class="btn btn-danger">Silakan kembali</button>
                     </div>
 
                 </div>
@@ -62,7 +62,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Sammpah <?= date('Y') ?></span>
+                        <span>Copyright &copy; Amanah-Mart <?= date('y') ?></span>
                     </div>
                 </div>
             </footer>
@@ -89,6 +89,11 @@
     <!-- Custom scripts for all pages-->
     <script src="{{asset('template/js/sb-admin-2.min.js')}}"></script>
 
+    <script>
+        function goBack() {
+          window.history.back();
+        }
+        </script>
 </body>
 
 </html>

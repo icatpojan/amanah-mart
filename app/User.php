@@ -55,4 +55,12 @@ class User extends Authenticatable implements JWTSubject , MustVerifyEmail
     {
         return $this->hasMany('App\Api\Absen');
     }
+    public function kulakan()
+    {
+        return $this->hasMany('App\Api\Kulakan');
+    }
+    public function penjualan()
+    {
+        return $this->hasMany('App\Model\Penjualan', 'id_kasir','id');
+    }
 }

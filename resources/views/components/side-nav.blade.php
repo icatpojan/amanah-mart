@@ -17,12 +17,15 @@
             <span>Dashboard</span></a>
     </li>
 
+    @if (Auth::user()->role_id != 5)
     <hr class="sidebar-divider">
 
     <!-- Heading -->
-    <div class="sidebar-heading">
-        Admin
-    </div>
+
+        <div class="sidebar-heading">
+            Admin
+        </div>
+    @endif
 
     <!-- Nav Item - Kelola User -->
     @if (Auth::user()->role_id <= 3)
@@ -49,41 +52,43 @@
         </li>
     @endif
     <!-- Nav Item - Kelola Produk -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#toggleSampah" aria-expanded="true"
-            aria-controls="toggleSampah">
-            <i class="fas fa-fw fa-warehouse"></i>
-            <span>Kelola Produk</span>
-        </a>
-        <div id="toggleSampah" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Kelola Produk</h6>
-                @if (Auth::user()->role_id == 1 || Auth::user()->role_id == 3)
+    @if (Auth::user()->role_id != 5)
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#toggleSampah"
+                aria-expanded="true" aria-controls="toggleSampah">
+                <i class="fas fa-fw fa-warehouse"></i>
+                <span>Kelola Produk</span>
+            </a>
+            <div id="toggleSampah" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Kelola Produk</h6>
+                    @if (Auth::user()->role_id == 1 || Auth::user()->role_id == 3)
 
-                    <a class="collapse-item{{ request()->is('sampah') ? ' active' : '' }}"
-                        href="{{ route('product.index') }}">Produk</a>
-                @endif
-                @if (Auth::user()->role_id < 4)
+                        <a class="collapse-item{{ request()->is('produk') ? ' active' : '' }}"
+                            href="{{ route('product.index') }}">Produk</a>
+                    @endif
+                    @if (Auth::user()->role_id < 4)
 
-                    <a class="collapse-item{{ request()->is('gudang') ? ' active' : '' }}"
-                        href="{{ route('supplier.index') }}">Supplier</a>
-                @endif
-                @if (Auth::user()->role_id == 1 || Auth::user()->role_id == 3)
-                    <a class="collapse-item{{ request()->is('gudang') ? ' active' : '' }}"
-                        href="{{ route('category.index') }}">Kategori</a>
-                @endif
+                        <a class="collapse-item{{ request()->is('supplier') ? ' active' : '' }}"
+                            href="{{ route('supplier.index') }}">Supplier</a>
+                    @endif
+                    @if (Auth::user()->role_id == 1 || Auth::user()->role_id == 3)
+                        <a class="collapse-item{{ request()->is('kategori') ? ' active' : '' }}"
+                            href="{{ route('category.index') }}">Kategori</a>
+                    @endif
+                </div>
             </div>
-        </div>
-    </li>
-
+        </li>
+    @endif
     <!-- Divider -->
+    @if (Auth::user()->role_id != 5)
     <hr class="sidebar-divider">
 
     <!-- Heading -->
-    <div class="sidebar-heading">
-        Kasir
-    </div>
-
+        <div class="sidebar-heading">
+            Kasir
+        </div>
+    @endif
     @if (Auth::user()->role_id < 3)
         <!-- Nav Item - Keuangan -->
         <li class="nav-item{{ request()->is('keuangan') ? ' active' : '' }}"">
@@ -108,7 +113,7 @@
 
         <li class="nav-item{{ request()->is('pembelian') ? ' active' : '' }}">
             <a class="nav-link" href="{{ route('pembelian.index') }}">
-                <i class="fas fa-fw fa-water"></i>
+                <i class="fas fa-fw fa-cat"></i>
                 <span>Pembelian</span></a>
         </li>
     @endif

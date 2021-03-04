@@ -11,41 +11,23 @@ use App\Model\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Livewire\Component;
-use Livewire\WithFileUploads;
-
+use PDF;
 
 class KasirController extends Controller
 {
-
-
     public function index()
     {
-        $Cart = Cart::all();
+        $Penjualan = Penjualan::where('status', 0)->where('id_kasir', Auth::id())->first();
         $Product = Product::all();
-        return view('pages.kasir', compact('Cart','Product'));
+        if ($Penjualan == []) {
+
+            $Cart = [];
+            return view('pages.kasir', compact('Cart', 'Product', 'Penjualan'));
+        }
+        $Cart = Cart::where('penjualan_id', $Penjualan->id)->where('status', 0)->get();
+
+        return view('pages.kasir', compact('Cart', 'Product', 'Penjualan'));
     }
-    public function getData()
-    {
-        $arr['data'] = Cart::where('status', 0)->orderBy('id', 'asc')->get();
-        echo json_encode($arr);
-        exit;
-    }
-    public function getdataku()
-    {
-        $arr['data'] = Penjualan::where('status', 0)->get();
-        echo json_encode($arr);
-        exit;
-    }
-    // public function index()
-    // {
-    //     $Penjualan = Penjualan::where('id_kasir', Auth::user()->id)->where('status', 0)->latest()->first();
-    //     $Cart = Cart::where('penjualan_id', $Penjualan->id)->where('status', 0)->get();
-    //     if ($Cart == '[]') {
-    //         return $this->sendResponse('Failed', 'data kosong', null, 404);
-    //     }
-    //     return view('pages.kasir', compact('Cart'));
-    // }
     public function see()
     {
         $Penjualan = Penjualan::where('user_id', Auth::user()->id)->where('status', 1)->letest()->first();
@@ -59,7 +41,8 @@ class KasirController extends Controller
     {
         $Product = Product::where('barcode', $request->barcode)->first();
         if (!$Product) {
-            return $this->sendResponse('Failed', 'barang kosong. pastikan anda mencari berdasarkan barcode', null, 200);
+            alert()->error('not fon', 'barang tidak ada. pastikan barcode');
+            return back();
         }
         $cek_penjualan = Penjualan::where('id_kasir', Auth::user()->id)->where('status', 0)->first();
         if (empty($cek_penjualan)) {
@@ -76,12 +59,14 @@ class KasirController extends Controller
         $Cart = Cart::where('penjualan_id', $Penjualan->id)->where('status', 0)->where('barcode', $request->barcode)->first();
         if (!($Cart == [])) {
             $Cart->jumlah_product = ($Cart->jumlah_product) + 1;
-            // $Cart->harga_diskon = ($Product->harga_jual)-(($Product->harga_jual) * ($Product->diskon/100));
             $Cart->jumlah_harga = ($Cart->jumlah_harga) + ($Cart->harga_diskon);
             $Penjualan->jumlah_harga = ($Penjualan->jumlah_harga) + ($Cart->harga_diskon);
+            $Penjualan->update();
+            $Penjualan->harus_dibayar = ($Penjualan->jumlah_harga) - (($Penjualan->jumlah_harga) * ($Penjualan->diskon / 100));
             $Cart->update();
             $Penjualan->update();
-            return $this->sendResponse('Success', 'penambahan barang sukses', $Cart, 200);
+            alert()->success('SuccessAlert', 'Lorem ipsum dolor sit amet.');
+            return back();
         }
         $Cart = Cart::create([
             'name' => $Product->name,
@@ -94,62 +79,19 @@ class KasirController extends Controller
             'status' => 0
         ]);
         $Penjualan->jumlah_harga = ($Penjualan->jumlah_harga) + ($Cart->jumlah_harga);
-        $Cart->save();
         $Penjualan->update();
-        return $this->sendResponse('Success', 'penambahan barang sukses', $Cart, 200);
-    }
-    public function stire(Request $request)
-    {
-        $Product = Product::where('barcode', $request->kode)->first();
-        if (!$Product) {
-            return $this->sendResponse('Failed', 'barang kosong. pastikan anda mencari berdasarkan barcode', null, 200);
-        }
-        $cek_penjualan = Penjualan::where('id_kasir', Auth::user()->id)->where('status', 0)->first();
-        if (empty($cek_penjualan)) {
-            $Penjualan = Penjualan::create([
-                'id_kasir' => Auth::user()->id,
-                'status' => 0,
-                'jumlah_harga' => 0,
-                'status' => 0,
-            ]);
-            $Penjualan->save();
-        }
-        // ambil data penjualan lagi
-        $Penjualan = Penjualan::where('id_kasir', Auth::user()->id)->where('status', 0)->first();
-        $Cart = Cart::where('penjualan_id', $Penjualan->id)->where('status', 0)->where('barcode', $request->kode)->first();
-        if (!($Cart == [])) {
-            $Cart->jumlah_product = ($Cart->jumlah_product) + 1;
-            // $Cart->harga_diskon = ($Product->harga_jual)-(($Product->harga_jual) * ($Product->diskon/100));
-            $Cart->jumlah_harga = ($Cart->jumlah_harga) + ($Cart->harga_diskon);
-            $Penjualan->jumlah_harga = ($Penjualan->jumlah_harga) + ($Cart->harga_diskon);
-            $Cart->update();
-            $Penjualan->update();
-            return $this->sendResponse('Success', 'penambahan barang sukses', $Cart, 200);
-        }
-        $Cart = Cart::create([
-            'name' => $Product->name,
-            'jumlah_product' => 1,
-            'barcode' => $Product->barcode,
-            'harga' => $Product->harga_jual,
-            'harga_diskon' => ($Product->harga_jual) - (($Product->harga_jual) * ($Product->diskon / 100)),
-            'jumlah_harga' => ($Product->harga_jual) - (($Product->harga_jual) * ($Product->diskon / 100)),
-            'penjualan_id' => $Penjualan->id,
-            'status' => 0
-        ]);
-        $Penjualan->jumlah_harga = ($Penjualan->jumlah_harga) + ($Cart->jumlah_harga);
-        $Cart->save();
+        $Penjualan->harus_dibayar = ($Penjualan->jumlah_harga) - (($Penjualan->jumlah_harga) * ($Penjualan->diskon / 100));
         $Penjualan->update();
-        return $this->sendResponse('Success', 'penambahan barang sukses', $Cart, 200);
+        $Cart->save();
+        alert()->success('SuccessAlert', 'Lorem ipsum dolor sit amet.');
+        return back();
     }
+
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'jumlah_product' => 'integer',
         ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 400);
-        }
 
         // refresh dulu harga penjualan
         $Cart = Cart::where('id', $id)->first();
@@ -166,7 +108,9 @@ class KasirController extends Controller
         // $Penjualan = Penjualan::where('id', $Cart->penjualan_id)->first();
         $Penjualan->jumlah_harga = ($Penjualan->jumlah_harga) + ($Cart->jumlah_harga);
         $Penjualan->update();
-        return $this->sendResponse('Success', 'berhasil mengupdate jumlah barang', compact('Cart', 'Penjualan'), 200);
+        $Penjualan->harus_dibayar = ($Penjualan->jumlah_harga) - (($Penjualan->jumlah_harga) * ($Penjualan->diskon / 100));
+        $Penjualan->update();
+        return back();
     }
     public function bayar(Request $request)
     {
@@ -180,12 +124,14 @@ class KasirController extends Controller
 
         $Penjualan = Penjualan::where('id_kasir', Auth::user()->id)->where('status', 0)->first();
         if ($Penjualan->jumlah_harga > $request->dibayar) {
-            return $this->sendResponse('failed', 'duit anda kurang bos', null, 200);
+            alert()->error('KANTONG KERING', 'Duit anda kurang');
+            return back();
         } else {
             $Penjualan->dibayar = $request->dibayar;
-            $Penjualan->kembalian = $request->dibayar - $Penjualan->jumlah_harga;
+            $Penjualan->kembalian = $request->dibayar - $Penjualan->harus_dibayar;
             $Penjualan->update();
-            return $this->sendResponse('Success', 'ini dia kembalian anda', $Penjualan->kembalian, 200);
+            alert()->success('SuccessAlert', 'Lorem ipsum dolor sit amet.');
+            return back();
         }
     }
     public function diskon(Request $request)
@@ -201,25 +147,54 @@ class KasirController extends Controller
         $Penjualan = Penjualan::where('id_kasir', Auth::user()->id)->where('status', 0)->first();
         $Member = Member::where('member_id', $request->member_id)->first();
         if ($Member == []) {
-            return $this->sendResponse('Failed', 'member tidak ada', null, 400);
+            alert()->error('not fon', 'member tidak ada');
+            return back();
         }
         if (!($Penjualan->diskon == 0)) {
-            return $this->sendResponse('failed', 'gacha teros ampek gratis bos', $Penjualan, 400);
+            alert()->error('STOP', 'sudah didiskon');
+            return back();
         }
-        $Penjualan->jumlah_harga = ($Penjualan->jumlah_harga) - (($Penjualan->jumlah_harga) * ($diskon / 100));
-        $Penjualan->diskon = $diskon;
+        $Penjualan->harus_dibayar = ($Penjualan->jumlah_harga) - (($Penjualan->jumlah_harga) * ($diskon / 100));
         $Penjualan->member_id = $request->member_id;
+        $Penjualan->diskon = $diskon;
         $Penjualan->update();
-        return $this->sendResponse('success', 'berhasil menambahkan member id', $Penjualan, 400);
+        alert()->success('SuccessAlert', 'Lorem ipsum dolor sit amet.');
+        return back();
     }
-    public function confirm()
+    public static function cetak_pdf()
     {
+        $Penjualan = Penjualan::where('id_kasir', Auth::user()->id)->where('status', 0)->first();
+        $Cart = Cart::where('penjualan_id', $Penjualan->id)->where('status', 0)->get();
 
+        $pdf = PDF::loadview('report.kasir_pdf', compact('Cart'));
+        // return $pdf->download('laporan-penjualan-pdf');
+        return $pdf->stream('laporan-kasir-pdf');
+    }
+    public function confirm(Request $request)
+    {
         $Penjualan = Penjualan::where('id_kasir', Auth::user()->id)->where('status', 0)->first();
         if ($Penjualan == null || $Penjualan->jumlah_harga == 0 || $Penjualan == []) {
-            return $this->sendResponse('failed', 'anda belom memasukan apapun', null, 400);
+            alert()->error('KOSONG', 'anda belom masukin apapun');
+            return back();
+        }
+
+        if ($Penjualan->dibayar == null) {
+            alert()->error('KOSONG', 'bayar dulu dong');
+            return back();
         }
         $Cart = Cart::where('penjualan_id', $Penjualan->id)->where('status', 0)->get();
+        foreach ($Cart as $Data) {
+            $Product = Product::where('barcode', $Data->barcode)->first();
+            if ($Product->stock = $Product->stock < $Data->jumlah_product) {
+                alert()->error('KOSONG', 'barang kurang');
+                return back();
+            }
+        }
+        if ($request->has('cetak')) {
+            $pdf = PDF::loadview('report.kasir_pdf', compact('Cart'));
+            // return $pdf->download('laporan-penjualan-pdf');
+            return $pdf->stream('nota-kasir-pdf');
+        }
         foreach ($Cart as $Data) {
             $Carts = Cart::find($Data->id);
             $Carts->status = 1;
@@ -236,8 +211,8 @@ class KasirController extends Controller
         $Keuangan = Keuangan::latest()->first();
         Keuangan::create([
             'keterangan' => 'Penjualan',
-            'debit' => $Penjualan->jumlah_harga,
-            'saldo' => ($Keuangan->saldo) + ($Penjualan->jumlah_harga)
+            'debit' => $Penjualan->harus_dibayar,
+            'saldo' => ($Keuangan->saldo) + ($Penjualan->harus_dibayar)
         ]);
         alert()->success('SuccessAlert', 'Lorem ipsum dolor sit amet.');
         return back();
@@ -247,16 +222,19 @@ class KasirController extends Controller
         // cek penjualan
         $Penjualan = Penjualan::where('id_kasir', Auth::user()->id)->where('status', 0)->first();
         if ($Penjualan == null || $Penjualan->jumlah_harga == 0 || $Penjualan == []) {
-            return $this->sendResponse('failed', 'anda belom memasukan apapun', null, 400);
+            alert()->error('KOSONG', 'anda belom masukin apapun');
+            return back();
         }
 
         //cek kode member dan saldonya
         $Member = Member::where('member_id', $Penjualan->member_id)->first();
         if ($Member == null) {
-            return $this->sendResponse('Failed', 'anda belom memasukan kode member', null, 200);
+            alert()->error('notfon', 'member belom dimasukan');
+            return back();
         }
         if ($Penjualan->jumlah_harga > $Member->saldo) {
-            return $this->sendResponse('Failed', 'saldo member kurang', null, 200);
+            alert()->error('KANTONG KERING', 'saldo member kurang');
+            return back();
         }
         $Member->saldo = $Member->saldo - $Penjualan->jumlah_harga;
         $Member->update();
@@ -279,8 +257,8 @@ class KasirController extends Controller
         $Keuangan = Keuangan::latest()->first();
         Keuangan::create([
             'keterangan' => 'Penjualan',
-            'debit' => $Penjualan->jumlah_harga,
-            'saldo' => ($Keuangan->saldo) + ($Penjualan->jumlah_harga)
+            'debit' => $Penjualan->harus_dibayar,
+            'saldo' => ($Keuangan->saldo) + ($Penjualan->harus_dibayar)
         ]);
         alert()->success('SuccessAlert', 'Lorem ipsum dolor sit amet.');
         return back();
@@ -294,7 +272,10 @@ class KasirController extends Controller
         $Penjualan = Penjualan::where('id', $Cart->penjualan_id)->first();
         $Penjualan->jumlah_harga = ($Penjualan->jumlah_harga) - ($Cart->jumlah_harga);
         $Penjualan->update();
+        $Penjualan->harus_dibayar = ($Penjualan->jumlah_harga) - (($Penjualan->jumlah_harga) * ($Penjualan->diskon / 100));
+        $Penjualan->update();
         $Cart->delete();
-        return $this->sendResponse('Success', 'berhasil menghapus barang', $Penjualan, 200);
+        alert()->success('SuccessAlert', 'BRAZIL');
+        return back();
     }
 }

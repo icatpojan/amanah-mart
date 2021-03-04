@@ -29,7 +29,7 @@ class PenjualanController extends Controller
                 $del->delete();
             }
 
-            return view('pages.penjualan', compact('Penjualan','Total_penjualan','Total_bulanan','Cart','row'));
+            return view('pages.penjualan.penjualan', compact('Penjualan','Total_penjualan','Total_bulanan','Cart','row'));
         }else
         $no = 0;
         $data = [];
@@ -58,14 +58,20 @@ class PenjualanController extends Controller
             $del->delete();
         }
 
-        return view('pages.penjualan', compact('Penjualan','Total_penjualan','Total_bulanan','Cart','row'));
+        return view('pages.penjualan.penjualan', compact('Penjualan','Total_penjualan','Total_bulanan','Cart','row'));
     }
     public function cetak_pdf()
     {
     	$Penjualan = Penjualan::all();
 
-    	$pdf = PDF::loadview('report.penjualan_pdf',compact('Penjualan'));
+    	$pdf = PDF::loadview('report.penjualan_pdf',compact('Penjualan'))->setPaper('a4', 'landscape');
     	// return $pdf->download('laporan-penjualan-pdf');
         return $pdf->stream('laporan-penjualan-pdf');
     }
+    public function show($id)
+    {
+        $Cart = Cart::where('penjualan_id', $id)->get();
+        return view('pages.penjualan.show', compact('Cart'));
+    }
+
 }
