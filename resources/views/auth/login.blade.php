@@ -38,7 +38,8 @@
                                         <div class="form-group">
                                             <input type="password"
                                                 class="form-control form-control-user @error('password') is-invalid @enderror"
-                                                id="password" placeholder="Password" name="password" value="{{ old('email') }}" >
+                                                id="password" placeholder="Password" name="password"
+                                                value="{{ old('email') }}">
                                             @error('password')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -47,7 +48,8 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input"  name="remember" id="remember">
+                                                <input type="checkbox" class="custom-control-input" name="remember"
+                                                    id="remember">
                                                 <label class="custom-control-label" for="remember">Remember
                                                     Me</label>
 
@@ -69,8 +71,13 @@
                                         <a class="small" href="{{ route('password.request') }}">Forgot Password?</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="{{route ('register')}}">Create an Account!</a>
+                                        <a class="small" href="{{ route('register') }}">Create an Account!</a>
                                     </div>
+                                    <div class="text-center">
+                                        <a href="{{ route('login.provider', 'google') }}"
+                                            class="btn btn-danger">{{ __('Google Sign in') }}</a>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>

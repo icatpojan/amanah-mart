@@ -10,8 +10,10 @@ Route::get('/', function () {
 Route::fallback(function () {
     return view('errors.404');
 });
-Route::get('/home', 'Web\HomeController@index')->name('home')->middleware('verified')->middleware('admin');
+Route::get('/home', 'Web\HomeController@index')->name('home');
 Auth::routes(['verify' => true]);
+Route::get('redirect/{driver}', 'Auth\LoginController@redirectToProvider')->name('login.provider');
+Route::get('{driver}/callback', 'Auth\LoginController@handleProviderCallback')->name('login.callback');
 
 // route dashboard
 Route::get('forbiden', 'Web\HomeController@forbiden');

@@ -23,10 +23,10 @@ class User extends Authenticatable implements JWTSubject , MustVerifyEmail
      *
      * @var array
      */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
 
+    protected $hidden = [
+        'password', 'password', 'remember_token','remember_token', 'provider_name', 'provider_id'
+    ];
     public function getJWTIdentifier()
     {
         return $this->getKey();
