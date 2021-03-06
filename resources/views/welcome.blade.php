@@ -29,8 +29,10 @@
                 <a href="https://play.google.com/"><img src="{{ asset('google.svg') }}" alt="a"
                         style="height: 75px"></a>
                 <p>lalu</p>
-                <a href="#" class="btn facebook"><span></span>Daftar dengan gmail</a>
-                <a href="#" class="btn twitter"><span></span>Daftar dengan email</a>
+                {{-- <a href="#" class="btn facebook"><span></span>Daftar dengan gmail</a> --}}
+                <a href="{{ route('login.provider', 'google') }}"
+                class="btn facebook">{{ __('Google Sign in') }}</a>
+                {{-- <a href="#" class="btn twitter"><span></span>Daftar dengan email</a> --}}
             </div>
         </div>
     </div>

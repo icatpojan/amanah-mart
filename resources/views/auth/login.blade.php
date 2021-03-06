@@ -75,8 +75,10 @@
                                     </div>
                                     <div class="text-center">
                                         <a href="{{ route('login.provider', 'google') }}"
-                                            class="btn btn-danger">{{ __('Google Sign in') }}</a>
-                                    </div>
+                                            class="btn btn-success">{{ __('Google Sign in') }}</a>
+                                            <a href="{{ route('login.provider', 'facebook') }}"
+                                            class="btn btn-info">{{ __('Facebook Sign in') }}</a>
+                                        </div>
 
                                 </div>
                             </div>
