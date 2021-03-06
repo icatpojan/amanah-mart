@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\Model\kasir;
+use App\Model\data;
 use App\Model\Cart;
 use App\Model\Penjualan;
 use Illuminate\Http\Request;
@@ -18,14 +18,14 @@ class PenjualanController extends Controller
         $Cart = Cart::where('created_at', date('Y-m-d'))->sum('jumlah_product');
         $Penjualan = Penjualan::all();
         if ($request->awal == null) {
-            $row = kasir::create([
+            $row = data::create([
                 'tanggal' => "tidak ada data",
                 'penjualan' =>  0,
                 'pembelian' => 0,
             ]);
-            $row = kasir::all();
+            $row = data::all();
             foreach ($row as $Data) {
-                $del = kasir::find($Data->id);
+                $del = data::find($Data->id);
                 $del->delete();
             }
 
@@ -45,16 +45,16 @@ class PenjualanController extends Controller
             $total_pembelian = Penjualan::where('created_at', 'LIKE', "$tanggal%")->sum('jumlah_harga');
 
 
-            $row = kasir::create([
+            $row = data::create([
                 'tanggal' => $tanggal,
                 'penjualan' => $total_penjualan,
                 'pembelian' => $total_pembelian,
             ]);
-            $row = kasir::all();
+            $row = data::paginate(10);
         }
 
         foreach ($row as $Data) {
-            $del = kasir::find($Data->id);
+            $del = data::find($Data->id);
             $del->delete();
         }
 

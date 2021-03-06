@@ -67,7 +67,7 @@
                                     <td>{{ $value->created_at }}</td>
                                     <td>
                                         <form action="{{route('penjualan.show', $value->id)}}" method="get">
-                                            <button type="submit" class="btn btn-warning">Lihat</button>
+                                            <button type="submit" class="btn btn-outline-warning">Lihat</button>
                                         </form>
                                     </td>
                                 </tr>

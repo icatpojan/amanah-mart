@@ -13,7 +13,7 @@
                         <input type="date" name="akhir" class="form-control mt-2 mb-2" required>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-warning mb-2">Tampilkan</button>
+                <button type="submit" class="btn btn-outline-warning mb-2">Tampilkan</button>
 
             </form>
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0"

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Model\Cart;
 use App\Model\Category;
 use App\Model\Product;
 use App\Model\Supplier;
@@ -13,10 +14,11 @@ class ProductController extends Controller
 {
     public function index()
     {
+        $Cart = Cart::groupBy('name')->select('name', \DB::raw('count(*) as total'))->get();
         $Category = Category::all();
         $Product = Product::all();
         $Supplier = Supplier::all();
-        return view('pages.product', compact('Product', 'Category', 'Supplier'));
+        return view('pages.product', compact('Product', 'Category', 'Supplier', 'Cart'));
     }
     public function store(Request $request)
     {

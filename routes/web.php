@@ -17,9 +17,9 @@ Auth::routes(['verify' => true]);
 Route::get('forbiden', 'Web\HomeController@forbiden');
 Route::group(['namespace' => 'Web', 'middleware' => ['verified']], function () {
     Route::get('dashboard', 'HomeController@admin')->name('admin.dashboard');
-
     Route::group(['middleware' => ['admin']], function () {
         Route::post('user/create', 'UserController@store')->name('karyawan.store'); //menambah karyawan
+
         Route::post('user/update/{id}', 'UserController@update')->name('karyawan.update'); //menambah karyawan
         Route::get('userr/{id}', 'UserController@show')->name('karyawan.show'); //menambah karyawan
         Route::post('user/delete/{id}', 'UserController@destroy')->name('karyawan.destroy'); //menambah karyawan

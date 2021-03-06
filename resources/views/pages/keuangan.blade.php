@@ -18,7 +18,7 @@
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
+                        <thead  class="thead-dark">
                             <tr>
                                 <th>ID</th>
                                 <th>Keterangan</th>
@@ -52,7 +52,7 @@
                         </tbody>
                     </table>
                 </div>
-                <a href="{{ route('cetak.keuangan') }}" class="btn btn-primary" target="_blank">CETAK LAPORAN</a>
+                <a href="{{ route('cetak.keuangan') }}" class="btn btn-outline-primary" target="_blank">CETAK LAPORAN</a>
             </div>
         </div>
         @include('card.laporan')

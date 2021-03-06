@@ -1,4 +1,4 @@
-<footer class="sticky-footer bg-warning">
+<footer class="sticky-footer bg-white">
     <div class="container my-auto">
         <div class="copyright text-center my-auto">
             Template SB-Admin 2 modified By: Hanif Az-zuhdi | Upgraded Laravel 7.0 By: <a

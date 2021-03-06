@@ -26,14 +26,14 @@
         <div class="card shadow mb-4">
             <div class="card-header d-flex justify-content-between py-3">
                 <h6 class="m-0 font-weight-bold text-primary">DAFTAR SUPPLIER</h6>
-                <button type="button" class="btn-primary btn-sm" data-toggle="modal" data-target="#tambah-supplier">
+                <button type="button" class="btn-outline-primary btn-sm" data-toggle="modal" data-target="#tambah-supplier">
                     <i class="fas fa-user-plus"></i>
                 </button>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
+                        <thead  class="thead-dark">
                             <tr>
                                 <th>Nama</th>
                                 <th>No. Telepon</th>
@@ -59,15 +59,15 @@
                                     <td>{{ $user->address }}</td>
                                     <td>{{ $user->created_at }}</td>
                                     <td class="text-center">
-                                        <button type="button" class="btn-primary btn-sm" data-toggle="modal"
+                                        <button type="button" class="btn-outline-primary btn-sm" data-toggle="modal"
                                             data-target="#update-supplier-{{ $user->id }}">
-                                            <i class="fas fa-eye">lihat</i>
+                                            <i class="fas fa-eye"></i>
                                         </button>
                                         <form action="{{ route('supplier.destroy', $user->id) }}" method="post">
                                             @csrf
-                                            <button class="btn-danger btn-sm mt-2" type="submit"
+                                            <button class="btn-outline-danger btn-sm mt-1" type="submit"
                                             onclick="return confirm ('Yakin Hapus ?')">
-                                                <i>Hapus</i>
+                                                <i class="fas fa-trash-alt"></i>
                                             </button>
                                         </form>
                                     </td>

@@ -34,11 +34,15 @@
             </div>
         </div>
     </div>
+    <div>
+
+    </div>
     <footer>
         <div class="container">
             <p>
                 <a target="_blank" href="https://github.com/icatpojan">Irsyad Fauzan</a>
-                <a target="_blank" href="https://github.com/hanifazzuhdi">Radiant fadhilah</a></p>
+                <a target="_blank" href="https://github.com/hanifazzuhdi">Radiant fadhilah</a>
+            </p>
         </div>
     </footer>
 </body>

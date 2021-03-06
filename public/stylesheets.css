@@ -13,6 +13,7 @@ p,
 div {
     margin: 0;
     padding: 0;
+    text-align: center;
 }
 
 body {

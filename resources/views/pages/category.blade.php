@@ -26,14 +26,14 @@
         <div class="card shadow mb-4">
             <div class="card-header d-flex justify-content-between py-3">
                 <h6 class="m-0 font-weight-bold text-primary">DAFTAR KATAGORI</h6>
-                <button type="button" class="btn-primary btn-sm" data-toggle="modal" data-target="#tambah-category">
+                <button type="button" class="btn-outline-primary btn-sm" data-toggle="modal" data-target="#tambah-category">
                     <i class="fas fa-user-plus"></i>
                 </button>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
+                        <thead  class="thead-dark">
                             <tr>
                                 <th>id</th>
                                 <th>Nama</th>
@@ -42,15 +42,6 @@
                                 <th>Aksi</th>
                             </tr>
                         </thead>
-                        <tfoot>
-                            <tr>
-                                <th>id</th>
-                                <th>Nama</th>
-                                <th>di buat</th>
-                                <th>di update</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </tfoot>
                         <tbody>
                             @foreach ($Category as $katagori)
                                 <tr>
@@ -59,14 +50,14 @@
                                     <td>{{ $katagori->created_at }}</td>
                                     <td>{{ $katagori->updated_at }}</td>
                                     <td class="text-center">
-                                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                                        <button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal"
                                             data-target="#update-category-{{ $katagori->id }}">
-                                            <i>apdet</i>
+                                            <i  class="	fas fa-tools"></i>
                                         </button>
                                         <form action="{{ route('category.destroy', $katagori->id) }}" method="post">
                                             @csrf
-                                            <button class="btn btn-danger btn-sm mt-2" type="submit" onclick="return confirm ('Yakin Hapus ?')">
-                                                <i>delet</i>
+                                            <button class="btn btn-outline-danger btn-sm mt-1" type="submit" onclick="return confirm ('Yakin Hapus ?')">
+                                                <i class="	fas fa-trash-alt"></i>
                                             </button>
                                         </form>
                                     </td>
@@ -75,7 +66,7 @@
                         </tbody>
                     </table>
                     <div class="d-flex justify-content-end">
-                        {{-- {{$User->links()}} --}}
+                        {{$Category->onEachSide(2)->links()}}
                     </div>
                 </div>
             </div>
