@@ -68,7 +68,7 @@
                                     <td>{{ $kulakan->created_at }}</td>
                                     <td class="text-center">
                                         <form action="{{route('pembelian.show', $kulakan->id)}}" method="get">
-                                            <button type="submit" class="btn btn-success">LIHAT</button>
+                                            <button type="submit" class="btn btn-success"><i class="fas fa-trash-alt"></i></button>
                                         </form>
                                     </td>
                                 </tr>

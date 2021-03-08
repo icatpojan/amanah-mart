@@ -16,7 +16,7 @@ class AbsenController extends Controller
         $cek = false;
 
         if (date('l') == 'Saturday' || date('l') == 'Sunday') {
-            alert()->error('ErrorAlert', 'Lorem ipsum dolor sit amet.');
+            alert()->error('LIBUR', 'libur telah tiba hore');
             return back();
         }
         foreach ($User as $user) {

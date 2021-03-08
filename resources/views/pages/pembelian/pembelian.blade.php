@@ -25,7 +25,7 @@
                 <br>
                 Nomor telpon : {{ $Supplier->phone_number }}
                 <form action="{{ route('pembelian.kembali') }}" method="get">
-                    <button type="submit" class="btn btn-warning">kembali</button>
+                    <button type="submit" class="btn btn-outline-warning">kembali</button>
                 </form>
             </div>
         </div>
@@ -45,8 +45,8 @@
                         </div>
                     </div>
                     <div class="col-md-1">
-                        <button type="button" class="btn btn-success btn" data-toggle="modal" data-target="#exampleModal">
-                            CARI
+                        <button type="button" class="btn btn-outline-success btn" data-toggle="modal" data-target="#exampleModal">
+                            <i class="fa fa-cart-plus"></i>
                         </button>
                     </div>
                 </div>
@@ -86,7 +86,7 @@
                                                 <form action="{{ route('pembelian.destroy', $pembelian->id) }}"
                                                     method="post">
                                                     @csrf
-                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                    <button type="submit" class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i></button>
                                                 </form>
                                             </td>
                                         </tr>

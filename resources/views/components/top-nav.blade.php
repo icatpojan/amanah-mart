@@ -57,7 +57,7 @@
                             </div>
                         </div>
                         <div>
-                            <div class="small text-gray-500">{{date('l ,d M Y')}}</div>
+                            <div class="small text-gray-500">{{ date('l ,d M Y') }}</div>
 
                             <span class="font-weight-bold"> <span class="count-alert"></span> Permintaan Tarik Saldo
                                 Belum diproses</span>
@@ -82,8 +82,10 @@
             <li class="nav-item dropdown no-arrow">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
-                    <h2>{{Auth::user()->name}}</h2>
-                    {{-- <img class="img-profile rounded-circle" src="{{Auth::user()->image}}"> --}}
+                    <h2>{{ Auth::user()->name }}</h2>
+                    @if (Auth::user()->role_id == 5)
+                        <img class="img-profile rounded-circle" src="{{ Auth::user()->member->image }}">
+                    @endif
                 </a>
                 <!-- Dropdown - User Information -->
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

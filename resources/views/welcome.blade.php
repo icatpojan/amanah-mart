@@ -32,6 +32,8 @@
                 {{-- <a href="#" class="btn facebook"><span></span>Daftar dengan gmail</a> --}}
                 <a href="{{ route('login.provider', 'google') }}"
                 class="btn facebook">{{ __('Google Sign in') }}</a>
+                <a href="{{ route('login.provider', 'google') }}"
+                class="btn twitter">{{ __('Facebook Sign in') }}</a>
                 {{-- <a href="#" class="btn twitter"><span></span>Daftar dengan email</a> --}}
             </div>
         </div>

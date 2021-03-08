@@ -29,8 +29,8 @@
                         </div>
                     </div>
                     <div class="col-md-1">
-                        <button type="button" class="btn btn-success btn" data-toggle="modal" data-target="#modal-barang">
-                            CARI
+                        <button type="button" class="btn btn-outline-success btn" data-toggle="modal" data-target="#modal-barang">
+                            <i class="fa fa-cart-plus"></i>
                         </button>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                                             <td style="text-align: center">
                                                 <form action="{{ route('penjualan.destroy', $cart->id) }}" method="post">
                                                     @csrf
-                                                    <button type="submit" class="btn btn-danger">hapus</button>
+                                                    <button type="submit" class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i></button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -122,7 +122,7 @@
                                     @csrf
                                     <label for="cetak">cetak</label>
                                     <input type="checkbox" id="cetak" name="cetak">
-                                    <button class="btn btn-success mb-1" type="submit">TUNAI</button>
+                                    <button class="btn btn-outline-success mb-1" type="submit">TUNAI</button>
                                 </form>
                             </div>
                             <div class="col" style="text-align: center">
@@ -130,13 +130,13 @@
                                     @csrf
                                     <label for="cetak">cetak</label>
                                     <input type="checkbox" id="cetak" name="cetak">
-                                    <button class="btn btn-warning" type="submit">SALDO</button>
+                                    <button class="btn btn-outline-warning" type="submit">SALDO</button>
                                 </form>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col" style="text-align: center">
-                                <a href="{{ route('penjualan.cetak') }}" class="btn btn-primary mb-2" target="_blank">CETAK NOTA</a>
+                                <a href="{{ route('penjualan.cetak') }}" class="btn btn-outline-primary mt-2 mb-2" target="_blank">CETAK NOTA</a>
                             </div>
                         </div>
                     </div>
