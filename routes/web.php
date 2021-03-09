@@ -25,6 +25,7 @@ Route::group(['namespace' => 'Web', 'middleware' => ['verified']], function () {
         Route::post('user/update/{id}', 'UserController@update')->name('karyawan.update'); //menambah karyawan
         Route::get('userr/{id}', 'UserController@show')->name('karyawan.show'); //menambah karyawan
         Route::post('user/delete/{id}', 'UserController@destroy')->name('karyawan.destroy'); //menambah karyawan
+        Route::get('user/show/{id}', 'UserController@show')->name('karyawan.show'); //menambah karyawan
 
         // Route User
         Route::get('user', 'UserController@index')->name('user.index');

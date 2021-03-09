@@ -28,14 +28,14 @@
             <div class="card-header d-flex justify-content-between py-3">
                 <h6 class="m-0 font-weight-bold text-primary">DAFTAR KARYAWAN</h6>
                 <!-- Button trigger modal -->
-                <button type="button" class="btn-primary btn-sm" data-toggle="modal" data-target="#tambah-karyawan">
+                <button type="button" class="btn-outline-primary" data-toggle="modal" data-target="#tambah-karyawan">
                     <i class="fas fa-user-plus"></i>
                 </button>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead  class="thead-dark">
+                        <thead class="thead-dark">
                             <tr>
                                 <th>Nama</th>
                                 <th>phone number</th>
@@ -71,12 +71,11 @@
                                     </td>
                                     <td>{{ $user->created_at }}</td>
                                     <td class="text-center">
-                                        <a class="see text-decoration-none" href="#" data-toggle="modal"
-                                            data-target="#update-karyawan-{{ $user->user_id }}">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
+                                        <form action="{{ route('karyawan.show', $user->user_id) }}" method="get">
+                                            <button type="submit" class="btn btn-outline-danger">has</button>
+                                        </form>
                                         <form action="{{ route('karyawan.destroy', $user->user_id) }}" method="POST">
-                                            <button class="btn border p-1 bg-warning text-black" type="submit"
+                                            <button class="btn btn-outline-warning mt-1" type="submit"
                                                 title="Blacklist User" onclick="return confirm ('Yakin hapus User ?')">
                                                 <i class="fas fa-user-times"></i>
                                                 <small></small>
@@ -104,14 +103,14 @@
 
                         <button type="button" class="close" data-dismiss="modal"><span
                                 aria-hidden="true">&times;</span><span class="sr-
-                     only">Close</span></button>
+                             only">Close</span></button>
                         <img src="" class="imagepreview" style="width: 350px;">
 
                     </div>
                 </div>
             </div>
         </div>
-        @include('components.modal-karyawan')
+
 
     </div>
     <!-- /.container-fluid -->

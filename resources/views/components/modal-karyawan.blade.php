@@ -107,7 +107,7 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h6 class="text-primary font-weight-bold pt-2">UPDATE KARYAWAN</h6>
+                                    <h6 class="text-primary font-weight-bold pt-2">LIHAT KARYAWAN</h6>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -189,7 +189,7 @@
                                         Close
                                     </button>
                                     <button class="btn btn-primary">
-                                        Create
+                                     update
                                     </button>
                                     </form>
                                     {{-- End form --}}

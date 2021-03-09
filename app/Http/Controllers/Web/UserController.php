@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Web;
 use App\User;
 use App\Http\Controllers\Controller;
 use App\Karyawan as AppKaryawan;
+use App\Model\Absen;
 use App\Model\karyawan;
 use App\Model\Tabungan;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -19,7 +21,23 @@ class UserController extends Controller
         $User = karyawan::with(['user'])->get();
         return view('pages.karyawan', compact('User'));
     }
+    public function show($id)
+    {
+        $kehadiran = Absen::where('user_id', $id)->whereMonth('tanggal', date('m'))->whereYear('tanggal', date('Y'))->where('status', 3)->get();
+        $totalJamTelat = 0;
+        foreach ($kehadiran as $present) {
+            $totalJamTelat = $totalJamTelat + (\Carbon\Carbon::parse($present->jam_masuk)->diffInHours(\Carbon\Carbon::parse('07:00:00')));
+        }
 
+        // hitung alpha masuk telat
+        $Alpha = Absen::where('user_id', $id)->where('status', 1)->count();
+        $Masuk = Absen::where('user_id', $id)->where('status', 2)->count();
+        $Telat = Absen::where('user_id', $id)->where('status', 3)->count();
+
+
+        $User = karyawan::where('user_id', $id)->with(['user'])->get();
+        return view('pages.detailkaryawan', compact('User','Alpha','Masuk','Telat','totalJamTelat'));
+    }
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -122,12 +140,6 @@ class UserController extends Controller
             alert()->error('ErrorAlert', 'Lorem ipsum dolor sit amet.');
             return back();
         }
-    }
-
-    public function show($id)
-    {
-        $data = Karyawan::find($id);
-        echo json_encode($data);
     }
     public function blacklist()
     {

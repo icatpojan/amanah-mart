@@ -23,7 +23,6 @@ class CreateKulakansTable extends Migration
             $table->integer('bayar')->default(0);
             $table->integer('diskon')->nullable();
             $table->timestamps();
-
         });
     }
 
