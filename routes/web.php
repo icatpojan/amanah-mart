@@ -10,8 +10,8 @@ Route::get('/', function () {
 Route::fallback(function () {
     return view('errors.404');
 });
-Route::get('/home', 'Web\HomeController@index')->name('home');
 Auth::routes(['verify' => true]);
+Route::get('/home', 'Web\HomeController@index')->name('home');
 Route::get('redirect/{driver}', 'Auth\LoginController@redirectToProvider')->name('login.provider');
 Route::get('{driver}/callback', 'Auth\LoginController@handleProviderCallback')->name('login.callback');
 

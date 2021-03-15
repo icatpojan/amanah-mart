@@ -28,15 +28,6 @@ class KasirController extends Controller
 
         return view('pages.kasir', compact('Cart', 'Product', 'Penjualan'));
     }
-    public function see()
-    {
-        $Penjualan = Penjualan::where('user_id', Auth::user()->id)->where('status', 1)->letest()->first();
-        $Cart = Cart::where('Penjualan_id', $Penjualan->id)->where('status', 1)->get();
-        if ($Cart == '[]') {
-            return $this->sendResponse('Failed', 'data kosong', null, 404);
-        }
-        return $this->sendResponse('Success', 'ini dia daftar Cart bos', $Cart, 200);
-    }
     public function store(Request $request)
     {
         $Product = Product::where('barcode', $request->barcode)->first();

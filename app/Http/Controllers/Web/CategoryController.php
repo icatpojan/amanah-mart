@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Category\InputCategory;
 use App\Model\Category;
 use Illuminate\Http\Request;
 
@@ -10,15 +11,12 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $Category = Category::paginate(1);
+        $Category = Category::paginate(10);
         return view('pages.category', compact('Category'));
     }
-    public function store(Request $request)
+    public function store(InputCategory $request)
     {
-        request()->validate([
-            'name' => 'string|required',
 
-        ]);
         $Category = Category::create([
             'name' => $request->name
         ]);

@@ -59,8 +59,9 @@
                         <div>
                             <div class="small text-gray-500">{{ date('l ,d M Y') }}</div>
 
-                            <span class="font-weight-bold"> <span class="count-alert"></span> Permintaan Tarik Saldo
-                                Belum diproses</span>
+                            <span class="font-weight-bold"> <span class="count-alert"></span>
+
+                            <span>
                         </div>
                     </a>
 

@@ -46,17 +46,6 @@
                                 <th>Aksi</th>
                             </tr>
                         </thead>
-                        <tfoot>
-                            <tr>
-                                <th>Nama</th>
-                                <th>phone number</th>
-                                <th>umur</th>
-                                <th>alamat</th>
-                                <th>foto</th>
-                                <th>dibuat</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </tfoot>
                         <tbody>
                             @foreach ($User as $user)
                                 <tr>
@@ -72,7 +61,7 @@
                                     <td>{{ $user->created_at }}</td>
                                     <td class="text-center">
                                         <form action="{{ route('karyawan.show', $user->user_id) }}" method="get">
-                                            <button type="submit" class="btn btn-outline-danger">has</button>
+                                            <button type="submit" class="btn btn-outline-danger">Lihat</button>
                                         </form>
                                         <form action="{{ route('karyawan.destroy', $user->user_id) }}" method="POST">
                                             <button class="btn btn-outline-warning mt-1" type="submit"
@@ -111,7 +100,7 @@
             </div>
         </div>
 
-
+        @include('components.modal-karyawan')
     </div>
     <!-- /.container-fluid -->
 

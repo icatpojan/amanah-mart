@@ -33,9 +33,9 @@
                 <p>lalu</p>
                 {{-- <a href="#" class="btn facebook"><span></span>Daftar dengan gmail</a> --}}
                 <a href="{{ route('login.provider', 'google') }}"
-                    class="btn btn-outline-primary">{{ __('Google Sign in') }}</a>
+                    class="btn btn-primary">{{ __('Google Sign in') }}</a>
                 <a href="{{ route('login.provider', 'google') }}"
-                    class="btn btn-outline-danger">{{ __('Facebook Sign in') }}</a>
+                    class="btn btn-danger">{{ __('Facebook Sign in') }}</a>
                 {{-- <a href="#" class="btn twitter"><span></span>Daftar dengan email</a> --}}
             </div>
         </div>

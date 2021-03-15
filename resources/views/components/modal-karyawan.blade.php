@@ -21,8 +21,8 @@
                                                 <div class="row mb-2">
                                                     <div class="col">
                                                         <label>Nama : </label>
-                                                        <input type="text" class="form-control" name="name"
-                                                            value="{{ old('name') }}" required>
+                                                        <input type="text" class="form-control" name="name" autofocus
+                                                            value="{{ old('name') }}" required  autocomplete="">
                                                     </div>
                                                     <div class="col">
                                                         <label>email : </label>
