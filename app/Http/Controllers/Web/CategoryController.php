@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->Category = new Category();
+    }
     public function index()
     {
         $Category = Category::paginate(10);
@@ -16,27 +20,24 @@ class CategoryController extends Controller
     }
     public function store(InputCategory $request)
     {
-
-        $Category = Category::create([
-            'name' => $request->name
-        ]);
         try {
-            $Category->save();
-            alert()->success('SuccessAlert', 'Lorem ipsum dolor sit amet.');
+            $Category = Category::create([
+                'name' => $request->name
+            ]);
+            $this->Category->sukses('brazil');
             return back();
         } catch (\Throwable $th) {
-            alert()->error('ErrorAlert', 'Lorem ipsum dolor sit amet.');
+            $this->Category->gagal('ada yang salah');
             return back();
         }
     }
     public function update(Request $request, $id)
     {
-        $Category = Category::where('id', $id)->first();
-        $Category->update([
-            'name' => $request->name,
-        ]);
         try {
-            $Category->save();
+            $Category = Category::where('id', $id)->first();
+            $Category->update([
+                'name' => $request->name,
+            ]);
             alert()->success('SuccessAlert', 'Lorem ipsum dolor sit amet.');
             return back();
         } catch (\Throwable $th) {
@@ -46,7 +47,7 @@ class CategoryController extends Controller
     }
     public function destroy($id)
     {
-        Category::find($id)->delete();
+        Category::findOrFail($id)->delete();
         alert()->success('Success', 'Data Success dihapus');
         return back();
     }

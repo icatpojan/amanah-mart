@@ -60,6 +60,7 @@
                                             <i class="	fas fa-marker"></i>
                                         </button>
                                         <form action="{{ route('product.destroy', $produk->id) }}" method="POST">
+                                @csrf
                                             <button class="btn btn-outline-danger btn-sm" type="submit" title="Blacklist User"
                                                 onclick="return confirm ('Yakin hapus Produk ?')">
                                                 <i class="fas fa-trash-alt"></i>

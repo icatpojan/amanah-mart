@@ -32,7 +32,7 @@ Route::group(['namespace' => 'Web', 'middleware' => ['verified']], function () {
         Route::get('product', 'ProductController@index')->name('product.index');
         Route::post('product', 'ProductController@store')->name('product.store');
         Route::post('product/update/{id}', 'ProductController@update')->name('product.update');
-        Route::get('product/delete/{id}', 'ProductController@destroy')->name('product.destroy');
+        Route::post('product/delete/{id}', 'ProductController@destroy')->name('product.destroy');
 
         Route::get('category', 'CategoryController@index')->name('category.index');
         Route::post('category', 'CategoryController@store')->name('category.store');

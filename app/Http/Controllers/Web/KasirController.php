@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Web;
 
 use App\Model\Cart;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\InputBayar;
+use App\Http\Requests\KasirInputBayar;
 use App\Model\Keuangan;
 use App\Model\Member;
 use App\Model\Penjualan;
@@ -19,8 +21,8 @@ class KasirController extends Controller
     {
         $Penjualan = Penjualan::where('status', 0)->where('id_kasir', Auth::id())->first();
         $Product = Product::all();
-        if ($Penjualan == []) {
 
+        if ($Penjualan == []) {
             $Cart = [];
             return view('pages.kasir', compact('Cart', 'Product', 'Penjualan'));
         }
@@ -80,10 +82,6 @@ class KasirController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'jumlah_product' => 'integer',
-        ]);
-
         // refresh dulu harga penjualan
         $Cart = Cart::where('id', $id)->first();
         $Penjualan = Penjualan::where('id', $Cart->penjualan_id)->first();
@@ -103,16 +101,8 @@ class KasirController extends Controller
         $Penjualan->update();
         return back();
     }
-    public function bayar(Request $request)
+    public function bayar(InputBayar $request)
     {
-        $validator = Validator::make($request->all(), [
-            'dibayar' => 'integer',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 400);
-        }
-
         $Penjualan = Penjualan::where('id_kasir', Auth::user()->id)->where('status', 0)->first();
         if ($Penjualan->jumlah_harga > $request->dibayar) {
             alert()->error('KANTONG KERING', 'Duit anda kurang');
@@ -121,7 +111,7 @@ class KasirController extends Controller
             $Penjualan->dibayar = $request->dibayar;
             $Penjualan->kembalian = $request->dibayar - $Penjualan->harus_dibayar;
             $Penjualan->update();
-            alert()->success('SuccessAlert', 'Lorem ipsum dolor sit amet.');
+            alert()->success('OK', 'yosh');
             return back();
         }
     }

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Category;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class InputCategory extends FormRequest
+class InputBayar extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,10 +23,9 @@ class InputCategory extends FormRequest
      */
     public function rules()
     {
-        alert()->error('WOW', 'ada yang salah');
+        alert()->error('WOW', 'masukan angka');
         return [
-            'name' => 'string|required|min:7',
+            'dibayar' => 'integer',
         ];
     }
-
 }

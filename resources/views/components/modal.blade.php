@@ -51,7 +51,7 @@
                                             <div class="row mb-2">
                                                 <div class="col">
                                                     <label>merek : </label>
-                                                    <input type="text" class="form-control" name="merek" required>
+                                                    <input type="text" class="form-control" name="merek" required value="{{ old('merek') }}">
 
                                                 </div>
                                                 <div class="col">
@@ -63,7 +63,7 @@
                                             <div class="row mb-2">
                                                 <div class="col">
                                                     <label>harga beli : </label>
-                                                    <input type="text" class="form-control" name="harga_beli" required>
+                                                    <input type="text" class="form-control" name="harga_beli" required value="{{ old('harga_eli') }}">
 
                                                 </div>
                                                 <div class="col">

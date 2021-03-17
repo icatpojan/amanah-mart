@@ -34,7 +34,7 @@ class KeuanganController extends Controller
         $harian_pengeluaran = Pengeluaran::whereDay('created_at', date('d'))->sum('kredit');
         if ($request->awal == null) {
             $row = data::create([
-                'tanggal' => "tidak ada data",
+                'tanggal' => "tidak ada  data",
                 'penjualan' =>  0,
                 'pembelian' => 0,
                 'pengeluaran' => 0,
@@ -89,4 +89,8 @@ class KeuanganController extends Controller
         // return $pdf->download('laporan-penjualan-pdf');
         return $pdf->stream('laporan-keuangan-pdf');
     }
+
+
+
+
 }

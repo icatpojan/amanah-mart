@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
+    public function __construct()
+    {
+        $this->Product = new Product();
+    }
     public function index()
     {
         $Cart = Cart::groupBy('name')->select('name', \DB::raw('count(*) as total'))->get();
@@ -45,10 +49,10 @@ class ProductController extends Controller
 
         try {
             $Product->save();
-            alert()->success('SuccessAlert', 'Lorem ipsum dolor sit amet.');
+            $this->Product->sukses('brazil');
             return back();
         } catch (\Throwable $th) {
-            alert()->error('ErrorAlert', 'Lorem ipsum dolor sit amet.');
+            $this->Product->gagal('tidak bisa menyimpan');
             return back();
         }
     }
@@ -75,7 +79,7 @@ class ProductController extends Controller
     public function destroy($id)
     {
         Product::find($id)->delete();
-        alert()->success('SuccessAlert', 'Lorem ipsum dolor sit amet.');
+        $this->Product->gagal('gagl menambah barang');
         return back();
     }
 }

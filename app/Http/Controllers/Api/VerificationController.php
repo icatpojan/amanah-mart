@@ -36,12 +36,12 @@ class VerificationController extends Controller
      *
      * @return void
      */
-    // public function __construct()
-    // {
-    //     $this->middleware('auth:api')->only('resend');
-    //     $this->middleware('signed')->only('verify');
-    //     $this->middleware('throttle:6,1')->only('verify', 'resend');
-    // }
+    public function __construct()
+    {
+        $this->middleware('auth:api')->only('resend');
+        $this->middleware('signed')->only('verify');
+        $this->middleware('throttle:6,1')->only('verify', 'resend');
+    }
 
     /**
      * Resend the email verification notification.
